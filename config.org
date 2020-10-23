@@ -372,10 +372,30 @@
     ("l" smerge-keep-lower "keep lower")
     ("a" smerge-keep-all "keep all")
     ("q" nil "quit" :exit t))
+
+  (defun counsel-projectile-rg-with-input (&optional input)
+    "Custom counsel projectile rg to receive input as argument."
+    (interactive)
+    (counsel-rg input
+		(projectile-project-root)
+		nil
+		(projectile-prepend-project-name
+		 (concat (car (if (listp counsel-rg-base-command)
+				  counsel-rg-base-command
+				(split-string counsel-rg-base-command)))
+			 ": "))))
+
+  (defun counsel-projectile-rg-thing-at-point ()
+    "Custom counsel projectile rg to pass thing at point as input."
+    (interactive)
+    (let ((thing (ivy-thing-at-point)))
+      (when (use-region-p)
+	(deactivate-mark))
+      (counsel-projectile-rg-with-input thing)))
   #+end_src
   
 * Keybindings
- 
+  
   #+begin_src emacs-lisp
   (use-package general
     :config
@@ -395,7 +415,8 @@
     ;; Global binds or shortcuts
     (bind-leader-key
       "SPC" '(counsel-M-x :which-key "M-x")
-      "/" '(counsel-projectile-rg :which-key "search project")
+      "/" '(counsel-projectile-rg-with-input :which-key "search project")
+      "*" '(counsel-projectile-rg-thing-at-point :which-key "search project thing at point")
       "'" '(shell-pop :which-key "shell pop"))
 
     (bind-leader-key
@@ -410,7 +431,9 @@
       :infix "b"
       "" '(:ignore t :which-key "buffers")
       "b" '(counsel-ibuffer :which-key "switch buffer")
-      "k" '(kill-buffer :which-key "kill buffer"))
+      "k" '(kill-buffer :which-key "kill buffer")
+      "s" '((lambda () (interactive)
+	      (switch-to-buffer "*scratch*")) :which-key "switch to scratch"))
 
     (bind-leader-key
       :infix "t"
@@ -436,7 +459,8 @@
     (bind-leader-key
       :infix "s"
       "" '(:ignore t :which-key "search")
-      "s" '(swiper :which-key "swiper"))
+      "s" '(swiper :which-key "swiper")
+      "S" '(swiper-thing-at-point :which-key "swiper thing at point"))
 
     (bind-leader-key
       :infix "h"
@@ -490,13 +514,14 @@
     (bind-leader-key
       :infix "a"
       "" '(:ignore t :which-key "applications")
-      "d" '(dired :which-key "dired"))
+      "d" '(dired :which-key "dired")
       "t" '(treemacs :which-key "treemacs"))
 
     (bind-leader-key
       :infix "e"
       "" '(:ignore t :which-key "edit/errors")
-      "e" '(evil-iedit-state/iedit-mode :which-key "iedit mode")))
+      "e" '(evil-iedit-state/iedit-mode :which-key "iedit mode"))
+    )
   #+end_src
 
 * Auto tangle this config on save
@@ -510,7 +535,6 @@
   
   (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'org-babel-tangle-config)))
   #+end_src
-
 
 
 
