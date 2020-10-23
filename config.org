@@ -1,0 +1,480 @@
+#+title: Emacs Configuration
+#+property: header-args:emacs-lisp :tangle ./init.el
+
+* Pre-init
+
+  #+begin_src emacs-lisp
+  ;; Make startup faster by reducing the frequency of garbage
+  ;; collection.  The default is 800 kilobytes.  Measured in bytes.
+  (setq gc-cons-threshold (* 50 1000 1000))
+  #+end_src
+
+* Package System Setup
+
+  #+begin_src emacs-lisp
+  (require 'package)
+
+  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+			   ("org" . "https://orgmode.org/elpa/")
+			   ("elpa" . "https://elpa.gnu.org/packages/")))
+
+  (package-initialize)
+  (unless package-archive-contents
+    (package-refresh-contents))
+
+  (unless (package-installed-p 'use-package)
+    (package-install 'use-package))
+
+  (require 'use-package)
+  (setq use-package-always-ensure t)
+  #+end_src
+
+* UI Configuration
+** General
+
+   #+begin_src emacs-lisp
+   (setq inhibit-startup-message t)
+
+   (scroll-bar-mode -1)	; Disable visual scrollbar
+   (tool-bar-mode -1)	; Disable the toolbar
+   (tooltip-mode -1)	; Disable tooltips
+   (set-fringe-mode 10)	; Give some breathing room
+
+   (menu-bar-mode -1)	; Disable menu bar
+
+   (setq indent-tabs-mode nil)
+
+   (column-number-mode)  ; Show column number in mode line
+
+   (add-hook 'prog-mode-hook
+	     (lambda ()
+	       (display-line-numbers-mode t)
+	       (setq display-line-numbers 'relative)))
+
+   ;; Remove bottom window margins
+   (setq frame-resize-pixelwise t)
+   #+end_src
+
+** Theme
+
+   #+begin_src emacs-lisp
+   (use-package doom-modeline
+     :init (doom-modeline-mode 1))
+
+   (use-package doom-themes
+    :init
+    (load-theme 'doom-dracula t))
+
+   (use-package all-the-icons)
+   #+end_src
+
+** Font
+
+   #+begin_src emacs-lisp
+   (set-face-attribute 'default nil :font "Fira Code Retina" :height 130)
+   #+end_src
+   
+** Dashboard
+
+   #+begin_src emacs-lisp
+   (use-package dashboard
+     :config
+     (dashboard-setup-startup-hook)
+     (setq dashboard-center-content t)
+     (setq dashboard-set-heading-icons t)
+     (setq dashboard-set-file-icons t)
+     (setq dashboard-banner-logo-title "Welcome rstcruzo!")
+     (setq dashboard-items '((recents . 3)
+			     (projects . 3)
+			     (agenda . 5)
+			     (bookmarks . 3)))
+     (setq dashboard-set-init-info t)
+     (setq dashboard-startup-banner 'logo))
+   #+end_src
+
+* General
+
+  #+begin_src emacs-lisp
+  ;; Move backup and auto-save files to tmp
+  (setq backup-directory-alist
+	`((".*" . ,temporary-file-directory)))
+  (setq auto-save-file-name-transforms
+	`((".*" ,temporary-file-directory t)))
+
+  ;; Make ESC quit prompts
+  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
+  ;; Set $PATH from shell (to access executables like rg)
+  (use-package exec-path-from-shell
+    :init
+    (setq exec-path-from-shell-check-startup-files nil)
+    (setq exec-path-from-shell-arguments nil)
+    :config
+    (when (memq window-system '(mac ns x))
+      (exec-path-from-shell-initialize)))
+
+  (use-package counsel
+    :bind (("M-x" . counsel-M-x)
+	   ("C-x b" . counsel-ibuffer)
+	   ("C-x C-f" . counsel-find-file)
+	   ("C-r" . 'counsel-minibuffer-history)))
+
+  (use-package swiper
+    :diminish
+    :bind (("C-s" . swiper)))
+
+  (use-package ivy
+    :diminish
+    :bind (:map ivy-minibuffer-map
+	   ("TAB" . ivy-alt-done)
+	   ("C-l" . ivy-alt-done)
+	   ("C-j" . ivy-next-line)
+	   ("C-k" . ivy-previous-line)
+	   :map ivy-switch-buffer-map
+	   ("C-k" . ivy-previous-line)
+	   ("C-l" . ivy-done)
+	   ("C-d" . ivy-switch-buffer-kill)
+	   :map ivy-reverse-i-search-map
+	   ("C-k" . ivy-previous-line)
+	   ("C-d" . ivy-reverse-i-search-kill))
+	   :config
+	   (ivy-mode 1))
+
+  (use-package which-key
+    :init (which-key-mode)
+    :diminish
+    :config
+    (setq which-key-idle-delay 0.1)
+    (setq which-key-allow-evil-operators t)
+    (setq which-key-add-column-padding 4))
+
+  (use-package ivy-rich
+    :init (ivy-rich-mode t))
+
+  (use-package helpful
+    :custom
+    (counsel-describe-function-function #'helpful-callable)
+    (counsel-describe-variable-function #'helpful-variable)
+    :bind
+    ([remap describe-function] . counsel-describe-function)
+    ([remap describe-command] . helpful-command)
+    ([remap describe-variable] . counsel-describe-variable)
+    ([remap describe-key] . helpful-key))
+
+  (use-package evil
+    :init
+    (setq evil-want-integration t)
+    (setq evil-want-keybinding nil)
+    (setq evil-want-C-u-scroll t)
+    (setq evil-want-C-i-jump t)
+    :config
+    (evil-mode 1)
+    (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
+
+    ;; Use visual line motions even outside of visual-line-mode buffers
+    (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+    (evil-global-set-key 'motion "k" 'evil-previous-visual-line))
+
+  (use-package evil-collection
+    :after evil
+    :config (evil-collection-init))
+
+  (use-package evil-args
+    :after evil
+    :config
+    (require 'evil-args)
+    ;; bind evil-args text objects
+    (define-key evil-inner-text-objects-map "a" 'evil-inner-arg)
+    (define-key evil-outer-text-objects-map "a" 'evil-outer-arg))
+
+  (use-package evil-exchange
+    :after evil
+    :config
+    (require 'evil-exchange)
+    (evil-exchange-cx-install))
+
+  (use-package evil-indent-plus
+    :after evil
+    :config
+    (define-key evil-inner-text-objects-map "i" 'evil-indent-plus-i-indent)
+    (define-key evil-outer-text-objects-map "i" 'evil-indent-plus-a-indent)
+    (define-key evil-inner-text-objects-map "I" 'evil-indent-plus-i-indent-up)
+    (define-key evil-outer-text-objects-map "I" 'evil-indent-plus-a-indent-up)
+    (define-key evil-inner-text-objects-map "J" 'evil-indent-plus-i-indent-up-down)
+    (define-key evil-outer-text-objects-map "J" 'evil-indent-plus-a-indent-up-down))
+
+  (use-package evil-matchit
+    :after evil
+    :config
+    (global-evil-matchit-mode 1))
+
+  (use-package evil-nerd-commenter
+    :after evil)
+
+  (use-package evil-surround
+    :config
+    (global-evil-surround-mode 1))
+
+  (use-package evil-iedit-state)
+
+  (use-package company
+    :config
+    (global-company-mode))
+  #+end_src
+
+* Org Mode
+
+  #+begin_src emacs-lisp
+  (use-package org
+    :config
+    (setq org-agenda-start-with-log-mode t)
+    (setq org-log-done 'time)
+    (setq org-log-into-drawer t)
+    (setq org-agenda-files
+      '("~/demo.org" "~/.emacs.d/config.org"))
+
+  (setq org-todo-keywords
+	'((sequence "TODO(t)" "|" "DONE(d!)")
+	  (sequence "BLOCKED(b)" "|" "DELEGATED(D)" "CANCELED(c)"))))
+
+  (use-package org-bullets
+    :after org
+    :hook (org-mode . org-bullets-mode))
+
+  (dolist (face '((org-level-1 . 1.3)
+		  (org-level-2 . 1.2)
+		  (org-level-3 . 1.1)
+		  (org-level-4 . 1.05)
+		  (org-level-5 . 1.1)
+		  (org-level-6 . 1.1)
+		  (org-level-7 . 1.1)
+		  (org-level-8 . 1.1)))
+    (set-face-attribute (car face) nil
+			:font "Fira Code Retina"
+			:weight 'regular
+			:height (cdr face)))
+
+  ;; Org source blocks templates
+  (require 'org-tempo)
+  (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+  (add-to-list 'org-structure-template-alist '("py" . "src python"))
+
+  ;; Add padding to document
+  (defun org-mode-visual-fill ()
+    (setq visual-fill-column-width 100
+	  visual-fill-column-center-text t)
+    (visual-fill-column-mode 1))
+
+  (use-package visual-fill-column
+    :hook (org-mode . org-mode-visual-fill))
+
+  (setq org-edit-src-content-indentation 0)
+  #+end_src
+
+* Development
+
+  #+begin_src emacs-lisp
+  (use-package smartparens
+    :defer t
+    :config (require 'smartparens-config)
+    :hook
+    (text-mode . smartparens-strict-mode)
+    (prog-mode . smartparens-strict-mode))
+  (use-package evil-smartparens
+    :defer t
+    :config
+    (add-hook 'emacs-lisp-mode-hook #'evil-smartparens-mode))
+
+  (use-package rainbow-delimiters
+    :defer t
+    :hook (prog-mode . rainbow-delimiters-mode))
+
+  (use-package magit)
+  (use-package evil-magit)
+  (use-package forge)
+  (use-package diff-hl
+    :config
+    (global-diff-hl-mode))
+
+  (use-package projectile
+    :diminish
+    :config (projectile-mode)
+    :custom ((projectile-completion-system 'ivy))
+    :init
+    (when (file-directory-p "~/Code")
+      (setq projectile-project-search-path '("~/Code"))))
+
+  ;; Install better ivy and projectile integration
+  (use-package counsel-projectile
+    :config (counsel-projectile-mode))
+  #+end_src
+
+* Custom functions
+
+  #+begin_src emacs-lisp
+  (use-package hydra)
+
+  (defhydra hydra-text-scale (:timeout 4)
+    "Scale text"
+    ("k" text-scale-increase "bigger")
+    ("j" text-scale-decrease "smaller")
+    ("q" nil "quit" :exit t))
+
+  (defhydra hydra-merge-conflicts ()
+    "Merge conflicts"
+    ("n" smerge-next "next conflict")
+    ("p" smerge-prev "previous conflict")
+    ("u" smerge-keep-upper "keep upper")
+    ("l" smerge-keep-lower "keep lower")
+    ("a" smerge-keep-all "keep all")
+    ("q" nil "quit" :exit t))
+  #+end_src
+  
+* Keybindings
+ 
+  #+begin_src emacs-lisp
+  (use-package general
+    :config
+
+    (general-create-definer bind-leader-key
+      :states '(normal motion insert visual emacs)
+      :keymaps 'override
+      :prefix "SPC"
+      :global-prefix "C-SPC")
+
+    (general-create-definer bind-mode-key
+      :states '(normal motion insert visual emacs)
+      :keymaps 'override
+      :prefix ","
+      :global-prefix "M-m")
+
+    ;; Global binds or shortcuts
+    (bind-leader-key
+      "SPC" '(counsel-M-x :which-key "M-x")
+      "/" '(counsel-projectile-rg :which-key "search project"))
+
+    (bind-leader-key
+      :infix "f"
+      "" '(:ignore t :which-key "files")
+      "s" '(save-buffer :which-key "save file")
+      "f" '(counsel-find-file :which-key "find file")
+      "e" '((lambda () (interactive)
+	      (counsel-find-file "~/.emacs.d/")) :which-key "find config files"))
+
+    (bind-leader-key
+      :infix "b"
+      "" '(:ignore t :which-key "buffers")
+      "b" '(counsel-ibuffer :which-key "switch buffer")
+      "k" '(kill-buffer :which-key "kill buffer"))
+
+    (bind-leader-key
+      :infix "t"
+      "" '(:ignore t :which-key "toggles")
+      "t" '(counsel-load-theme :which-key "choose theme")
+      "s" '(hydra-text-scale/body :which-key "scale text"))
+
+    (bind-leader-key
+      :infix "p"
+      "" '(:ignore t :which-key "projects")
+      "s" '(counsel-projectile-rg :which-key "search project")
+      "v" '(projectile-edit-dir-locals :which-key "edit project dir locals")
+      "d" '(projectile-dired :which-key "project dired")
+      "p" '(projectile-switch-project :which-key "switch project")
+      "f" '(projectile-find-file :which-key "find project file"))
+
+    (bind-leader-key
+      :infix "g"
+      "" '(:ignore t :which-key "git")
+      "g" '(magit-status :which-key "git status")
+      "c" '(hydra-merge-conflicts/body :which-key "merge conflicts"))
+
+    (bind-leader-key
+      :infix "s"
+      "" '(:ignore t :which-key "search")
+      "s" '(swiper :which-key "swiper"))
+
+    (bind-leader-key
+      :infix "h"
+      "" '(:ignore t :which-key "help")
+      "v" '(describe-variable :which-key "describe variable")
+      "f" '(describe-function :which-key "describe function")
+      "k" '(describe-key :which-key "describe key"))
+
+    (bind-leader-key
+      :infix "l"
+      "" '(:ignore t :which-key "lisp")
+      "e" '(eval-last-sexp :which-key "eval last sexp")
+      "p" '(check-parens :which-key "check parens"))
+
+    (bind-leader-key
+      :infix "o"
+      "" '(:ignore t :which-key "org")
+      "a" '(org-agenda :which-key "org agenda")
+      "s" '(org-schedule :which-key "org schedule")
+      "d" '(org-deadline :which-key "org deadline")
+      "t" '(org-todo :which-key "org todo")
+      "e" '(org-edit-src-code :which-key "org edit code"))
+
+    (bind-leader-key
+      :infix "w"
+      "" '(:ignore t :which-key "windows")
+      "j" '(evil-window-down :which-key "move to window below")
+      "k" '(evil-window-up :which-key "move to window above")
+      "h" '(evil-window-left :which-key "move to window on the left")
+      "l" '(evil-window-right :which-key "move to window on the right")
+      "d" '(evil-window-delete :which-key "close")
+      "s" '(evil-window-split :which-key "split")
+      "v" '(evil-window-vsplit :which-key "vertical split"))
+
+    (bind-mode-key
+      :keymaps 'org-mode-map
+      "t" '(org-todo :which-key "org todo")
+      "c" '(:ignore t :which-key "clock")
+      "ci" '(org-clock-in :which-key "org clock in")
+      "co" '(org-clock-out :which-key "org clock out")
+      "e" '(org-edit-src-code :which-key "org edit source"))
+
+    (bind-mode-key
+      :keymaps 'org-src-mode-map
+      "s" '(org-edit-src-save :which-key "org source save")
+      "e" '(org-edit-src-exit :which-key "org source exit")
+      "a" '(org-edit-src-abort :which-key "org source abort")
+      "k" '(org-edit-src-abort :which-key "org source abort")
+      "q" '(org-edit-src-abort :which-key "org source abort"))
+
+    (bind-leader-key
+      :infix "e"
+      "" '(:ignore t :which-key "edit/errors")
+      "e" '(evil-iedit-state/iedit-mode :which-key "iedit mode")))
+  #+end_src
+
+* Auto tangle this config on save
+
+  #+begin_src emacs-lisp
+  (defun org-babel-tangle-config ()
+    (when (string-equal (buffer-file-name)
+		        (expand-file-name "~/.emacs.d/config.org"))
+      (let ((org-config-babel-evaluate nil))
+        (org-babel-tangle))))
+  
+  (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'org-babel-tangle-config)))
+  #+end_src
+
+
+
+
+* Post-init
+  #+begin_src emacs-lisp
+  ;; Make gc pauses faster by decreasing the threshold.
+  (setq gc-cons-threshold (* 2 1000 1000))
+  #+end_src
+
+
+* TODO Check use package and general integration
+  SCHEDULED: <2020-10-22 Thu 20:09>
+* TODO org wild notifier to show OS notifications
+* TODO Check datetree
+* TODO org capture templates (tables, datetrees, ...)
+* TODO org habits
+* TODO Why do I need to hit Escape in Org source mode to access "," bindings?
