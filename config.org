@@ -106,9 +106,6 @@
 
   ;; Set $PATH from shell (to access executables like rg)
   (use-package exec-path-from-shell
-    :init
-    (setq exec-path-from-shell-check-startup-files nil)
-    (setq exec-path-from-shell-arguments nil)
     :config
     (when (memq window-system '(mac ns x))
       (exec-path-from-shell-initialize)))
@@ -220,6 +217,18 @@
   (use-package company
     :config
     (global-company-mode))
+
+  (use-package treemacs
+    :defer t
+    :config
+    (setq treemacs-indentation 4))
+
+  (use-package treemacs-evil
+    :after treemacs evil)
+
+  (use-package treemacs-icons-dired
+    :after treemacs dired
+    :config (treemacs-icons-dired-mode))
   #+end_src
 
 * Org Mode
@@ -274,41 +283,75 @@
 
 * Development
 
-  #+begin_src emacs-lisp
-  (use-package smartparens
-    :defer t
-    :config (require 'smartparens-config)
-    :hook
-    (text-mode . smartparens-strict-mode)
-    (prog-mode . smartparens-strict-mode))
-  (use-package evil-smartparens
-    :defer t
-    :config
-    (add-hook 'emacs-lisp-mode-hook #'evil-smartparens-mode))
+** Projectile
 
-  (use-package rainbow-delimiters
-    :defer t
-    :hook (prog-mode . rainbow-delimiters-mode))
+   #+begin_src emacs-lisp
+   (use-package projectile
+     :diminish
+     :config (projectile-mode)
+     :custom ((projectile-completion-system 'ivy))
+     :init
+     (when (file-directory-p "~/Code")
+       (setq projectile-project-search-path '("~/Code"))))
 
-  (use-package magit)
-  (use-package evil-magit)
-  (use-package forge)
-  (use-package diff-hl
-    :config
-    (global-diff-hl-mode))
+   ;; Install better ivy and projectile integration
+   (use-package counsel-projectile
+     :config (counsel-projectile-mode))
 
-  (use-package projectile
-    :diminish
-    :config (projectile-mode)
-    :custom ((projectile-completion-system 'ivy))
-    :init
-    (when (file-directory-p "~/Code")
-      (setq projectile-project-search-path '("~/Code"))))
+   (use-package treemacs-projectile
+     :after treemacs projectile)
+   #+end_src
 
-  ;; Install better ivy and projectile integration
-  (use-package counsel-projectile
-    :config (counsel-projectile-mode))
-  #+end_src
+** Visual help
+
+   #+begin_src emacs-lisp
+   (use-package smartparens
+     :defer t
+     :config (require 'smartparens-config)
+     :hook
+     (text-mode . smartparens-mode)
+     (prog-mode . smartparens-mode))
+
+   (use-package evil-smartparens
+     :defer t
+     :config
+     (add-hook 'emacs-lisp-mode-hook #'evil-smartparens-mode))
+
+   (use-package rainbow-delimiters
+     :defer t
+     :hook (prog-mode . rainbow-delimiters-mode))
+   #+end_src
+
+** Version Control
+
+   #+begin_src emacs-lisp
+   (use-package magit)
+   (use-package evil-magit)
+   (use-package forge)
+   (use-package diff-hl
+     :hook
+     (magit-pre-refresh-hook . diff-hl-magit-pre-fresh)
+     (magit-post-refresh-hook . diff-hl-magit-post-fresh)
+     :config
+     (global-diff-hl-mode))
+
+   (use-package treemacs-magit
+     :after treemacs magit)
+   #+end_src
+
+** Terminal
+
+   #+begin_src emacs-lisp
+   (use-package vterm)
+   (use-package shell-pop
+     :custom
+     ((shell-pop-window-size 20)
+      (shell-pop-window-position "bottom")
+      (shell-pop-cleanup-buffer-at-process-exit t)
+      (shell-pop-autocd-to-working-dir t)
+      (shell-pop-term-shell "/usr/local/bin/zsh")
+      (shell-pop-shell-type (quote ("vterm" "*pop-vterm*" (lambda nil (vterm)))))))
+   #+end_src
 
 * Custom functions
 
@@ -352,7 +395,8 @@
     ;; Global binds or shortcuts
     (bind-leader-key
       "SPC" '(counsel-M-x :which-key "M-x")
-      "/" '(counsel-projectile-rg :which-key "search project"))
+      "/" '(counsel-projectile-rg :which-key "search project")
+      "'" '(shell-pop :which-key "shell pop"))
 
     (bind-leader-key
       :infix "f"
@@ -442,6 +486,12 @@
       "a" '(org-edit-src-abort :which-key "org source abort")
       "k" '(org-edit-src-abort :which-key "org source abort")
       "q" '(org-edit-src-abort :which-key "org source abort"))
+
+    (bind-leader-key
+      :infix "a"
+      "" '(:ignore t :which-key "applications")
+      "d" '(dired :which-key "dired"))
+      "t" '(treemacs :which-key "treemacs"))
 
     (bind-leader-key
       :infix "e"
