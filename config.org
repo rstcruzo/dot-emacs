@@ -300,7 +300,7 @@
 
 ** Projectile
 
-   Install projectile and search for projects in `~/Code`.
+   Install projectile and search for projects in =~/Code=.
    We use ivy as completion system and install counsel for better integration.
 
    #+begin_src emacs-lisp
@@ -383,7 +383,7 @@
 
 ** Terminal
 
-   Install `vterm` and `shell-pop`. Configure it to use `zsh` and show
+   Install =vterm= and =shell-pop=. Configure it to use =zsh= and show
    at the bottom.
 
    #+begin_src emacs-lisp
@@ -440,7 +440,7 @@
   #+end_src
 
   Define custom counsel projectile search functions to better handle default
-  inputs. This is used for `SPC /` and `SPC *` bindings.
+  inputs. This is used for =SPC /= and =SPC *= bindings.
 
   #+begin_src emacs-lisp
   (defun counsel-projectile-rg-with-input (&optional input)
@@ -628,7 +628,7 @@
 
 * Auto tangle this config on save
 
-  Use `org-bable-tangle` to auto generate emacs configuration on save
+  Use =org-bable-tangle= to auto generate emacs configuration on save
 
   #+begin_src emacs-lisp
   (defun org-babel-tangle-config ()
