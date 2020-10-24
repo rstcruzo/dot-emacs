@@ -343,6 +343,8 @@
 
    (use-package treemacs-magit
      :after treemacs magit)
+
+   (add-hook 'git-commit-mode-hook 'evil-insert-state)
    #+end_src
 
 ** Terminal
