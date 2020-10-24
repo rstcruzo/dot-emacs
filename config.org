@@ -166,6 +166,8 @@
     (setq evil-want-keybinding nil)
     (setq evil-want-C-u-scroll t)
     (setq evil-want-C-i-jump t)
+    :custom
+    (evil-search-module 'evil-search)
     :config
     (evil-mode 1)
     (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
@@ -430,6 +432,13 @@
       :states '(insert)
       :prefix "C-c")
 
+    (general-create-definer bind-g-normal-mode
+      :states '(normal)
+      :prefix "g")
+
+    (bind-g-normal-mode
+      "c" '(evilnc-comment-operator :which-key "evilnc-comment-operator"))
+
     (bind-insert-mode
       "s" '(company-yasnippet :which-key "company yasnippet"))
 
@@ -574,7 +583,6 @@
   
   (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'org-babel-tangle-config)))
   #+end_src
-
 
 
 * Post-init
