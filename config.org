@@ -291,6 +291,9 @@
 
 ** Projectile
 
+   Install projectile and search for projects in `~/Code`.
+   We use ivy as completion system and install counsel for better integration.
+
    #+begin_src emacs-lisp
    (use-package projectile
      :diminish
@@ -303,12 +306,26 @@
    ;; Install better ivy and projectile integration
    (use-package counsel-projectile
      :config (counsel-projectile-mode))
+   #+end_src
 
+   Install treemacs and projectile integration
+
+   #+begin_src emacs-lisp
    (use-package treemacs-projectile
      :after treemacs projectile)
    #+end_src
 
 ** Visual help
+
+   Highlight pairs with different colors
+
+   #+begin_src emacs-lisp
+   (use-package rainbow-delimiters
+     :defer t
+     :hook (prog-mode . rainbow-delimiters-mode))
+   #+end_src
+
+   Automatically insert closing pairs and integrate it will evil
 
    #+begin_src emacs-lisp
    (use-package smartparens
@@ -322,18 +339,28 @@
      :defer t
      :config
      (add-hook 'emacs-lisp-mode-hook #'evil-smartparens-mode))
-
-   (use-package rainbow-delimiters
-     :defer t
-     :hook (prog-mode . rainbow-delimiters-mode))
    #+end_src
 
 ** Version Control
 
+   Install magit and integrate it with vim
+
    #+begin_src emacs-lisp
    (use-package magit)
    (use-package evil-magit)
+
    (use-package forge)
+   #+end_src
+
+   Enter Magit commit buffer in start mode
+
+   #+begin_src emacs-lisp
+   (add-hook 'git-commit-mode-hook 'evil-insert-state)
+   #+end_src
+
+   Visualize git hunks in the fringe
+
+   #+begin_src emacs-lisp
    (use-package diff-hl
      :hook
      (magit-pre-refresh . diff-hl-magit-pre-refresh)
@@ -343,11 +370,12 @@
 
    (use-package treemacs-magit
      :after treemacs magit)
-
-   (add-hook 'git-commit-mode-hook 'evil-insert-state)
    #+end_src
 
 ** Terminal
+
+   Install `vterm` and `shell-pop`. Configure it to use `zsh` and show
+   at the bottom.
 
    #+begin_src emacs-lisp
    (use-package vterm)
@@ -373,15 +401,25 @@
 
 * Custom functions
 
+  Install hydra
+
   #+begin_src emacs-lisp
   (use-package hydra)
+  #+end_src
 
+  Define hydra function to scale text
+
+  #+begin_src emacs-lisp
   (defhydra hydra-text-scale (:timeout 4)
     "Scale text"
     ("k" text-scale-increase "bigger")
     ("j" text-scale-decrease "smaller")
     ("q" nil "quit" :exit t))
+  #+end_src
 
+  Define hydra function to merge conflicts
+
+  #+begin_src emacs-lisp
   (defhydra hydra-merge-conflicts ()
     "Merge conflicts"
     ("n" smerge-next "next conflict")
@@ -390,7 +428,12 @@
     ("l" smerge-keep-lower "keep lower")
     ("a" smerge-keep-all "keep all")
     ("q" nil "quit" :exit t))
+  #+end_src
 
+  Define custom counsel projectile search functions to better handle default
+  inputs. This is used for `SPC /` and `SPC *` bindings.
+
+  #+begin_src emacs-lisp
   (defun counsel-projectile-rg-with-input (&optional input)
     "Custom counsel projectile rg to receive input as argument."
     (interactive)
