@@ -3,9 +3,10 @@
 
 * Pre-init
 
+  Make startup faster by reducing the frequency of garbage collection
+  Default is 800 kilobytes.
+
   #+begin_src emacs-lisp
-  ;; Make startup faster by reducing the frequency of garbage
-  ;; collection.  The default is 800 kilobytes.  Measured in bytes.
   (setq gc-cons-threshold (* 50 1000 1000))
   #+end_src
 
@@ -627,20 +628,25 @@
 
 * Auto tangle this config on save
 
+  Use `org-bable-tangle` to auto generate emacs configuration on save
+
   #+begin_src emacs-lisp
   (defun org-babel-tangle-config ()
     (when (string-equal (buffer-file-name)
-		        (expand-file-name "~/.emacs.d/config.org"))
+			(expand-file-name "~/.emacs.d/config.org"))
       (let ((org-config-babel-evaluate nil))
-        (org-babel-tangle))))
+	(org-babel-tangle))))
 
-  (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'org-babel-tangle-config)))
+  (add-hook 'org-mode-hook
+	    (lambda ()
+	      (add-hook 'after-save-hook #'org-babel-tangle-config)))
   #+end_src
 
-
 * Post-init
+
+  Make garbage collection pause faster by decreasing threshold
+
   #+begin_src emacs-lisp
-  ;; Make gc pauses faster by decreasing the threshold.
   (setq gc-cons-threshold (* 2 1000 1000))
   #+end_src
 
