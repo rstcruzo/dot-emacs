@@ -53,6 +53,8 @@
 
    ;; Remove bottom window margins
    (setq frame-resize-pixelwise t)
+
+   (setq-default show-trailing-whitespace t)
    #+end_src
 
 ** Theme
@@ -75,7 +77,7 @@
    #+begin_src emacs-lisp
    (set-face-attribute 'default nil :font "Fira Code Retina" :height 130)
    #+end_src
-   
+
 ** Dashboard
 
    #+begin_src emacs-lisp
@@ -235,6 +237,12 @@
     :config (treemacs-icons-dired-mode))
 
   (use-package avy)
+  #+end_src
+
+  Delete trailing whitespaces on file save
+
+  #+begin_src emacs-lisp
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
   #+end_src
 
 * Org Mode
@@ -454,9 +462,9 @@
 	(deactivate-mark))
       (counsel-projectile-rg-with-input thing)))
   #+end_src
-  
+
 * Keybindings
-  
+
   #+begin_src emacs-lisp
   (use-package general
     :config
@@ -625,7 +633,7 @@
 		        (expand-file-name "~/.emacs.d/config.org"))
       (let ((org-config-babel-evaluate nil))
         (org-babel-tangle))))
-  
+
   (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'org-babel-tangle-config)))
   #+end_src
 
