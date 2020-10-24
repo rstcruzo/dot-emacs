@@ -592,9 +592,10 @@
   #+end_src
 
 
-* TODO Check use package and general integration
-* TODO org wild notifier to show OS notifications
-* TODO Check datetree
-* TODO org capture templates (tables, datetrees, ...)
-* TODO org habits
-* TODO Why do I need to hit Escape in Org source mode to access "," bindings?
+* Pending Configuration
+** TODO Check use package and general integration
+** TODO org wild notifier to show OS notifications
+** TODO Check datetree
+** TODO org capture templates (tables, datetrees, ...)
+** TODO org habits
+** TODO Why do I need to hit Escape in Org source mode to access "," bindings?
