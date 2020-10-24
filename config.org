@@ -522,7 +522,9 @@
       "c" '(:ignore t :which-key "clock")
       "ci" '(org-clock-in :which-key "org clock in")
       "co" '(org-clock-out :which-key "org clock out")
-      "e" '(org-edit-src-code :which-key "org edit source"))
+      "e" '(org-edit-src-code :which-key "org edit source")
+      "s" '(org-schedule :which-key "org schedule")
+      "d" '(org-deadline :which-key "org deadline"))
 
     (bind-mode-key
       :keymaps 'org-src-mode-map
@@ -583,7 +585,6 @@
 
 
 * TODO Check use package and general integration
-  SCHEDULED: <2020-10-22 Thu 20:09>
 * TODO org wild notifier to show OS notifications
 * TODO Check datetree
 * TODO org capture templates (tables, datetrees, ...)
