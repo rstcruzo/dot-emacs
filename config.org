@@ -98,7 +98,8 @@
 		   term-mode-hook
 		   comint-mode-hook
 		   compilation-mode-hook
-		   minibuffer-setup-hook))
+		   minibuffer-setup-hook
+		   vterm-mode-hook))
      (add-hook hook
 	       (lambda () (setq show-trailing-whitespace nil))))
    #+end_src
@@ -144,9 +145,9 @@
      (setq dashboard-set-heading-icons t)
      (setq dashboard-set-file-icons t)
      (setq dashboard-banner-logo-title "Welcome rstcruzo!")
-     (setq dashboard-items '((recents . 3)
+     (setq dashboard-items '((agenda . 5)
+			     (recents . 3)
 			     (projects . 3)
-			     (agenda . 5)
 			     (bookmarks . 3)))
      (setq dashboard-set-init-info t)
      (setq dashboard-startup-banner 'logo))
@@ -186,8 +187,7 @@
 	   ("C-r" . 'counsel-minibuffer-history)))
 
   (use-package swiper
-    :diminish
-    :bind (("C-s" . swiper)))
+    :diminish)
 
   (use-package ivy
     :diminish
@@ -696,8 +696,7 @@
       :global-prefix "M-m")
 
     (general-create-definer bind-insert-mode
-      :states '(insert)
-      :prefix "C-c")
+      :states '(insert))
 
     (general-create-definer bind-g-normal-mode
       :states '(normal)
