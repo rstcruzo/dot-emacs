@@ -634,6 +634,13 @@
 	     (lambda () (auto-fill-mode)))
    #+end_src
 
+   Enable spell checking
+
+   #+begin_src emacs-lisp
+   (add-hook 'LaTeX-mode-hook
+	     (lambda () (flyspell-mode-on)))
+   #+end_src
+
 * Custom functions
 
   Install hydra
@@ -725,6 +732,9 @@
       :states '(normal)
       :prefix "g")
 
+    (bind-insert-mode
+      "C-c s" '(flyspell-auto-correct-word :which-key "auto-correct word"))
+
     (bind-g-normal-mode
       "c" '(evilnc-comment-operator :which-key "evilnc-comment-operator"))
 
@@ -776,10 +786,14 @@
 
     (bind-leader-key
       :infix "s"
-      "" '(:ignore t :which-key "search")
+      "" '(:ignore t :which-key "search/spelling")
       "s" '(swiper :which-key "swiper")
       "S" '(swiper-thing-at-point :which-key "swiper thing at point")
-      "c" '(evil-ex-nohighlight :which-key "clear highlight"))
+      "c" '(evil-ex-nohighlight :which-key "clear highlight")
+
+      "d" '(ispell-change-dictionary :which-key "change dictionary")
+      "w" '(flyspell-auto-correct-word :which-key "auto-correct word")
+      "W" '(ispell-word :which-key "correct word"))
 
     (bind-leader-key
       :infix "h"
@@ -830,7 +844,8 @@
       "s" '(LaTeX-section :which-key "section")
       "i" '(LaTeX-insert-item :which-key "insert item")
       "c" '(TeX-command-master :which-key "compile")
-      "M" '(LaTeX-math-mode :which-key "math mode"))
+      "M" '(LaTeX-math-mode :which-key "math mode")
+      "f" '(TeX-font :which-key "font"))
 
     (bind-mode-key
       :keymaps 'org-src-mode-map
