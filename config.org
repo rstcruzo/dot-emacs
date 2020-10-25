@@ -586,11 +586,8 @@
     Enable =lsp-deferred= mode for python
 
     #+begin_src emacs-lisp
-    (use-package lsp-pyright
-      :ensure t
-      :hook (python-mode . (lambda ()
-			     (require 'lsp-pyright)
-			     (lsp-deferred))))
+    (add-hook 'python-mode
+	      (lambda () (lsp-deferred))
     #+end_src
 
 * Writing
