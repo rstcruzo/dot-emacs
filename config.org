@@ -208,6 +208,7 @@
 	   ("C-l" . ivy-alt-done)
 	   ("C-j" . ivy-next-line)
 	   ("C-k" . ivy-previous-line)
+	   ("C-w" . evil-delete-backward-word)
 	   :map ivy-switch-buffer-map
 	   ("C-k" . ivy-previous-line)
 	   ("C-l" . ivy-done)
