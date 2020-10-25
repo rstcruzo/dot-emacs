@@ -169,13 +169,11 @@
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
   #+end_src
 
-  Set =$PATH= from shell to access executables like rg
+  Add =/usr/local/bin= to emacs environment to access executables like =rg=
 
   #+begin_src emacs-lisp
-  (use-package exec-path-from-shell
-    :config
-    (when (memq window-system '(mac ns x))
-      (exec-path-from-shell-initialize)))
+  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
+  (setq exec-path (append exec-path '("/usr/local/bin")))
   #+end_src
 
   Install counsel, swiper and ivy. Setup global bindings.
