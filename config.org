@@ -666,6 +666,16 @@
       (counsel-projectile-rg-with-input thing)))
   #+end_src
 
+  Define way to quickly switch to last buffer
+
+  #+begin_src emacs-lisp
+  (defun switch-to-previous-buffer ()
+    "Switch to previously open buffer.
+  Repeated invocations toggle between the two most recently open buffers."
+    (interactive)
+    (switch-to-buffer (other-buffer (current-buffer) 1)))
+  #+end_src
+
 * Keybindings
 
   #+begin_src emacs-lisp
@@ -703,7 +713,8 @@
       "SPC" '(counsel-M-x :which-key "M-x")
       "/" '(counsel-projectile-rg-with-input :which-key "search project")
       "*" '(counsel-projectile-rg-thing-at-point :which-key "search project thing at point")
-      "'" '(shell-pop :which-key "shell pop"))
+      "'" '(shell-pop :which-key "shell pop")
+      "<tab>" '(switch-to-previous-buffer :which-key "switch to last buffer"))
 
     (bind-leader-key
       :infix "f"
