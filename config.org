@@ -603,11 +603,28 @@
 
 ** LaTeX
 
-   Install AucTeX
+   Install AucTeX and simplify =TeX-font= bindings
 
    #+begin_src emacs-lisp
    (use-package tex-mode
-     :ensure auctex)
+     :ensure auctex
+     :custom
+     (LaTeX-font-list
+      '((?a ""              ""  "\\mathcal{"    "}")
+	(?b "\\textbf{"     "}" "\\mathbf{"     "}")
+	(?c "\\textsc{"     "}")
+	(?e "\\emph{"       "}")
+	(?f "\\textsf{"     "}" "\\mathsf{"     "}")
+	(?i "\\textit{"     "}" "\\mathit{"     "}")
+	(?l "\\textulc{"    "}")
+	(?m "\\textmd{"     "}")
+	(?n "\\textnormal{" "}" "\\mathnormal{" "}")
+	(?r "\\textrm{"     "}" "\\mathrm{"     "}")
+	(?s "\\textsl{"     "}" "\\mathbb{"     "}")
+	(?t "\\texttt{"     "}" "\\mathtt{"     "}")
+	(?u "\\textup{"     "}")
+	(?w "\\textsw{"     "}")
+	(?d "" "" t))))
    #+end_src
 
    Automatically wrap long lines while writing
