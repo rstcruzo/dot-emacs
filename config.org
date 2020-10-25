@@ -326,7 +326,8 @@
      (prog-mode . company-mode))
     :config
     ;; Disable tab so it doesn't conflict with other expansions
-    (define-key company-active-map (kbd "<tab>") nil))
+    (define-key company-active-map (kbd "<tab>") nil)
+    (define-key company-active-map (kbd "C-w") nil))
 
   (use-package company-box
     :hook (company-mode . company-box-mode)
