@@ -292,7 +292,12 @@
      (prog-mode . company-mode)))
 
   (use-package company-box
-    :hook (company-mode . company-box-mode))
+    :hook (company-mode . company-box-mode)
+    :bind
+    (:map company-active-map
+	  ("C-h" . company-box-doc-manually))
+    :custom
+    ((company-box-doc-enable nil)))
   #+end_src
 
   Add a way to visualize projects structure with =treemacs=
@@ -683,7 +688,7 @@
       "" '(:ignore t :which-key "search")
       "s" '(swiper :which-key "swiper")
       "S" '(swiper-thing-at-point :which-key "swiper thing at point")
-      "c" '(evil-ex-nohighlight))
+      "c" '(evil-ex-nohighlight :which-key "clear highlight"))
 
     (bind-leader-key
       :infix "h"
