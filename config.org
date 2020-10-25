@@ -258,14 +258,13 @@
   (use-package company
     :bind
     (:map company-active-map
-	  ("C-j" . company-select-next))
-    (:map company-active-map
+	  ("C-j" . company-select-next)
 	  ("C-k" . company-select-previous))
     :custom
     ((company-minimum-prefix-length 1)
      (company-idle-delay 0.0))
-    :config
-    (global-company-mode))
+    :hook
+    ((text-mode . company-mode)))
 
   (use-package company-box
     :hook (company-mode . company-box-mode))
