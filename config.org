@@ -143,6 +143,8 @@
       (exec-path-from-shell-initialize)))
   #+end_src
 
+  General
+
   #+begin_src emacs-lisp
   (use-package counsel
     :bind (("M-x" . counsel-M-x)
@@ -210,7 +212,10 @@
 
   (use-package evil-collection
     :after evil
-    :config (evil-collection-init))
+    :config
+    ;; disable company integration. It breaks stuff
+    (setq evil-collection-mode-list (remove 'company evil-collection-mode-list))
+    (evil-collection-init))
 
   (use-package evil-args
     :after evil
@@ -253,10 +258,12 @@
   (use-package company
     :bind
     (:map company-active-map
-	  ("<tab>" . company-complete-selection))
+	  ("C-j" . company-select-next))
+    (:map company-active-map
+	  ("C-k" . company-select-previous))
     :custom
-    (company-minimum-prefix-length 1)
-    (company-idle-delay 0.0)
+    ((company-minimum-prefix-length 1)
+     (company-idle-delay 0.0))
     :config
     (global-company-mode))
 
@@ -689,6 +696,14 @@
       "d" '(org-deadline :which-key "org deadline"))
 
     (bind-mode-key
+      :keymaps 'LaTeX-mode-map
+      "e" '(LaTeX-environment :which-key "environment")
+      "s" '(LaTeX-section :which-key "section")
+      "i" '(LaTeX-insert-item :which-key "insert item")
+      "c" '(TeX-command-master :which-key "compile")
+      "M" '(LaTeX-math-mode :which-key "math mode"))
+
+    (bind-mode-key
       :keymaps 'org-src-mode-map
       "s" '(org-edit-src-save :which-key "org source save")
       "e" '(org-edit-src-exit :which-key "org source exit")
@@ -762,3 +777,11 @@
    :LOGBOOK:
    - State "DONE"       from "TODO"       [2020-10-24 Sat 13:42]
    :END:
+** DONE Why when I press C-j and there is only one match in company box, new line is inserted
+   CLOSED: [2020-10-24 Sat 23:51]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2020-10-24 Sat 23:51]
+   :END:
+
+   This was caused by evil collection. I disabled it and binded the keys in company mode
+   manually.
