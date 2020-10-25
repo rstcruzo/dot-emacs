@@ -603,6 +603,13 @@
      :ensure auctex)
    #+end_src
 
+   Automatically wrap long lines while writing
+
+   #+begin_src emacs-lisp
+   (add-hook 'LaTeX-mode-hook
+	     (lambda () (auto-fill-mode)))
+   #+end_src
+
 * Custom functions
 
   Install hydra
