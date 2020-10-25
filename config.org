@@ -350,7 +350,8 @@
       (append (if (consp backend) backend (list backend))
 	      '(:with company-yasnippet))))
 
-  (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
+  (with-eval-after-load 'company
+    (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends)))
   #+end_src
 
   Add a way to visualize projects structure with =treemacs=
@@ -587,7 +588,7 @@
 
     #+begin_src emacs-lisp
     (add-hook 'python-mode
-	      (lambda () (lsp-deferred))
+	      (lambda () (lsp-deferred)))
     #+end_src
 
 * Writing
@@ -701,9 +702,6 @@
 
     (bind-g-normal-mode
       "c" '(evilnc-comment-operator :which-key "evilnc-comment-operator"))
-
-    (bind-insert-mode
-      "s" '(company-yasnippet :which-key "company yasnippet"))
 
     ;; Global binds or shortcuts
     (bind-leader-key
