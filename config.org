@@ -143,7 +143,7 @@
       (exec-path-from-shell-initialize)))
   #+end_src
 
-  General
+  Install counsel, swiper and ivy. Setup global bindings.
 
   #+begin_src emacs-lisp
   (use-package counsel
@@ -158,6 +158,18 @@
 
   (use-package ivy
     :diminish
+    :config
+    (setq ivy-initial-inputs-alist
+	  '((counsel-minor . "")
+	    (counsel-package . "")
+	    (counsel-org-capture . "")
+	    (counsel-M-x . "")
+	    (counsel-describe-symbol . "")
+	    (org-refile . "")
+	    (org-agenda-refile . "")
+	    (org-capture-refile . "")
+	    (Man-completion-table . "")
+	    (woman . "")))
     :bind (:map ivy-minibuffer-map
 	   ("TAB" . ivy-alt-done)
 	   ("C-l" . ivy-alt-done)
@@ -172,7 +184,11 @@
 	   ("C-d" . ivy-reverse-i-search-kill))
 	   :config
 	   (ivy-mode 1))
+  #+end_src
 
+  Install =which-key= and other helpful information packages.
+
+  #+begin_src emacs-lisp
   (use-package which-key
     :init (which-key-mode)
     :diminish
@@ -193,7 +209,11 @@
     ([remap describe-command] . helpful-command)
     ([remap describe-variable] . counsel-describe-variable)
     ([remap describe-key] . helpful-key))
+  #+end_src
 
+  Install evil and evil packages.
+
+  #+begin_src emacs-lisp
   (use-package evil
     :init
     (setq evil-want-integration t)
@@ -254,7 +274,11 @@
     (global-evil-surround-mode 1))
 
   (use-package evil-iedit-state)
+  #+end_src
 
+  Enable auto-completion with =company=
+
+  #+begin_src emacs-lisp
   (use-package company
     :bind
     (:map company-active-map
@@ -264,11 +288,16 @@
     ((company-minimum-prefix-length 1)
      (company-idle-delay 0.0))
     :hook
-    ((text-mode . company-mode)))
+    ((text-mode . company-mode)
+     (prog-mode . company-mode)))
 
   (use-package company-box
     :hook (company-mode . company-box-mode))
+  #+end_src
 
+  Add a way to visualize projects structure with =treemacs=
+
+  #+begin_src emacs-lisp
   (use-package treemacs
     :defer t
     :config
@@ -280,7 +309,11 @@
   (use-package treemacs-icons-dired
     :after treemacs dired
     :config (treemacs-icons-dired-mode))
+  #+end_src
 
+  Add a way to jump through code more efficiently with =avy=
+
+  #+begin_src emacs-lisp
   (use-package avy)
   #+end_src
 
@@ -649,7 +682,8 @@
       :infix "s"
       "" '(:ignore t :which-key "search")
       "s" '(swiper :which-key "swiper")
-      "S" '(swiper-thing-at-point :which-key "swiper thing at point"))
+      "S" '(swiper-thing-at-point :which-key "swiper thing at point")
+      "c" '(evil-ex-nohighlight))
 
     (bind-leader-key
       :infix "h"
