@@ -14,6 +14,8 @@
 
 * Package System Setup
 
+  Initialize package
+
   #+begin_src emacs-lisp
   (require 'package)
 
@@ -24,7 +26,11 @@
   (package-initialize)
   (unless package-archive-contents
     (package-refresh-contents))
+  #+end_src
 
+  Install =use-package= and configure it to always ensure packages
+
+  #+begin_src emacs-lisp
   (unless (package-installed-p 'use-package)
     (package-install 'use-package))
 
@@ -35,30 +41,55 @@
 * UI Configuration
 ** General
 
+   Disable startup message
+
    #+begin_src emacs-lisp
    (setq inhibit-startup-message t)
+   #+end_src
 
-   (scroll-bar-mode -1)	; Disable visual scrollbar
-   (tool-bar-mode -1)	; Disable the toolbar
-   (tooltip-mode -1)	; Disable tooltips
+   Disable visual scrollbar, toolbar, tooltips and menubar
+
+   #+begin_src emacs-lisp
+   (scroll-bar-mode -1)
+   (tool-bar-mode -1)
+   (tooltip-mode -1)
+   (menu-bar-mode -1)
+   #+end_src
+
+   Widen fringe a little bit
+
+   #+begin_src emacs-lisp
    (set-fringe-mode 10)	; Give some breathing room
+   #+end_src
 
-   (menu-bar-mode -1)	; Disable menu bar
+   Use spaces instead of tabs
 
+   #+begin_src emacs-lisp
    (setq indent-tabs-mode nil)
+   #+end_src
 
-   (column-number-mode)  ; Show column number in mode line
+   Show column number in mode line
 
+   #+begin_src emacs-lisp
+   (column-number-mode)
+   #+end_src
+
+   Show relative line numbers in =prog-mode=
+
+   #+begin_src emacs-lisp
    (add-hook 'prog-mode-hook
 	     (lambda ()
 	       (display-line-numbers-mode t)
 	       (setq display-line-numbers 'relative)))
+   #+end_src
 
-   ;; Remove bottom window margins
+   Remove bottom emacs window margins (happens on Mac OS)
+
+   #+begin_src emacs-lisp
    (setq frame-resize-pixelwise t)
    #+end_src
 
-   Highlight trailing whitespaces everywhere but some places
+   Highlight trailing whitespaces everywhere but some modes
 
    #+begin_src emacs-lisp
    (setq-default show-trailing-whitespace t)
@@ -80,6 +111,8 @@
 
 ** Theme
 
+   Install =doom-modeline= and set a theme
+
    #+begin_src emacs-lisp
    (use-package doom-modeline
      :init (doom-modeline-mode 1)
@@ -100,6 +133,8 @@
    #+end_src
 
 ** Dashboard
+
+   Install dashboard and configure its look
 
    #+begin_src emacs-lisp
    (use-package dashboard
