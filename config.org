@@ -171,10 +171,11 @@
   #+end_src
 
   Add =/usr/local/bin= to emacs environment to access executables like =rg=
+  Add =/Library/TeX/texbin= to emacs environment to access LaTeX executables
 
   #+begin_src emacs-lisp
-  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
-  (setq exec-path (append exec-path '("/usr/local/bin")))
+  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin:/Library/TeX/texbin"))
+  (setq exec-path (append exec-path '("/usr/local/bin" "/Library/TeX/texbin")))
   #+end_src
 
   Install counsel, swiper and ivy. Setup global bindings.
