@@ -431,11 +431,11 @@
    hiding other keys
 
    #+begin_src emacs-lisp
-   (push '(("\\(.*\\) 0" . "winum-select-window-0-or-10") .
-	   ("\\1 0..9" . "window 0..9"))
+   (push '(("\\(.*\\) 1" . "winum-select-window-1") .
+	   ("\\1 1..9" . "window 1..9"))
 	 which-key-replacement-alist)
 
-   (push '((nil . "winum-select-window-[1-9]") . t)
+   (push '((nil . "win2m-select-window-[2-9]") . t)
 	 which-key-replacement-alist)
    #+end_src
 
@@ -785,13 +785,13 @@
     :config
 
     (general-create-definer bind-leader-key
-      :states '(normal motion insert visual emacs)
+      :states '(normal motion visual emacs)
       :keymaps 'override
       :prefix "SPC"
       :global-prefix "C-SPC")
 
     (general-create-definer bind-mode-key
-      :states '(normal motion insert visual emacs)
+      :states '(normal motion visual emacs)
       :keymaps 'override
       :prefix ","
       :global-prefix "M-m")
@@ -804,8 +804,7 @@
       :prefix "g")
 
     (bind-leader-key
-      :states '(normal)
-      "0" 'winum-select-window-0-or-10
+      "0" '(treemacs-select-window :which-key "select treemacs window")
       "1" 'winum-select-window-1
       "2" 'winum-select-window-2
       "3" 'winum-select-window-3
