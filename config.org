@@ -643,6 +643,19 @@
 
 * Writing
 
+** General
+
+   Highlight characters over 80
+
+   #+begin_src emacs-lisp
+   (require 'whitespace)
+   (setq whitespace-line-column 80)
+   (setq whitespace-style '(face lines-tail))
+
+   (add-hook 'prog-mode-hook 'whitespace-mode)
+   (add-hook 'text-mode-hook 'whitespace-mode)
+   #+end_src
+
 ** LaTeX
 
    Install AucTeX and simplify =TeX-font= bindings
