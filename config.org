@@ -389,7 +389,7 @@
 
    (use-package doom-themes
     :init
-    (load-theme 'doom-dracula t))
+    (load-theme 'doom-one t))
 
    (use-package all-the-icons)
    #+end_src
