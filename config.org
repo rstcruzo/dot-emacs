@@ -369,8 +369,13 @@
     :after treemacs evil)
 
   (use-package treemacs-icons-dired
-    :after treemacs dired
-    :config (treemacs-icons-dired-mode))
+    :after (treemacs dired))
+  #+end_src
+
+  Show icons in dired buffers
+
+  #+begin_src emacs-lisp
+  (add-hook 'dired-mode-hook 'treemacs-icons-dired-mode)
   #+end_src
 
   Add a way to jump through code more efficiently with =avy=
