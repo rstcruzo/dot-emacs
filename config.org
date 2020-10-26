@@ -195,6 +195,12 @@
     (global-evil-surround-mode 1))
 
   (use-package evil-iedit-state)
+
+  (use-package evil-numbers
+    :config
+    :bind
+    (:map evil-normal-state-map
+	  ("C-a" . evil-numbers/inc-at-pt)))
   #+end_src
 
   Enable auto-completion with =company=
