@@ -418,7 +418,8 @@
      (setq dashboard-set-heading-icons t)
      (setq dashboard-set-file-icons t)
      (setq dashboard-banner-logo-title "Welcome rstcruzo!")
-     (setq dashboard-items '((recents . 3)
+     (setq dashboard-items '((agenda . 3)
+			     (recents . 3)
 			     (projects . 3)
 			     (bookmarks . 3)))
      (setq dashboard-set-init-info t)
@@ -430,11 +431,12 @@
    #+begin_src emacs-lisp
    (use-package winum
      :config
-     (winum-mode))
+     (winum-mode)
+     (winum--clear-mode-line))
    #+end_src
 
-   Group winum bindings in which-key by creating a fake key to represent all ten keys and
-   hiding other keys
+   Group winum bindings in which-key by creating a fake key to represent all ten
+   keys and hiding other keys
 
    #+begin_src emacs-lisp
    (push '(("\\(.*\\) 1" . "winum-select-window-1") .
@@ -447,6 +449,8 @@
 
 * Org Mode
 
+  Basic configuration
+
   #+begin_src emacs-lisp
   (use-package org
     :config
@@ -457,15 +461,30 @@
     (setq org-agenda-files
 	  '("~/.emacs.d/config.org"
 	    "~/Code/thesis/TODOs.org"))
+  #+end_src
 
+  Configure todo keywords. Add a few states
+
+  #+begin_src emacs-lisp
   (setq org-todo-keywords
 	'((sequence "TODO(t)" "|" "DONE(d!)")
 	  (sequence "BLOCKED(b)" "|" "DELEGATED(D)" "CANCELED(c)"))))
+  #+end_src
 
+  Improve org heading bullets
+
+  #+begin_src emacs-lisp
   (use-package org-bullets
     :after org
+    :config
+    (setq org-bullets-bullet-list
+	  '("○" "☉" "◎" "◉" "○" "◌" "◎" "●" "◦" "◯" "⚪" "⚫" "⚬" "❍" "￮" "⊙" "⊚" "⊛" "∙" "∘"))
     :hook (org-mode . org-bullets-mode))
+  #+end_src
 
+  Change org headings size
+
+  #+begin_src emacs-lisp
   (dolist (face '((org-level-1 . 1.3)
 		  (org-level-2 . 1.2)
 		  (org-level-3 . 1.1)
@@ -478,14 +497,20 @@
 			:font "Fira Code Retina"
 			:weight 'regular
 			:height (cdr face)))
+  #+end_src
 
-  ;; Org source blocks templates
+  Configure templates expansion
+
+  #+begin_src emacs-lisp
   (require 'org-tempo)
   (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
   (add-to-list 'org-structure-template-alist '("py" . "src python"))
+  #+end_src
 
-  ;; Add padding to document
+  Add padding to document
+
+  #+begin_src emacs-lisp
   (defun org-mode-visual-fill ()
     (setq visual-fill-column-width 100
 	  visual-fill-column-center-text t)
