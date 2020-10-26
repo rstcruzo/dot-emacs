@@ -403,7 +403,25 @@
      (setq dashboard-startup-banner 'logo))
    #+end_src
 
-** Tabs
+** Window
+
+   #+begin_src emacs-lisp
+   (use-package winum
+     :config
+     (winum-mode))
+   #+end_src
+
+   Group winum bindings in which-key by creating a fake key to represent all ten keys and
+   hiding other keys
+
+   #+begin_src emacs-lisp
+   (push '(("\\(.*\\) 0" . "winum-select-window-0-or-10") .
+	   ("\\1 0..9" . "window 0..9"))
+	 which-key-replacement-alist)
+
+   (push '((nil . "winum-select-window-[1-9]") . t)
+	 which-key-replacement-alist)
+   #+end_src
 
 * Org Mode
 
@@ -750,6 +768,19 @@
     (general-create-definer bind-g-normal-mode
       :states '(normal)
       :prefix "g")
+
+    (bind-leader-key
+      :states '(normal)
+      "0" 'winum-select-window-0-or-10
+      "1" 'winum-select-window-1
+      "2" 'winum-select-window-2
+      "3" 'winum-select-window-3
+      "4" 'winum-select-window-4
+      "5" 'winum-select-window-5
+      "6" 'winum-select-window-6
+      "7" 'winum-select-window-7
+      "8" 'winum-select-window-8
+      "9" 'winum-select-window-9)
 
     (bind-insert-mode
       "C-c s" '(flyspell-auto-correct-word :which-key "auto-correct word"))
