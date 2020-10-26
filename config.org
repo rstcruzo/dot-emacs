@@ -778,6 +778,15 @@
     (switch-to-buffer (other-buffer (current-buffer) 1)))
   #+end_src
 
+  Define way to add current project to treemacs
+
+  #+begin_src emacs-lisp
+  (defun projectile-add-to-treemacs ()
+    "Add current project to treemacs workspace."
+    (interactive)
+    (treemacs-add-project-to-workspace (projectile-project-root)))
+  #+end_src
+
 * Keybindings
 
   #+begin_src emacs-lisp
@@ -861,7 +870,8 @@
       "v" '(projectile-edit-dir-locals :which-key "edit project dir locals")
       "d" '(projectile-dired :which-key "project dired")
       "p" '(projectile-switch-project :which-key "switch project")
-      "f" '(projectile-find-file :which-key "find project file"))
+      "f" '(projectile-find-file :which-key "find project file")
+      "T" '(projectile-add-to-treemacs :which-key "add current project to treemacs"))
 
     (bind-leader-key
       :infix "g"
