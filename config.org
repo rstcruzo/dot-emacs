@@ -107,6 +107,22 @@
 	   (ivy-mode 1))
   #+end_src
 
+  Show some ivy/counsel buffers in popups
+
+  #+begin_src emacs-lisp
+  (use-package ivy-posframe
+    :config
+    (setq ivy-posframe-display-functions-alist
+	  '((swiper          . ivy-posframe-display-at-frame-top-center)
+	    (counsel-M-x     . ivy-posframe-display-at-frame-top-center)
+	    (t               . ivy-posframe-display-at-frame-top-center)))
+    (setq ivy-posframe-width 120
+	  ivy-posframe-height 30
+	  ivy-posframe-border-width 20)
+
+    (ivy-posframe-mode 1))
+  #+end_src
+
   Install =which-key= and other helpful information packages.
 
   #+begin_src emacs-lisp
