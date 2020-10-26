@@ -134,9 +134,6 @@
     (setq which-key-allow-evil-operators t)
     (setq which-key-add-column-padding 4))
 
-  (use-package ivy-rich
-    :init (ivy-rich-mode t))
-
   (use-package helpful
     :custom
     (counsel-describe-function-function #'helpful-callable)
@@ -549,6 +546,16 @@
    (counsel-projectile-modify-action
     'counsel-projectile-find-file-action
     '((default counsel-projectile-find-file-action-other-window)))
+   #+end_src
+
+   Enable ivy rich after counsel projectile, they depend on this
+
+   #+begin_src emacs-lisp
+   (use-package all-the-icons-ivy-rich
+     :init (all-the-icons-ivy-rich-mode 1))
+
+   (use-package ivy-rich
+     :init (ivy-rich-mode t))
    #+end_src
 
    Install treemacs and projectile integration
