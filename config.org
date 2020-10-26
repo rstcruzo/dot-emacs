@@ -95,6 +95,7 @@
 	   ("C-j" . ivy-next-line)
 	   ("C-k" . ivy-previous-line)
 	   ("C-w" . evil-delete-backward-word)
+	   ("C-a" . ivy-dispatching-done)
 	   :map ivy-switch-buffer-map
 	   ("C-k" . ivy-previous-line)
 	   ("C-l" . ivy-done)
