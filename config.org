@@ -38,121 +38,6 @@
   (setq use-package-always-ensure t)
   #+end_src
 
-* UI Configuration
-** General
-
-   Disable startup message
-
-   #+begin_src emacs-lisp
-   (setq inhibit-startup-message t)
-   #+end_src
-
-   Disable visual scrollbar, toolbar, tooltips and menubar
-
-   #+begin_src emacs-lisp
-   (scroll-bar-mode -1)
-   (tool-bar-mode -1)
-   (tooltip-mode -1)
-   (menu-bar-mode -1)
-   #+end_src
-
-   Widen fringe a little bit
-
-   #+begin_src emacs-lisp
-   (set-fringe-mode 10)	; Give some breathing room
-   #+end_src
-
-   Use spaces instead of tabs
-
-   #+begin_src emacs-lisp
-   (setq indent-tabs-mode nil)
-   #+end_src
-
-   Show column number in mode line
-
-   #+begin_src emacs-lisp
-   (column-number-mode)
-   #+end_src
-
-   Show relative line numbers in =prog-mode=
-
-   #+begin_src emacs-lisp
-   (add-hook 'prog-mode-hook
-	     (lambda ()
-	       (display-line-numbers-mode t)
-	       (setq display-line-numbers 'relative)))
-   #+end_src
-
-   Remove bottom emacs window margins (happens on Mac OS)
-
-   #+begin_src emacs-lisp
-   (setq frame-resize-pixelwise t)
-   #+end_src
-
-   Highlight trailing whitespaces everywhere but some modes
-
-   #+begin_src emacs-lisp
-   (setq-default show-trailing-whitespace t)
-
-   (dolist (hook '(special-mode-hook
-		   term-mode-hook
-		   comint-mode-hook
-		   compilation-mode-hook
-		   minibuffer-setup-hook
-		   vterm-mode-hook))
-     (add-hook hook
-	       (lambda () (setq show-trailing-whitespace nil))))
-   #+end_src
-
-   Remove title bar icon. Looks ugly
-
-   #+begin_src emacs-lisp
-   (setq ns-use-proxy-icon nil)
-   #+end_src
-
-** Theme
-
-   Install =doom-modeline= and set a theme
-
-   #+begin_src emacs-lisp
-   (use-package doom-modeline
-     :init (doom-modeline-mode 1)
-     :config
-     (setq doom-modeline-github t))
-
-   (use-package doom-themes
-    :init
-    (load-theme 'doom-dracula t))
-
-   (use-package all-the-icons)
-   #+end_src
-
-** Font
-
-   #+begin_src emacs-lisp
-   (set-face-attribute 'default nil :font "Fira Code Retina" :height 130)
-   #+end_src
-
-** Dashboard
-
-   Install dashboard and configure its look
-
-   #+begin_src emacs-lisp
-   (use-package dashboard
-     :config
-     (dashboard-setup-startup-hook)
-     (setq dashboard-center-content t)
-     (setq dashboard-set-heading-icons t)
-     (setq dashboard-set-file-icons t)
-     (setq dashboard-banner-logo-title "Welcome rstcruzo!")
-     (setq dashboard-items '((agenda . 5)
-			     (recents . 3)
-			     (projects . 3)
-			     (bookmarks . 3)))
-     (setq dashboard-set-init-info t)
-     (setq dashboard-startup-banner 'logo))
-   #+end_src
-
 * General
 
   Move backup and auto-save files to tmp
@@ -396,6 +281,122 @@
   (setq ns-right-alternate-modifier 'none)
   #+end_src
 
+* UI
+** General
+
+   Disable startup message
+
+   #+begin_src emacs-lisp
+   (setq inhibit-startup-message t)
+   #+end_src
+
+   Disable visual scrollbar, toolbar, tooltips and menubar
+
+   #+begin_src emacs-lisp
+   (scroll-bar-mode -1)
+   (tool-bar-mode -1)
+   (tooltip-mode -1)
+   (menu-bar-mode -1)
+   #+end_src
+
+   Widen fringe a little bit
+
+   #+begin_src emacs-lisp
+   (set-fringe-mode 10)	; Give some breathing room
+   #+end_src
+
+   Use spaces instead of tabs
+
+   #+begin_src emacs-lisp
+   (setq indent-tabs-mode nil)
+   #+end_src
+
+   Show column number in mode line
+
+   #+begin_src emacs-lisp
+   (column-number-mode)
+   #+end_src
+
+   Show relative line numbers in =prog-mode=
+
+   #+begin_src emacs-lisp
+   (add-hook 'prog-mode-hook
+	     (lambda ()
+	       (display-line-numbers-mode t)
+	       (setq display-line-numbers 'relative)))
+   #+end_src
+
+   Remove bottom emacs window margins (happens on Mac OS)
+
+   #+begin_src emacs-lisp
+   (setq frame-resize-pixelwise t)
+   #+end_src
+
+   Highlight trailing whitespaces everywhere but some modes
+
+   #+begin_src emacs-lisp
+   (setq-default show-trailing-whitespace t)
+
+   (dolist (hook '(special-mode-hook
+		   term-mode-hook
+		   comint-mode-hook
+		   compilation-mode-hook
+		   minibuffer-setup-hook
+		   vterm-mode-hook))
+     (add-hook hook
+	       (lambda () (setq show-trailing-whitespace nil))))
+   #+end_src
+
+   Remove title bar icon. Looks ugly
+
+   #+begin_src emacs-lisp
+   (setq ns-use-proxy-icon nil)
+   #+end_src
+
+** Theme
+
+   Install =doom-modeline= and set a theme
+
+   #+begin_src emacs-lisp
+   (use-package doom-modeline
+     :init (doom-modeline-mode 1)
+     :config
+     (setq doom-modeline-github t))
+
+   (use-package doom-themes
+    :init
+    (load-theme 'doom-dracula t))
+
+   (use-package all-the-icons)
+   #+end_src
+
+** Font
+
+   #+begin_src emacs-lisp
+   (set-face-attribute 'default nil :font "Fira Code Retina" :height 130)
+   #+end_src
+
+** Dashboard
+
+   Install dashboard and configure its look
+
+   #+begin_src emacs-lisp
+   (use-package dashboard
+     :config
+     (dashboard-setup-startup-hook)
+     (setq dashboard-center-content t)
+     (setq dashboard-set-heading-icons t)
+     (setq dashboard-set-file-icons t)
+     (setq dashboard-banner-logo-title "Welcome rstcruzo!")
+     (setq dashboard-items '((recents . 3)
+			     (projects . 3)
+			     (bookmarks . 3)))
+     (setq dashboard-set-init-info t)
+     (setq dashboard-startup-banner 'logo))
+   #+end_src
+
+** Tabs
+
 * Org Mode
 
   #+begin_src emacs-lisp
@@ -466,6 +467,10 @@
    ;; Install better ivy and projectile integration
    (use-package counsel-projectile
      :config (counsel-projectile-mode))
+
+   (counsel-projectile-modify-action
+    'counsel-projectile-switch-project-action
+    '((default counsel-projectile-switch-project-action-dired)))
    #+end_src
 
    Install treemacs and projectile integration
@@ -764,7 +769,8 @@
       :infix "b"
       "" '(:ignore t :which-key "buffers")
       "b" '(counsel-ibuffer :which-key "switch buffer")
-      "k" '(kill-buffer :which-key "kill buffer")
+      "k" '(kill-buffer :which-key "kill a buffer")
+      "K" '(kill-current-buffer :which-key "kill current buffer")
       "s" '((lambda () (interactive)
 	      (switch-to-buffer "*scratch*")) :which-key "switch to scratch")
       "i" '(ibuffer :which-key "ibuffer"))
