@@ -272,7 +272,9 @@
   Add a way to jump through code more efficiently with =avy=
 
   #+begin_src emacs-lisp
-  (use-package avy)
+  (use-package avy
+    :config
+    (setq avy-background t))
   #+end_src
 
   Delete trailing whitespaces on file save
