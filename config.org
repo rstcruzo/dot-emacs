@@ -377,6 +377,12 @@
    (setq ns-use-proxy-icon nil)
    #+end_src
 
+   Highlight current line
+
+   #+begin_src emacs-lisp
+   (global-hl-line-mode 1)
+   #+end_src
+
 ** Theme
 
    Install =doom-modeline= and set a theme
