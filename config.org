@@ -497,6 +497,10 @@
    (counsel-projectile-modify-action
     'counsel-projectile-switch-project-action
     '((default counsel-projectile-switch-project-action-dired)))
+
+   (counsel-projectile-modify-action
+    'counsel-projectile-find-file-action
+    '((default counsel-projectile-find-file-action-other-window)))
    #+end_src
 
    Install treemacs and projectile integration
