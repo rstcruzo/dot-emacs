@@ -308,6 +308,12 @@
   (setq enable-local-variables :all)
   #+end_src
 
+  Start an empty scratch buffer
+
+  #+begin_src emacs-lisp
+  (setq initial-scratch-message "")
+  #+end_src
+
 * UI
 ** General
 
@@ -401,7 +407,7 @@
 
    (use-package doom-themes
      :init
-     (load-theme 'doom-monokai-pro t))
+     (load-theme 'doom-city-lights t))
 
    (use-package all-the-icons)
    #+end_src
@@ -429,7 +435,7 @@
 			     (projects . 3)
 			     (bookmarks . 3)))
      (setq dashboard-set-init-info t)
-     (setq dashboard-startup-banner 'logo))
+     (setq dashboard-startup-banner "~/Pictures/Icons/emacs.png"))
    #+end_src
 
 ** Window
