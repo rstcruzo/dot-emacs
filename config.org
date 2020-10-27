@@ -296,7 +296,7 @@
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
   #+end_src
 
-  Free right meta key
+  Unbind right meta key
 
   #+begin_src emacs-lisp
   (setq ns-right-alternate-modifier 'none)
