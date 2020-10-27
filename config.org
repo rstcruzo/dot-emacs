@@ -631,10 +631,11 @@
    we operate on magit.
 
    #+begin_src emacs-lisp
-   (use-package git-gutter
+   (use-package diff-hl
      :config
-     (global-git-gutter-mode +1)
-     (add-hook 'magit-post-refresh-hook #'git-gutter:update-all-windows))
+     (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
+     (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+     (global-diff-hl-mode))
    #+end_src
 
    Integrate treemacs with magit
