@@ -442,7 +442,7 @@
 	   ("\\1 1..9" . "window 1..9"))
 	 which-key-replacement-alist)
 
-   (push '((nil . "win2m-select-window-[2-9]") . t)
+   (push '((nil . "winum-select-window-[2-9]") . t)
 	 which-key-replacement-alist)
    #+end_src
 
