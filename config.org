@@ -302,6 +302,12 @@
   (setq ns-right-alternate-modifier 'none)
   #+end_src
 
+  Enable all local variables. *WARNING* this is risky
+
+  #+begin_src emacs-lisp
+  (setq enable-local-variables :all)
+  #+end_src
+
 * UI
 ** General
 
