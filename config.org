@@ -748,6 +748,24 @@
    #+begin_src emacs-lisp
    (add-hook 'LaTeX-mode-hook
 	     (lambda () (flyspell-mode t)))
+
+   (setq TeX-show-compilation t)
+   #+end_src
+
+   Define variable to store main TeX files. This file is used for compilation
+
+   #+begin_src emacs-lisp
+   (defvar TeX-main-filename "main"
+     "TeX main file to use for compilation.")
+
+   (defun TeX-main-file (&optional extension &rest r)
+     "Retrieve TeX main filename to use with AUCTeX."
+     (interactive)
+     (if (eq extension t)
+	 (setq extension TeX-default-extension))
+     (if (null extension)
+	 TeX-main-filename
+       (format "%s.%s" TeX-main-filename extension)))
    #+end_src
 
 * Custom functions
@@ -832,13 +850,13 @@
     :config
 
     (general-create-definer bind-leader-key
-      :states '(normal motion visual emacs)
+      :states '(normal insert motion visual emacs)
       :keymaps 'override
       :prefix "SPC"
       :global-prefix "C-SPC")
 
     (general-create-definer bind-mode-key
-      :states '(normal motion visual emacs)
+      :states '(normal insert motion visual emacs)
       :keymaps 'override
       :prefix ","
       :global-prefix "M-m")
@@ -979,9 +997,14 @@
       "e" '(LaTeX-environment :which-key "environment")
       "s" '(LaTeX-section :which-key "section")
       "i" '(LaTeX-insert-item :which-key "insert item")
-      "c" '(TeX-command-master :which-key "compile")
+      "C" '(TeX-command-master :which-key "compile")
+      "c" '((lambda () (interactive) (TeX-command "LaTeX" 'TeX-main-file))
+	    :which-key "compile main file")
       "M" '(LaTeX-math-mode :which-key "math mode")
-      "f" '(TeX-font :which-key "font"))
+      "f" '(TeX-font :which-key "font")
+
+      "m" '(:ignore t :which-key "math")
+      "mf" '(LaTeX-math-frac :which-key "fraction"))
 
     (bind-mode-key
       :keymaps 'org-src-mode-map
