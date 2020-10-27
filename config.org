@@ -882,7 +882,7 @@
       :prefix "g")
 
     (bind-leader-key
-      "0" '(treemacs-select-window :which-key "select treemacs window")
+      "0" '(treemacs-select-window :which-key "window 0 - treemacs")
       "1" 'winum-select-window-1
       "2" 'winum-select-window-2
       "3" 'winum-select-window-3
