@@ -966,7 +966,12 @@
       "" '(:ignore t :which-key "git")
       "g" '(magit-status :which-key "git status")
       "c" '(hydra-merge-conflicts/body :which-key "merge conflicts")
-      "b" '(magit-blame-addition :which-key "blame"))
+      "b" '(magit-blame-addition :which-key "blame")
+
+      "s" '(git-gutter+-show-hunk :which-key "show current hunk diff")
+      "r" '(git-gutter+-revert-hunk :which-key "revert current hunk")
+      "n" '(git-gutter+-next-hunk :which-key "next hunk")
+      "p" '(git-gutter+-previous-hunk :which-key "previous hunk"))
 
     (bind-leader-key
       :infix "s"
