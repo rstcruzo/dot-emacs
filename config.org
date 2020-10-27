@@ -621,12 +621,14 @@
    (add-hook 'git-commit-mode-hook 'evil-insert-state)
    #+end_src
 
-   Visualize git hunks in the fringe
+   Visualize git hunks in the fringe. Make sure they are updated when
+   we operate on magit.
 
    #+begin_src emacs-lisp
    (use-package git-gutter
      :config
-     (global-git-gutter-mode +1))
+     (global-git-gutter-mode +1)
+     (add-hook 'magit-post-refresh-hook #'git-gutter:update-all-windows))
    #+end_src
 
    Integrate treemacs with magit
