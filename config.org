@@ -446,6 +446,17 @@
 	 which-key-replacement-alist)
    #+end_src
 
+** Workspaces
+
+   Use eyebrowse to manage workspaces
+
+   #+begin_src emacs-lisp
+   (use-package eyebrowse
+     :config
+     (eyebrowse-mode t)
+     (setq eyebrowse-new-workspace t))
+   #+end_src
+
 * Org Mode
 
   Basic configuration
@@ -980,10 +991,17 @@
       "k" '(evil-window-up :which-key "move to window above")
       "h" '(evil-window-left :which-key "move to window on the left")
       "l" '(evil-window-right :which-key "move to window on the right")
-      "d" '(evil-window-delete :which-key "close")
-      "s" '(evil-window-split :which-key "split")
+      "d" '(evil-window-delete :which-key "delete window")
+      "s" '(evil-window-split :which-key "horizontal split")
       "v" '(evil-window-vsplit :which-key "vertical split")
-      "w" '(delete-other-windows :which-key "delete other windows"))
+      "m" '(delete-other-windows :which-key "maximize window")
+
+      "w" '(eyebrowse-last-window-config :which-key "last workspace")
+      "W" '(eyebrowse-switch-to-window-config :which-key "switch workspace")
+      "n" '(eyebrowse-next-window-config :which-key "next workspace")
+      "p" '(eyebrowse-prev-window-config :which-key "previous workspace")
+      "r" '(eyebrowse-rename-window-config :which-key "rename workspace")
+      "c" '(eyebrowse-close-window-config :which-key "close workspace"))
 
     (bind-mode-key
       :keymaps 'org-mode-map
