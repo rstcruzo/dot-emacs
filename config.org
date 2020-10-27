@@ -624,13 +624,14 @@
    Visualize git hunks in the fringe
 
    #+begin_src emacs-lisp
-   (use-package diff-hl
-     :hook
-     (magit-pre-refresh . diff-hl-magit-pre-refresh)
-     (magit-post-refresh . diff-hl-magit-post-refresh)
+   (use-package git-gutter+
      :config
-     (global-diff-hl-mode))
+     (global-git-gutter+-mode))
+   #+end_src
 
+   Integrate treemacs with magit
+
+   #+begin_src emacs-lisp
    (use-package treemacs-magit
      :after treemacs magit)
    #+end_src
