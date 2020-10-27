@@ -386,13 +386,15 @@
 
    #+begin_src emacs-lisp
    (use-package doom-modeline
-     :init (doom-modeline-mode 1)
+     :init
+     (setq doom-modeline-height 10)
+     (doom-modeline-mode 1)
      :config
      (setq doom-modeline-github t))
 
    (use-package doom-themes
-    :init
-    (load-theme 'doom-one t))
+     :init
+     (load-theme 'doom-monokai-pro t))
 
    (use-package all-the-icons)
    #+end_src
@@ -980,7 +982,8 @@
       "l" '(evil-window-right :which-key "move to window on the right")
       "d" '(evil-window-delete :which-key "close")
       "s" '(evil-window-split :which-key "split")
-      "v" '(evil-window-vsplit :which-key "vertical split"))
+      "v" '(evil-window-vsplit :which-key "vertical split")
+      "w" '(delete-other-windows :which-key "delete other windows"))
 
     (bind-mode-key
       :keymaps 'org-mode-map
