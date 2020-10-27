@@ -329,7 +329,7 @@
    Widen fringe a little bit
 
    #+begin_src emacs-lisp
-   (set-fringe-mode 10)	; Give some breathing room
+   (set-fringe-mode 5)
    #+end_src
 
    Use spaces instead of tabs
@@ -369,7 +369,8 @@
 		   comint-mode-hook
 		   compilation-mode-hook
 		   minibuffer-setup-hook
-		   vterm-mode-hook))
+		   vterm-mode-hook
+		   diff-mode-hook))
      (add-hook hook
 	       (lambda () (setq show-trailing-whitespace nil))))
    #+end_src
@@ -978,10 +979,10 @@
       "c" '(hydra-merge-conflicts/body :which-key "merge conflicts")
       "b" '(magit-blame-addition :which-key "blame")
 
-      "s" '(git-gutter:popup-hunk :which-key "show current hunk diff")
-      "r" '(git-gutter:revert-hunk :which-key "revert current hunk")
-      "n" '(git-gutter:next-hunk :which-key "next hunk")
-      "p" '(git-gutter:previous-hunk :which-key "previous hunk"))
+      "s" '(diff-hl-diff-goto-hunk :which-key "show current hunk diff")
+      "r" '(diff-hl-revert-hunk :which-key "revert current hunk")
+      "n" '(diff-hl-next-hunk :which-key "next hunk")
+      "p" '(diff-hl-previous-hunk :which-key "previous hunk"))
 
     (bind-leader-key
       :infix "s"
