@@ -314,6 +314,13 @@
   (setq initial-scratch-message "")
   #+end_src
 
+  Disable ls on dired if system type is =darwin=
+
+  #+begin_src emacs-lisp
+  (when (string= system-type "darwin")
+    (setq dired-use-ls-dired nil))
+  #+end_src
+
 * UI
 ** General
 
@@ -480,7 +487,7 @@
     (setq org-agenda-start-with-log-mode t)
     (setq org-log-done 'time)
     (setq org-log-into-drawer t)
-    (setq org-ellipsis "↴")
+    (setq org-ellipsis "↩")
     (setq org-agenda-files
 	  '("~/.emacs.d/config.org"
 	    "~/Code/thesis/TODOs.org"))
