@@ -412,8 +412,24 @@
 
 ** Font
 
+   Set default font
+
    #+begin_src emacs-lisp
    (set-face-attribute 'default nil :font "Fira Code Retina" :height 130)
+   #+end_src
+
+   Disable python =and= and =or= ligatures
+
+   #+begin_src emacs-lisp
+   (setq python-prettify-symbols-alist '(("lambda" . 955)))
+   #+end_src
+
+   Enable Fira Code ligatures
+
+   #+begin_src emacs-lisp
+   (use-package fira-code-mode
+     :custom (fira-code-mode-disabled-ligatures '("[]" "#{" "#(" "#_" "#_(" "x")) ;; List of ligatures to turn off
+     :hook prog-mode)
    #+end_src
 
 ** Dashboard
