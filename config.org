@@ -321,6 +321,14 @@
     (setq dired-use-ls-dired nil))
   #+end_src
 
+  Enable narrowing commands
+
+  #+begin_src emacs-lisp
+  (put 'narrow-to-defun  'disabled nil)
+  (put 'narrow-to-page   'disabled nil)
+  (put 'narrow-to-region 'disabled nil)
+  #+end_src
+
 * UI
 ** General
 
@@ -1268,6 +1276,13 @@
 
       "C" '(avy-copy-line :which-key "jump, copy and paste line")
       "M" '(avy-move-line :which-key "jump, cut and paste line"))
+
+    (bind-leader-key
+      :infix "n"
+      "" '(:ignore t :which-key "narrowing")
+      "w" '(widen :which-key "widen")
+      "r" '(narrow-to-region :which-key "narrow to region")
+      "f" '(narrow-to-defun :which-key "narrow to defun"))
     )
   #+end_src
 
