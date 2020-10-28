@@ -536,6 +536,7 @@
   (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
   (add-to-list 'org-structure-template-alist '("py" . "src python"))
+  (add-to-list 'org-structure-template-alist '("mmd" . "src mermaid"))
   #+end_src
 
   Add padding to document
@@ -550,6 +551,27 @@
     :hook (org-mode . org-mode-visual-fill))
 
   (setq org-edit-src-content-indentation 0)
+  #+end_src
+
+  Install =ob-mermaid= to render mermaid diagrams with org-babel
+
+  #+begin_src emacs-lisp
+  (use-package ob-mermaid
+    :config
+    (setq ob-mermaid-cli-path "/usr/local/bin/mmdc"))
+  #+end_src
+
+  Display inline images automatically after executing source block
+
+  #+begin_src emacs-lisp
+  (defun org-display-images-after-execute ()
+    "Redisplay inline images after executing source blocks with mermaid results."
+    (let ((language (car (org-babel-get-src-block-info t))))
+      (message language)
+      (when (string= language "mermaid")
+	(org-display-inline-images))))
+
+  (add-hook 'org-babel-after-execute-hook #'org-display-images-after-execute)
   #+end_src
 
 * Development
@@ -821,6 +843,14 @@
      :ensure nil)
    #+end_src
 
+** Diagrams
+
+   Install mermaid mode
+
+   #+begin_src emacs-lisp
+   (use-package mermaid-mode)
+   #+end_src
+
 * Custom functions
 
   Install hydra
@@ -977,7 +1007,8 @@
       "t" '(google-translate-smooth-translate :which-key "google translate")
       "T" '(counsel-load-theme :which-key "choose theme")
       "s" '(hydra-text-scale/body :which-key "scale text")
-      "R" '(ivy-rich-mode :which-key "toggle ivy rich mode"))
+      "R" '(ivy-rich-mode :which-key "toggle ivy rich mode")
+      "i" '(org-toggle-inline-images :which-key "toggle org inline images"))
 
     (bind-leader-key
       :infix "p"
@@ -1032,7 +1063,9 @@
       "s" '(org-schedule :which-key "org schedule")
       "d" '(org-deadline :which-key "org deadline")
       "t" '(org-todo :which-key "org todo")
-      "e" '(org-edit-src-code :which-key "org edit code"))
+      "e" '(org-edit-src-code :which-key "org edit code")
+      "r" '(org-babel-execute-src-block :which-key "org execute code")
+      "i" '(org-display-inline-images :which-key "org display inline images"))
 
     (bind-leader-key
       :infix "w"
@@ -1061,7 +1094,9 @@
       "co" '(org-clock-out :which-key "org clock out")
       "e" '(org-edit-src-code :which-key "org edit source")
       "s" '(org-schedule :which-key "org schedule")
-      "d" '(org-deadline :which-key "org deadline"))
+      "d" '(org-deadline :which-key "org deadline")
+      "r" '(org-babel-execute-src-block :which-key "org execute code")
+      "i" '(org-display-inline-images :which-key "org display inline images"))
 
     (bind-mode-key
       :keymaps 'LaTeX-mode-map
