@@ -158,7 +158,9 @@
     (evil-search-module 'evil-search)
     :config
     (evil-mode 1)
-    (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
+
+    (define-key evil-ex-completion-map (kbd "C-k") nil)
+    (define-key evil-insert-state-map (kbd "C-k") nil)
 
     ;; Use visual line motions even outside of visual-line-mode buffers
     (evil-global-set-key 'motion "j" 'evil-next-visual-line)
@@ -238,8 +240,6 @@
   (use-package company-box
     :hook (company-mode . company-box-mode)
     :bind
-    (:map company-active-map
-	  ("C-h" . company-box-doc-manually))
     :custom
     ((company-box-doc-enable nil)))
   #+end_src
