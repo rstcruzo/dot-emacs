@@ -407,7 +407,7 @@
 
    (use-package doom-themes
      :init
-     (load-theme 'doom-monokai-classic t))
+     (load-theme 'doom-dracula t))
 
    (use-package all-the-icons)
    #+end_src
@@ -1153,7 +1153,8 @@
       "" '(:ignore t :which-key "help")
       "v" '(describe-variable :which-key "describe variable")
       "f" '(describe-function :which-key "describe function")
-      "k" '(describe-key :which-key "describe key"))
+      "k" '(describe-key :which-key "describe key")
+      "m" '(describe-mode :which-key "describe mode"))
 
     (bind-leader-key
       :infix "l"
