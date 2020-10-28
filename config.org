@@ -57,10 +57,12 @@
 
   Add =/usr/local/bin= to emacs environment to access executables like =rg=
   Add =/Library/TeX/texbin= to emacs environment to access LaTeX executables
+  Add =~/go/bin= to emacs environment to access go executables like =gopls=
+  Add =/usr/local/go/bin= to emacs environment to access go executables like =go=
 
   #+begin_src emacs-lisp
-  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin:/Library/TeX/texbin"))
-  (setq exec-path (append exec-path '("/usr/local/bin" "/Library/TeX/texbin")))
+  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin:/Library/TeX/texbin:~/go/bin:/usr/local/go/bin"))
+  (setq exec-path (append exec-path '("/usr/local/bin" "/Library/TeX/texbin" "~/go/bin" "/usr/local/go/bin")))
   #+end_src
 
   Install counsel, swiper and ivy. Setup global bindings.
@@ -771,6 +773,31 @@
     #+begin_src emacs-lisp
     (add-hook 'python-mode
 	      (lambda () (lsp-deferred)))
+    #+end_src
+
+*** Go
+
+    Install =go-mode=
+
+    #+begin_src emacs-lisp
+    (use-package go-mode)
+    #+end_src
+
+    Enable =lsp-deferred= mode for Go
+
+    #+begin_src emacs-lisp
+    (add-hook 'go-mode-hook
+	      (lambda () (lsp-deferred)))
+    #+end_src
+
+    Set tab width to 4
+
+    #+begin_src emacs-lisp
+    (add-hook 'go-mode-hook
+	      (lambda ()
+		(setq indent-tabs-mode nil)
+		(setq go-tab-width 4)
+		(setq tab-width 4)))
     #+end_src
 
 * Writing
