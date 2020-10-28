@@ -130,7 +130,7 @@
     :init (which-key-mode)
     :diminish
     :config
-    (setq which-key-idle-delay 0.3)
+    (setq which-key-idle-delay 1)
     (setq which-key-allow-evil-operators t)
     (setq which-key-add-column-padding 4))
 
@@ -407,7 +407,7 @@
 
    (use-package doom-themes
      :init
-     (load-theme 'doom-dracula t))
+     (load-theme 'doom-horizon t))
 
    (use-package all-the-icons)
    #+end_src
@@ -848,7 +848,7 @@
 	     (lambda () (auto-fill-mode)))
    #+end_src
 
-   Enable spell checking
+   Enable spell checking and show compilation buffer
 
    #+begin_src emacs-lisp
    (add-hook 'LaTeX-mode-hook
@@ -871,6 +871,15 @@
      (if (null extension)
 	 TeX-main-filename
        (format "%s.%s" TeX-main-filename extension)))
+   #+end_src
+
+   Add =@online= entry to bibtex
+
+   #+begin_src emacs-lisp
+   (use-package bibtex
+     :ensure nil
+     :config
+     (setq bibtex-dialect 'biblatex))
    #+end_src
 
 ** Translate
@@ -1209,14 +1218,21 @@
       "e" '(LaTeX-environment :which-key "environment")
       "s" '(LaTeX-section :which-key "section")
       "i" '(LaTeX-insert-item :which-key "insert item")
+
       "C" '(TeX-command-master :which-key "compile")
       "c" '((lambda () (interactive) (TeX-command "LaTeX" 'TeX-main-file))
-	    :which-key "compile main file")
-      "M" '(LaTeX-math-mode :which-key "math mode")
-      "f" '(TeX-font :which-key "font")
+	    :which-key "compile LaTeX")
+      "b" '((lambda () (interactive) (TeX-command "BibTeX" 'TeX-main-file))
+	    :which-key "compile BibTeX")
 
+      "f" '(TeX-font :which-key "font")
+      "M" '(LaTeX-math-mode :which-key "math mode")
       "m" '(:ignore t :which-key "math")
       "mf" '(LaTeX-math-frac :which-key "fraction"))
+
+    (bind-mode-key
+      :keymaps 'bibtex-mode-map
+      "e" '(bibtex-entry :which-key "bibtex entry"))
 
     (bind-mode-key
       :keymaps 'org-src-mode-map
