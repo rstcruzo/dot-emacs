@@ -553,12 +553,12 @@
   (setq org-edit-src-content-indentation 0)
   #+end_src
 
-  Install =ob-mermaid= to render mermaid diagrams with org-babel
+  Install =ob-mermaid= to render mermaid diagrams with org-babel.
+  *NOTE*: Had to reinstall once this package to get updated code with support
+  for mermaid properties like themes.
 
   #+begin_src emacs-lisp
-  (use-package ob-mermaid
-    :config
-    (setq ob-mermaid-cli-path "/usr/local/bin/mmdc"))
+  (use-package ob-mermaid)
   #+end_src
 
   Display inline images automatically after executing source block
@@ -567,11 +567,16 @@
   (defun org-display-images-after-execute ()
     "Redisplay inline images after executing source blocks with mermaid results."
     (let ((language (car (org-babel-get-src-block-info t))))
-      (message language)
       (when (string= language "mermaid")
 	(org-display-inline-images))))
 
   (add-hook 'org-babel-after-execute-hook #'org-display-images-after-execute)
+  #+end_src
+
+  Don't ask for confirmation when executing a source block
+
+  #+begin_src emacs-lisp
+  (setq org-confirm-babel-evaluate nil)
   #+end_src
 
 * Development
