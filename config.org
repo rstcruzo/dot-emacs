@@ -855,6 +855,62 @@
    (use-package mermaid-mode)
    #+end_src
 
+* Networking
+
+  Add capabilities to add ssh-key to agent.
+
+  #+begin_src emacs-lisp
+  (defvar rst/ssh-default-key "~/.ssh/id_rsa"
+    "My default SSH key.")
+
+  (defun rst/ssh-add (&optional arg)
+    "Add the default ssh-key if it's not present.
+  With a universal argument, prompt to specify which key."
+    (interactive "P")
+    (when (or arg
+	      (not (rst/ssh-agent-has-keys-p)))
+      (rst/ssh-add-in-emacs
+       (if (not arg)
+	   rst/ssh-default-key
+	 (read-file-name
+	  "Add key: \n" "~/.ssh" nil 't nil
+	  (lambda (x)
+	    (not (or (string-suffix-p ".pub" x)
+		     (string= "known_hosts" x)))))))))
+
+  (defun rst/ssh-agent-has-keys-p ()
+    "Return t if the ssh-agent has a key."
+    (when
+	(= 0 (call-process "ssh-add" nil nil nil "-l"))
+      t))
+
+  (defun rst/ssh-add-in-emacs (key-file)
+    "Run ssh-add to add a key to the running SSH agent."
+    (let ((process-connection-type t)
+	  process)
+      (unwind-protect
+	  (progn
+	    (setq process
+		  (start-process
+		   "ssh-add" nil "ssh-add"
+		   (expand-file-name key-file)))
+	    (set-process-filter
+	     process 'rst/ssh-add-process-filter)
+	    (while (accept-process-output process)))
+	(if (eq (process-status process) 'run)
+	    (kill-process process)))))
+
+  (defun rst/ssh-add-process-filter (process string)
+    "Process filter to enter passphrase when needed."
+    (save-match-data
+      (if (string-match ":\\s *\\'" string)
+	  (process-send-string process
+			       (concat
+				(read-passwd string)
+				"\n"))
+	(message "ssh-add: %s" string))))
+  #+end_src
+
 * Custom functions
 
   Install hydra
