@@ -554,11 +554,11 @@
   #+end_src
 
   Install =ob-mermaid= to render mermaid diagrams with org-babel.
-  *NOTE*: Had to reinstall once this package to get updated code with support
-  for mermaid properties like themes.
+  *NOTE*: Has to be loaded after mermaid-mode to override =org-babel-execute:mermaid=.
 
   #+begin_src emacs-lisp
-  (use-package ob-mermaid)
+  (use-package ob-mermaid
+    :after mermaid-mode)
   #+end_src
 
   Display inline images automatically after executing source block
