@@ -118,9 +118,7 @@
 	    (t               . ivy-posframe-display-at-frame-top-center)))
     (setq ivy-posframe-width 120
 	  ivy-posframe-height 30
-	  ivy-posframe-border-width 20)
-
-    (ivy-posframe-mode 1))
+	  ivy-posframe-border-width 20))
   #+end_src
 
   Install =which-key= and other helpful information packages.
@@ -407,7 +405,7 @@
 
    (use-package doom-themes
      :init
-     (load-theme 'doom-dark+ t))
+     (load-theme 'doom-monokai-classic t))
 
    (use-package all-the-icons)
    #+end_src
@@ -1065,9 +1063,13 @@
       :infix "t"
       "" '(:ignore t :which-key "toggles/text")
       "t" '(google-translate-smooth-translate :which-key "google translate")
+
       "T" '(counsel-load-theme :which-key "choose theme")
       "s" '(hydra-text-scale/body :which-key "scale text")
+
       "R" '(ivy-rich-mode :which-key "toggle ivy rich mode")
+      "p" '(ivy-posframe-mode :which-key "toggle ivy posframe mode")
+
       "i" '(org-toggle-inline-images :which-key "toggle org inline images"))
 
     (bind-leader-key
