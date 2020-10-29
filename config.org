@@ -830,6 +830,14 @@
     (setq js-indent-level 2)
     #+end_src
 
+*** Docker
+
+    #+begin_src emacs-lisp
+    (use-package dockerfile-mode
+      :config
+      (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
+    #+end_src
+
 * Writing
 
 ** General
