@@ -671,6 +671,15 @@
      :hook (prog-mode . rainbow-delimiters-mode))
    #+end_src
 
+   Highlight matching pair
+
+   #+begin_src emacs-lisp
+   (use-package show-paren-mode
+     :ensure nil
+     :config (setq show-paren-style 'mixed)
+     :hook (prog-mode . show-paren-mode))
+   #+end_src
+
    Automatically insert closing pairs and integrate it will evil
 
    #+begin_src emacs-lisp
