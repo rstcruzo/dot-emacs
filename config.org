@@ -808,6 +808,14 @@
 		(setq tab-width 4)))
     #+end_src
 
+*** Javascript
+
+    Set indent width to 2
+
+    #+begin_src emacs-lisp
+    (setq js-indent-level 2)
+    #+end_src
+
 * Writing
 
 ** General
