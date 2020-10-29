@@ -1200,6 +1200,7 @@
       "" '(:ignore t :which-key "help")
       "v" '(describe-variable :which-key "describe variable")
       "f" '(describe-function :which-key "describe function")
+      "F" '(counsel-describe-face :which-key "describe face")
       "k" '(describe-key :which-key "describe key")
       "m" '(describe-mode :which-key "describe mode"))
 
