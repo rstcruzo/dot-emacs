@@ -499,6 +499,25 @@
      (setq eyebrowse-new-workspace t))
    #+end_src
 
+** Tabs
+
+   #+begin_src emacs-lisp
+   (use-package centaur-tabs
+     :demand
+     :config
+     (setq centaur-tabs-set-icons t
+	   centaur-tabs-gray-out-icons 'buffer
+	   centaur-tabs-style "wave"
+	   centaur-tabs-cycle-scope 'tabs
+	   centaur-tabs-set-modified-marker t
+	   centaur-tabs-modified-marker "☻")
+     (centaur-tabs-mode t)
+     :bind
+     (:map evil-normal-state-map
+	   ("gt" . centaur-tabs-forward)
+	   ("gT" . centaur-tabs-backward)))
+   #+end_src
+
 * Org Mode
 
   Basic configuration
