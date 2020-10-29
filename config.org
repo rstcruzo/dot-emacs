@@ -365,6 +365,12 @@
    (column-number-mode)
    #+end_src
 
+   Increase line spacing
+
+   #+begin_src emacs-lisp
+   (setq-default line-spacing 0.3)
+   #+end_src
+
    Show relative line numbers in =prog-mode=
 
    #+begin_src emacs-lisp
@@ -544,6 +550,14 @@
 			:font "Fira Code Retina"
 			:weight 'regular
 			:height (cdr face)))
+  #+end_src
+
+  Configure org title size and style
+
+  #+begin_src emacs-lisp
+  (set-face-attribute 'org-document-title nil
+		      :underline t
+		      :height 1.4)
   #+end_src
 
   Configure templates expansion
