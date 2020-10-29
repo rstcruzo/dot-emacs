@@ -511,6 +511,7 @@
 	   centaur-tabs-cycle-scope 'tabs
 	   centaur-tabs-set-modified-marker t
 	   centaur-tabs-modified-marker "☻")
+     (centaur-tabs-headline-match)
      (centaur-tabs-mode t)
      :bind
      (:map evil-normal-state-map
