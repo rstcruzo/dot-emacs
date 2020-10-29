@@ -239,7 +239,6 @@
 
   (use-package company-box
     :hook (company-mode . company-box-mode)
-    :bind
     :custom
     ((company-box-doc-enable nil)))
   #+end_src
@@ -853,6 +852,16 @@
    (add-hook 'text-mode-hook 'whitespace-mode)
    #+end_src
 
+   Flyspell correct word with ivy
+
+   #+begin_src emacs-lisp
+   (use-package flyspell-correct
+     :after flyspell)
+
+   (use-package flyspell-correct-ivy
+     :after flyspell-correct)
+   #+end_src
+
 ** LaTeX
 
    Install AucTeX and simplify =TeX-font= bindings
@@ -1193,7 +1202,7 @@
 
       "d" '(ispell-change-dictionary :which-key "change dictionary")
       "w" '(flyspell-auto-correct-word :which-key "auto-correct word")
-      "W" '(ispell-word :which-key "correct word"))
+      "W" '(flyspell-correct-at-point :which-key "correct word"))
 
     (bind-leader-key
       :infix "h"
