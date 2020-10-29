@@ -1240,7 +1240,8 @@
 
     (bind-mode-key
       :keymaps 'bibtex-mode-map
-      "e" '(bibtex-entry :which-key "bibtex entry"))
+      "e" '(bibtex-entry :which-key "bibtex entry")
+      "t" '(bibtex-remove-OPT-or-ALT :which-key "bibtex remove OPT or ALT"))
 
     (bind-mode-key
       :keymaps 'org-src-mode-map
