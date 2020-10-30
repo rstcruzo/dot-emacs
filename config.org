@@ -1483,6 +1483,14 @@
 	      (add-hook 'after-save-hook #'org-babel-tangle-config)))
   #+end_src
 
+* Configuration Debugging
+
+  Install bug-hunter
+
+  #+begin_src emacs-lisp
+  (use-package bug-hunter)
+  #+end_src
+
 * Post-init
 
   Make garbage collection pause faster by decreasing threshold
