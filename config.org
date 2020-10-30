@@ -483,6 +483,8 @@
 
 ** Window
 
+   Assign number to each window. Used to jump between windows.
+
    #+begin_src emacs-lisp
    (use-package winum
      :config
@@ -501,6 +503,14 @@
    (push '((nil . "winum-select-window-[2-9]") . t)
 	 which-key-replacement-alist)
    #+end_src
+
+   Allow window operations to be undone
+
+   #+begin_src emacs-lisp
+   (winner-mode 1)
+   #+end_src
+
+   #+RESULTS:
 
 ** Workspaces
 
@@ -1299,7 +1309,10 @@
       "n" '(eyebrowse-next-window-config :which-key "next workspace")
       "p" '(eyebrowse-prev-window-config :which-key "previous workspace")
       "r" '(eyebrowse-rename-window-config :which-key "rename workspace")
-      "c" '(eyebrowse-close-window-config :which-key "close workspace"))
+      "c" '(eyebrowse-close-window-config :which-key "close workspace")
+
+      "u" '(winner-undo :which-key "winner undo")
+      "U" '(winner-redo :which-key "winner redo"))
 
     (bind-mode-key
       :keymaps 'org-mode-map
