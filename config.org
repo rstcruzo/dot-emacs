@@ -270,20 +270,14 @@
   (use-package treemacs
     :defer t
     :config
-    (setq treemacs-indentation 2
-	  treemacs--icon-size 5))
+    (setq treemacs-indentation 2))
 
   (use-package treemacs-evil
     :after treemacs evil)
 
-  (use-package treemacs-icons-dired
-    :after (treemacs dired))
-  #+end_src
-
-  Show icons in dired buffers
-
-  #+begin_src emacs-lisp
-  (add-hook 'dired-mode-hook 'treemacs-icons-dired-mode)
+  (use-package treemacs-all-the-icons
+    :config
+    (treemacs-load-theme "all-the-icons"))
   #+end_src
 
   Add a way to jump through code more efficiently with =avy=.
