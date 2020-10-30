@@ -209,8 +209,6 @@
     :config
     (global-evil-surround-mode 1))
 
-  (use-package evil-iedit-state)
-
   (use-package evil-numbers
     :config
     :bind
@@ -663,6 +661,20 @@
 
 * Development
 
+** Editing
+
+   Install =evil-iedit-state=, a variant of multi-cursors for evil.
+
+   #+begin_src emacs-lisp
+   (use-package evil-iedit-state)
+   #+end_src
+
+   Install wgrep to edit files in a grep buffer.
+   Used to do project-wide edits with ivy-occur.
+
+   #+begin_src emacs-lisp
+   (use-package wgrep)
+   #+end_src
 ** Projectile
 
    Install projectile and search for projects in =~/Code=.
