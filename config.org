@@ -266,7 +266,8 @@
   (use-package treemacs
     :defer t
     :config
-    (setq treemacs-indentation 4))
+    (setq treemacs-indentation 2
+	  treemacs--icon-size 5))
 
   (use-package treemacs-evil
     :after treemacs evil)
@@ -794,6 +795,16 @@
       (shell-pop-shell-type (quote ("vterm" "*pop-vterm*" (lambda nil (vterm)))))))
    #+end_src
 
+   Hide modeline in shells
+
+   #+begin_src emacs-lisp
+   (dolist (hook '(vterm-mode-hook
+		   term-mode-hook
+		   eshell-mode-hook))
+     (add-hook hook
+	       (lambda () (setq mode-line-format nil))))
+   #+end_src
+
 ** Snippets
 
    #+begin_src emacs-lisp
@@ -831,9 +842,7 @@
 
     (use-package lsp-ui
       :hook
-      (lsp-mode . lsp-ui-mode)
-      :custom
-      (lsp-ui-doc-position 'bottom))
+      (lsp-mode . lsp-ui-mode))
 
     (use-package lsp-treemacs
       :after lsp)
@@ -1364,7 +1373,9 @@
       :infix "a"
       "" '(:ignore t :which-key "applications")
       "d" '(dired :which-key "dired")
-      "t" '(treemacs :which-key "treemacs"))
+      "t" '(treemacs :which-key "treemacs")
+      "v" '(vterm :which-key "vterm")
+      "e" '(eshell :which-key "eshell"))
 
     (bind-leader-key
       :infix "e"
