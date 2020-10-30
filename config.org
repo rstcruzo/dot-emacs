@@ -587,6 +587,37 @@
 	)))
    #+end_src
 
+   When grouping projects, add eshell to the term group
+
+   #+begin_src emacs-lisp
+   (defun centaur-tabs-projectile-buffer-groups ()
+     "Return the list of group names BUFFER belongs to."
+     (if centaur-tabs-projectile-buffer-group-calc
+	 (symbol-value 'centaur-tabs-projectile-buffer-group-calc)
+       (set (make-local-variable 'centaur-tabs-projectile-buffer-group-calc)
+
+	    (cond
+	     ((or
+	       (get-buffer-process (current-buffer))
+	       (memq major-mode '(comint-mode compilation-mode))
+	       (equal major-mode 'eshell-mode))
+	      '("Term"))
+	     ((string-equal "*" (substring (buffer-name) 0 1)) '("Misc"))
+	     ((condition-case _err
+		  (projectile-project-root)
+		(error nil)) (list (projectile-project-name)))
+	     ((memq major-mode '(emacs-lisp-mode python-mode emacs-lisp-mode c-mode
+						 c++-mode javascript-mode js-mode
+						 js2-mode makefile-mode
+						 lua-mode vala-mode)) '("Coding"))
+	     ((memq major-mode '(nxhtml-mode html-mode
+					     mhtml-mode css-mode)) '("HTML"))
+	     ((memq major-mode '(org-mode calendar-mode diary-mode)) '("Org"))
+	     ((memq major-mode '(dired-mode)) '("Dir"))
+	     (t '("Other"))))
+       (symbol-value 'centaur-tabs-projectile-buffer-group-calc)))
+   #+end_src
+
 * Org Mode
 
   Basic configuration
@@ -841,7 +872,9 @@
    at the bottom.
 
    #+begin_src emacs-lisp
-   (use-package vterm)
+   (use-package vterm
+     :config
+     (setq vterm-max-scrollback 10000))
    (use-package shell-pop
      :custom
      ((shell-pop-window-size 20)
@@ -849,7 +882,7 @@
       (shell-pop-cleanup-buffer-at-process-exit t)
       (shell-pop-autocd-to-working-dir t)
       (shell-pop-term-shell "/usr/local/bin/zsh")
-      (shell-pop-shell-type (quote ("vterm" "*pop-vterm*" (lambda nil (vterm)))))))
+      (shell-pop-shell-type (quote ("eshell" "*pop-eshell*" (lambda nil (eshell)))))))
    #+end_src
 
    Hide modeline in shells
@@ -860,6 +893,39 @@
 		   eshell-mode-hook))
      (add-hook hook
 	       (lambda () (setq mode-line-format nil))))
+   #+end_src
+
+   Configure eshell
+
+   #+begin_src emacs-lisp
+   (defun rst/configure-eshell ()
+     ;; Save command history when commands are entered
+     (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
+
+     ;; Truncate buffer for performance
+     (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
+
+     (evil-define-key '(normal insert visual) eshell-mode-map (kbd "C-r") 'counsel-esh-history)
+
+     (setq eshell-history-size 10000
+	   eshell-buffer-maximum-lines 10000
+	   eshell-hist-ignoredups t
+	   eshell-scroll-to-bottom-on-input t))
+   #+end_src
+
+   Install eshell git prompt to show git info in eshell
+
+   #+begin_src emacs-lisp
+   (use-package eshell-git-prompt)
+
+   (use-package eshell
+     :ensure nil
+     :hook (eshell-first-time-mode . rst/configure-eshell)
+     :config
+     (with-eval-after-load 'esh-opt
+       (setq eshell-destroy-buffer-when-process-dies t)
+       (setq eshell-visual-commands '("htop" "zsh" "vim")))
+     (eshell-git-prompt-use-theme 'robbyrussell))
    #+end_src
 
 ** Snippets
