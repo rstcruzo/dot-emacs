@@ -40,6 +40,12 @@
 
 * General
 
+  Merge system clipboard with emacs kill ring
+
+  #+begin_src emacs-lisp
+  (setq save-interprogram-paste-before-kill t)
+  #+end_src
+
   Move backup and auto-save files to tmp
 
   #+begin_src emacs-lisp
@@ -1464,6 +1470,11 @@
       "w" '(widen :which-key "widen")
       "r" '(narrow-to-region :which-key "narrow to region")
       "f" '(narrow-to-defun :which-key "narrow to defun"))
+
+    (bind-leader-key
+      :infix "i"
+      "" '(:ignore t :which-key "insert")
+      "c" '(counsel-yank-pop :which-key "insert from clipboard"))
     )
   #+end_src
 
