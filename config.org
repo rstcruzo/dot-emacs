@@ -877,22 +877,19 @@
      (setq vterm-max-scrollback 10000))
    (use-package shell-pop
      :custom
-     ((shell-pop-window-size 20)
+     ((shell-pop-window-size 30)
       (shell-pop-window-position "bottom")
       (shell-pop-cleanup-buffer-at-process-exit t)
       (shell-pop-autocd-to-working-dir t)
       (shell-pop-term-shell "/usr/local/bin/zsh")
-      (shell-pop-shell-type (quote ("eshell" "*pop-eshell*" (lambda nil (eshell)))))))
+      (shell-pop-shell-type (quote ("eshell" "eshell-pop" (lambda nil (eshell)))))))
    #+end_src
 
-   Hide modeline in shells
+   Hide modeline in shell pop ups.
 
    #+begin_src emacs-lisp
-   (dolist (hook '(vterm-mode-hook
-		   term-mode-hook
-		   eshell-mode-hook))
-     (add-hook hook
-	       (lambda () (setq mode-line-format nil))))
+   (add-hook 'shell-pop-in-after-hook
+	     (lambda () (setq mode-line-format nil)))
    #+end_src
 
    Configure eshell
