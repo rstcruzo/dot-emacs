@@ -335,6 +335,13 @@
    (use-package dired-narrow)
    #+end_src
 
+   When there is two dired windows, copy and move commands will default to the
+   other window directory.
+
+   #+begin_src emacs-lisp
+   (setq dired-dwim-target t)
+   #+end_src
+
 * UI
 ** General
 
