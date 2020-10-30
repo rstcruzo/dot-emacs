@@ -328,6 +328,14 @@
   (put 'narrow-to-region 'disabled nil)
   #+end_src
 
+** Dired
+
+   Enable a way to filter files in dired
+
+   #+begin_src emacs-lisp
+   (use-package dired-narrow)
+   #+end_src
+
 * UI
 ** General
 
@@ -1334,6 +1342,10 @@
       "a" '(org-edit-src-abort :which-key "org source abort")
       "k" '(org-edit-src-abort :which-key "org source abort")
       "q" '(org-edit-src-abort :which-key "org source abort"))
+
+    (bind-mode-key
+      :keymspa 'dired-mode-map
+      "f" '(dired-narrow :which-key "dired narrow"))
 
     (bind-leader-key
       :infix "a"
