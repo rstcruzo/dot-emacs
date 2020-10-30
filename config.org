@@ -516,8 +516,6 @@
    (winner-mode 1)
    #+end_src
 
-   #+RESULTS:
-
 ** Workspaces
 
    Use eyebrowse to manage workspaces
@@ -682,6 +680,7 @@
    #+begin_src emacs-lisp
    (use-package wgrep)
    #+end_src
+
 ** Projectile
 
    Install projectile and search for projects in =~/Code=.
@@ -1394,7 +1393,8 @@
       "d" '(dired :which-key "dired")
       "t" '(treemacs :which-key "treemacs")
       "v" '(vterm :which-key "vterm")
-      "e" '(eshell :which-key "eshell"))
+      "e" '(eshell :which-key "eshell")
+      "i" '(ielm :which-key "ielm"))
 
     (bind-leader-key
       :infix "e"
