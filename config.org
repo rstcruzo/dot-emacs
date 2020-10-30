@@ -1240,7 +1240,8 @@
       "." '(projectile-find-file :which-key "find project file")
       "," '(counsel-ibuffer :which-key "switch buffer")
 
-      ":" '(eval-expression :which-key "eval expression"))
+      ":" '(eval-expression :which-key "eval expression")
+      ";" '(ivy-resume :which-key "ivy resume"))
 
     (bind-leader-key
       :infix "f"
