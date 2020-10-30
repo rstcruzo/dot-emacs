@@ -286,12 +286,14 @@
   (add-hook 'dired-mode-hook 'treemacs-icons-dired-mode)
   #+end_src
 
-  Add a way to jump through code more efficiently with =avy=
+  Add a way to jump through code more efficiently with =avy=.
+  Configure it display overlay chars before match.
 
   #+begin_src emacs-lisp
   (use-package avy
     :config
-    (setq avy-background t))
+    (setq avy-background t
+	  avy-style 'pre))
   #+end_src
 
   Delete trailing whitespaces on file save
