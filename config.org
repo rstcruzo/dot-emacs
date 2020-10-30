@@ -423,6 +423,12 @@
      (load-theme 'doom-horizon t))
 
    (use-package all-the-icons)
+
+   Change cursor color
+
+   #+begin_src emacs-lisp
+   (set-face-attribute 'cursor nil
+		       :background "DarkGoldenrod1")
    #+end_src
 
 ** Font
@@ -512,6 +518,7 @@
 	   centaur-tabs-set-modified-marker t
 	   centaur-tabs-modified-marker "☻")
      (centaur-tabs-headline-match)
+     (centaur-tabs-group-by-projectile-project)
      (centaur-tabs-mode t)
      :bind
      (:map evil-normal-state-map
@@ -532,7 +539,7 @@
     (setq org-ellipsis " ↩")
     (setq org-agenda-files
 	  '("~/.emacs.d/config.org"
-	    "~/Code/thesis/TODOs.org"))
+	    "~/Code/thesis/TODOs.org")))
   #+end_src
 
   Configure todo keywords. Add a few states
@@ -540,7 +547,7 @@
   #+begin_src emacs-lisp
   (setq org-todo-keywords
 	'((sequence "TODO(t)" "|" "DONE(d!)")
-	  (sequence "BLOCKED(b)" "|" "DELEGATED(D)" "CANCELED(c)"))))
+	  (sequence "BLOCKED(b)" "|" "DELEGATED(D)" "CANCELED(c)")))
   #+end_src
 
   Improve org heading bullets
@@ -864,6 +871,14 @@
     (use-package dockerfile-mode
       :config
       (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
+    #+end_src
+
+*** YAML
+
+    #+begin_src emacs-lisp
+    (use-package yaml-mode
+      :config
+      (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode)))
     #+end_src
 
 * Writing
