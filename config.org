@@ -1090,7 +1090,7 @@
 
    #+begin_src emacs-lisp
    (add-hook 'LaTeX-mode-hook
-	     (lambda () (flyspell-mode t)))
+	     (lambda () (flyspell-mode 1)))
 
    (setq TeX-show-compilation t)
    #+end_src
@@ -1571,6 +1571,16 @@
 
   #+begin_src emacs-lisp
   (setq gc-cons-threshold (* 2 1000 1000))
+  #+end_src
+
+  Workaround to centaur tabs and flyspell bug. Probably a race condition (?)
+  When flyspell mode is enabled in a mode hook, the first file with that mode we
+  open is not added to its project tab group. Looks related to initializing
+  ispell, doing in at startup fixes the issue.
+
+  #+begin_src emacs-lisp
+  (ispell-set-spellchecker-params)
+  (ispell-init-process)
   #+end_src
 
 
