@@ -238,7 +238,7 @@
 	  ("C-k" . company-select-previous))
     :custom
     ((company-minimum-prefix-length 1)
-     (company-idle-delay 0.0))
+     (company-idle-delay 0.2))
     :hook
     ((text-mode . company-mode)
      (prog-mode . company-mode))
@@ -249,6 +249,8 @@
 
   (use-package company-box
     :hook (company-mode . company-box-mode)
+    :config
+    (setq company-box-backends-colors nil)
     :custom
     ((company-box-doc-enable nil)))
   #+end_src
