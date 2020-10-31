@@ -124,8 +124,10 @@
 	  '((swiper          . ivy-posframe-display-at-frame-top-center)
 	    (counsel-M-x     . ivy-posframe-display-at-frame-top-center)
 	    (t               . ivy-posframe-display-at-frame-top-center)))
-    (setq ivy-posframe-width 120
-	  ivy-posframe-height 30
+    (setq ivy-posframe-width 100
+	  ivy-posframe-min-width 100
+	  ivy-posframe-height 10
+	  ivy-posframe-min-height 10
 	  ivy-posframe-border-width 20))
   #+end_src
 
