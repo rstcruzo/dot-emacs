@@ -337,6 +337,12 @@
   (put 'narrow-to-region 'disabled nil)
   #+end_src
 
+  Install expand region
+
+  #+begin_src emacs-lisp
+  (use-package expand-region)
+  #+end_src
+
 ** Dired
 
    Enable a way to filter files in dired
@@ -1337,7 +1343,9 @@
       "," '(counsel-ibuffer :which-key "switch buffer")
 
       ":" '(eval-expression :which-key "eval expression")
-      ";" '(ivy-resume :which-key "ivy resume"))
+      ";" '(ivy-resume :which-key "ivy resume")
+
+      "v" '(er/expand-region :which-key "expand region"))
 
     (bind-leader-key
       :infix "f"
