@@ -438,6 +438,12 @@
    (global-hl-line-mode 1)
    #+end_src
 
+   Disable bell
+
+   #+begin_src emacs-lisp
+   (setq ring-bell-function 'ignore)
+   #+end_src
+
 ** Theme
 
    Install =doom-modeline= and set a theme
@@ -986,8 +992,12 @@
     Enable =lsp-deferred= mode for python
 
     #+begin_src emacs-lisp
-    (add-hook 'python-mode
-	      (lambda () (lsp-deferred)))
+    (use-package lsp-python-ms
+      :ensure t
+      :init (setq lsp-python-ms-auto-install-server t)
+      :hook (python-mode . (lambda ()
+			     (require 'lsp-python-ms)
+			     (lsp))))  ; or lsp-deferred
     #+end_src
 
 *** Go
@@ -1623,3 +1633,4 @@
 
    This was caused by evil collection. I disabled it and binded the keys in company mode
    manually.
+** TODO Clean up go environment paths. HOME?
