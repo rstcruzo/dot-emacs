@@ -1447,6 +1447,12 @@
       "k" '(evil-window-up :which-key "move to window above")
       "h" '(evil-window-left :which-key "move to window on the left")
       "l" '(evil-window-right :which-key "move to window on the right")
+
+      "J" '(windmove-swap-states-down :which-key "move to window below")
+      "K" '(windmove-swap-states-up :which-key "move to window above")
+      "H" '(windmove-swap-states-left :which-key "move to window on the left")
+      "L" '(windmove-swap-states-right :which-key "move to window on the right")
+
       "d" '(evil-window-delete :which-key "delete window")
       "s" '(evil-window-split :which-key "horizontal split")
       "v" '(evil-window-vsplit :which-key "vertical split")
