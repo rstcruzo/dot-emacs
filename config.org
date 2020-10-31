@@ -443,10 +443,11 @@
    #+begin_src emacs-lisp
    (use-package doom-modeline
      :init
-     (setq doom-modeline-height 10)
      (doom-modeline-mode 1)
      :config
-     (setq doom-modeline-github t))
+     (setq doom-modeline-github t
+	   doom-modeline-buffer-modification-icon nil
+	   doom-modeline-buffer-file-name-style 'truncate-with-project))
 
    (use-package doom-themes
      :init
