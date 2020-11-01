@@ -1598,7 +1598,8 @@
     (bind-leader-key
       :infix "i"
       "" '(:ignore t :which-key "insert")
-      "c" '(counsel-yank-pop :which-key "insert from clipboard"))
+      "c" '(counsel-yank-pop :which-key "insert from clipboard")
+      "u" '(counsel-unicode-char :which-key "unicode char"))
     )
   #+end_src
 
