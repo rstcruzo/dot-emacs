@@ -444,6 +444,13 @@
    (setq ring-bell-function 'ignore)
    #+end_src
 
+   Render unicode characters correctly
+
+   #+begin_src emacs-lisp
+   (use-package unicode-fonts
+     :config (unicode-fonts-setup))
+   #+end_src
+
 ** Theme
 
    Install =doom-modeline= and set a theme
@@ -763,6 +770,17 @@
 		(evil-org-set-key-theme)))
     (require 'evil-org-agenda)
     (evil-org-agenda-set-keys))
+  #+end_src
+
+  Show fancier priorities symbols
+
+  #+begin_src emacs-lisp
+  (use-package org-fancy-priorities
+    :ensure t
+    :hook
+    (org-mode . org-fancy-priorities-mode)
+    :config
+    (setq org-fancy-priorities-list '("😈" "😃" "💩")))
   #+end_src
 
 * Development
