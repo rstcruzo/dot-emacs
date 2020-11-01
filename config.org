@@ -170,6 +170,8 @@
     (define-key evil-ex-completion-map (kbd "C-k") nil)
     (define-key evil-insert-state-map (kbd "C-k") nil)
 
+    (define-key evil-insert-state-map (kbd "C-e") 'evil-append-line)
+
     ;; Use visual line motions even outside of visual-line-mode buffers
     (evil-global-set-key 'motion "j" 'evil-next-visual-line)
     (evil-global-set-key 'motion "k" 'evil-previous-visual-line))
@@ -1351,6 +1353,20 @@
     (general-create-definer bind-g-normal-mode
       :states '(normal)
       :prefix "g")
+
+    (general-create-definer bind-op-square-brackets
+      :states '(normal)
+      :prefix "[")
+
+    (general-create-definer bind-cl-square-brackets
+      :states '(normal)
+      :prefix "]")
+
+    (bind-op-square-brackets
+     "h" '(diff-hl-previous-hunk :which-key "git previous hunk"))
+
+    (bind-cl-square-brackets
+     "h" '(diff-hl-next-hunk :which-key "git next hunk"))
 
     (bind-leader-key
       :infix "q"
