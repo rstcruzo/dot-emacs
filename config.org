@@ -1353,7 +1353,7 @@
       "<tab>" '(switch-to-previous-buffer :which-key "switch to last buffer")
 
       "." '(projectile-find-file :which-key "find project file")
-      "," '(counsel-ibuffer :which-key "switch buffer")
+      "," '(counsel-switch-buffer :which-key "switch buffer")
 
       ":" '(eval-expression :which-key "eval expression")
       ";" '(ivy-resume :which-key "ivy resume")
@@ -1372,7 +1372,7 @@
     (bind-leader-key
       :infix "b"
       "" '(:ignore t :which-key "buffers")
-      "b" '(counsel-ibuffer :which-key "switch buffer")
+      "b" '(counsel-switch-buffer :which-key "switch buffer")
       "k" '(kill-buffer :which-key "kill a buffer")
       "K" '(kill-current-buffer :which-key "kill current buffer")
       "s" '((lambda () (interactive)
