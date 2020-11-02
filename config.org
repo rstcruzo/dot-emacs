@@ -236,6 +236,7 @@
 
   #+begin_src emacs-lisp
   (use-package company
+    :diminish (company-mode . "Ⓒ")
     :bind
     (:map company-active-map
 	  ("C-j" . company-select-next)
@@ -252,6 +253,7 @@
     (define-key company-active-map (kbd "C-w") nil))
 
   (use-package company-box
+    :diminish company-box-mode
     :hook (company-mode . company-box-mode)
     :config
     (setq company-box-backends-colors nil)
@@ -453,24 +455,98 @@
      :config (unicode-fonts-setup))
    #+end_src
 
-** Theme
-
-   Install =doom-modeline= and set a theme
+   Diminish minor modes in mode-line
 
    #+begin_src emacs-lisp
-   (use-package doom-modeline
-     :init
-     (doom-modeline-mode 1)
-     :config
-     (setq doom-modeline-github t
-	   doom-modeline-buffer-modification-icon nil
-	   doom-modeline-buffer-file-name-style 'truncate-with-project))
+   (use-package diminish)
+   #+end_src
 
-   (use-package doom-themes
-     :init
-     (load-theme 'doom-horizon t))
+** Faces
+
+   #+begin_src emacs-lisp
+   (defface rst/spaceline-iedit-face
+     '((t :foreground "black"
+	  :background "red"
+	  ))
+     "Face for spaceline iedit state")
+   #+end_src
+
+** Theme
+
+   Configure the mode line and set a theme
+
+   #+begin_src emacs-lisp
+   (use-package doom-themes)
+   (use-package zerodark-theme)
+   (use-package spacemacs-common
+     :ensure spacemacs-theme)
 
    (use-package all-the-icons)
+
+   (load-theme 'spacemacs-dark t)
+
+   (use-package spaceline-config
+     :ensure spaceline
+     :config
+     (setq powerline-default-separator "wave"
+	   powerline-height 20)
+     (spaceline-compile
+      '(((persp-name
+	  workspace-number
+	  window-number)
+	 :fallback evil-state
+	 :face highlight-face
+	 :priority 100)
+	(anzu :priority 95)
+	auto-compile
+	((buffer-modified buffer-size remote-host)
+	 :priority 98)
+	(major-mode :priority 79)
+	(process :when active)
+	((flycheck-error flycheck-warning flycheck-info)
+	 :when active
+	 :priority 89)
+	(minor-modes :when active
+		     :priority 9)
+	(mu4e-alert-segment :when active)
+	(erc-track :when active)
+	(version-control :when active
+			 :priority 78)
+	(org-pomodoro :when active)
+	(org-clock :when active)
+	nyan-cat)
+
+      '(which-function
+	(python-pyvenv :fallback python-pyenv)
+	(purpose :priority 94)
+	(battery :when active)
+	(selection-info :priority 95)
+	input-method
+	((buffer-encoding-abbrev
+	  point-position
+	  line-column)
+	 :separator " | "
+	 :priority 96)
+	(global :when active)
+	(buffer-position :priority 99)
+	(hud :priority 99))))
+
+   (setq spaceline-evil-state-faces
+	 '((normal . spaceline-evil-normal)
+	   (insert . spaceline-evil-insert)
+	   (emacs . spaceline-evil-emacs)
+	   (replace . spaceline-evil-replace)
+	   (visual . spaceline-evil-visual)
+	   (motion . spaceline-evil-motion)
+	   (iedit . rst/spaceline-iedit-face)
+	   (iedit-insert . rst/spaceline-iedit-face))
+	 spaceline-window-numbers-unicode t
+	 spaceline-workspace-numbers-unicode t
+	 spaceline-highlight-face-func 'spaceline-highlight-face-evil-state
+	 spaceline-minor-modes-separator "·")
+
+   (setq-default mode-line-format '("%e" (:eval (spaceline-ml-main))))
+   #+end_src
 
    Change cursor color
 
@@ -497,6 +573,7 @@
 
    #+begin_src emacs-lisp
    (use-package fira-code-mode
+     :diminish
      :custom (fira-code-mode-disabled-ligatures '("[]" "#{" "#(" "#_" "#_(" "x")) ;; List of ligatures to turn off
      :hook prog-mode)
    #+end_src
@@ -644,6 +721,14 @@
        (symbol-value 'centaur-tabs-projectile-buffer-group-calc)))
    #+end_src
 
+** Diminish built-in minor modes
+
+   Diminish =auto-revert-mode=
+
+   #+begin_src emacs-lisp
+   (diminish 'auto-revert-mode "ⒶⓇ")
+   #+end_src
+
 * Org Mode
 
   Basic configuration
@@ -764,6 +849,7 @@
 
   #+begin_src emacs-lisp
   (use-package evil-org
+    :diminish
     :after org
     :config
     (add-hook 'org-mode-hook 'evil-org-mode)
@@ -778,6 +864,7 @@
 
   #+begin_src emacs-lisp
   (use-package org-fancy-priorities
+    :diminish
     :ensure t
     :hook
     (org-mode . org-fancy-priorities-mode)
@@ -869,6 +956,7 @@
 
    #+begin_src emacs-lisp
    (use-package smartparens
+     :diminish (smartparens-mode . "ⓈⓅ")
      :defer t
      :config (require 'smartparens-config)
      :hook
@@ -980,6 +1068,7 @@
 
    #+begin_src emacs-lisp
    (use-package yasnippet
+     :diminish (yas-minor-mode . "Ⓨ")
      :config
      (yas-global-mode 1))
 
@@ -1090,7 +1179,7 @@
    Highlight characters over 80
 
    #+begin_src emacs-lisp
-   (require 'whitespace)
+   (use-package whitespace :diminish)
    (setq whitespace-line-column 80)
    (setq whitespace-style '(face lines-tail))
 
@@ -1406,7 +1495,8 @@
       ":" '(eval-expression :which-key "eval expression")
       ";" '(ivy-resume :which-key "ivy resume")
 
-      "v" '(er/expand-region :which-key "expand region"))
+      "v" '(er/expand-region :which-key "expand region")
+      "u" '(universal-argument :which-key "universal argument"))
 
     (bind-leader-key
       :infix "f"
@@ -1663,12 +1753,12 @@
 
 
 * Pending Configuration
-** TODO Check use package and general integration
-** TODO org wild notifier to show OS notifications
-** TODO Check datetree
-** TODO org capture templates (tables, datetrees, ...)
-** TODO org habits
-** TODO Why do I need to hit Escape in Org source mode to access "," bindings?
+** TODO [#C] Check use package and general integration
+** TODO [#C] org wild notifier to show OS notifications
+** TODO [#C] Check datetree
+** TODO [#C] org capture templates (tables, datetrees, ...)
+** TODO [#B] org habits
+** TODO [#C] Why do I need to hit Escape in Org source mode to access "," bindings?
 ** DONE Fix whitespace highlight on mini buffer
    CLOSED: [2020-10-24 Sat 13:42]
    :LOGBOOK:
@@ -1682,4 +1772,4 @@
 
    This was caused by evil collection. I disabled it and binded the keys in company mode
    manually.
-** TODO Clean up go environment paths. HOME?
+** TODO [#B] Clean up go environment paths. HOME?
