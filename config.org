@@ -119,6 +119,7 @@
 
   #+begin_src emacs-lisp
   (use-package ivy-posframe
+    :diminish (ivy-posframe-mode . "ⒾⓅ")
     :config
     (setq ivy-posframe-display-functions-alist
 	  '((swiper          . ivy-posframe-display-at-frame-top-center)
@@ -1099,7 +1100,8 @@
 *** Checkers
 
     #+begin_src emacs-lisp
-    (use-package flycheck)
+    (use-package flycheck
+      :diminish (flycheck-mode . "Ⓕ"))
     #+end_src
 
 *** Language Servers
@@ -1112,6 +1114,7 @@
       (lsp-headerline-breadcrumb-mode))
 
     (use-package lsp-mode
+      :diminish (lsp-mode . "Ⓛ")
       :commands (lsp lsp-deferred)
       :hook (lsp-mode . lsp-mode-setup)
       :init
