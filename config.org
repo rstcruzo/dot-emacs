@@ -488,48 +488,60 @@
    (use-package spaceline-config
      :ensure spaceline
      :config
-     (setq powerline-default-separator "wave"
+     (setq powerline-default-separator "contour"
 	   powerline-height 20)
-     (spaceline-compile
-      '(((persp-name
-	  workspace-number
-	  window-number)
-	 :fallback evil-state
-	 :face highlight-face
-	 :priority 100)
-	(anzu :priority 95)
-	auto-compile
-	((buffer-modified buffer-size remote-host)
-	 :priority 98)
-	(major-mode :priority 79)
-	(process :when active)
-	((flycheck-error flycheck-warning flycheck-info)
-	 :when active
-	 :priority 89)
-	(minor-modes :when active
-		     :priority 9)
-	(mu4e-alert-segment :when active)
-	(erc-track :when active)
-	(version-control :when active
-			 :priority 78)
-	(org-pomodoro :when active)
-	(org-clock :when active)
-	nyan-cat)
+     (set-face-attribute 'spaceline-evil-normal nil
+			 :foreground "#000")
+     (set-face-attribute 'spaceline-evil-insert nil
+			 :foreground "#000")
+     (set-face-attribute 'spaceline-evil-visual nil
+			 :foreground "#000")
+     (set-face-attribute 'spaceline-evil-motion nil
+			 :foreground "#000")
+     (set-face-attribute 'spaceline-evil-emacs nil
+			 :foreground "#000"))
 
-      '(which-function
-	(python-pyvenv :fallback python-pyenv)
-	(purpose :priority 94)
-	(battery :when active)
-	(selection-info :priority 95)
-	input-method
-	((buffer-encoding-abbrev
-	  point-position
-	  line-column)
-	 :separator " | "
-	 :priority 96)
-	(global :when active)
-	(buffer-position :priority 99)
-	(hud :priority 99))))
+   (spaceline-compile
+     '(((persp-name
+	 workspace-number
+	 window-number)
+	:fallback evil-state
+	:face highlight-face
+	:priority 100)
+       (anzu :priority 95)
+       auto-compile
+       ((buffer-modified buffer-id remote-host)
+	:priority 98)
+       (major-mode :priority 79)
+       (process :when active)
+       ((flycheck-error flycheck-warning flycheck-info)
+	:when active
+	:priority 89)
+       (minor-modes :when active
+		    :priority 9)
+       (mu4e-alert-segment :when active)
+       (erc-track :when active)
+       (version-control :when active
+			:priority 78)
+       (org-pomodoro :when active)
+       (org-clock :when active)
+       nyan-cat)
+
+     '(projectile-root
+       which-function
+       (python-pyvenv :fallback python-pyenv)
+       (purpose :priority 94)
+       (battery :when active)
+       (selection-info :priority 95)
+       input-method
+       ((buffer-encoding-abbrev
+	 point-position
+	 line-column)
+	:separator " | "
+	:priority 96)
+       (global :when active)
+       (buffer-position :priority 99)
+       (hud :priority 99)))
 
    (setq spaceline-evil-state-faces
 	 '((normal . spaceline-evil-normal)
@@ -540,8 +552,6 @@
 	   (motion . spaceline-evil-motion)
 	   (iedit . rst/spaceline-iedit-face)
 	   (iedit-insert . rst/spaceline-iedit-face))
-	 spaceline-window-numbers-unicode t
-	 spaceline-workspace-numbers-unicode t
 	 spaceline-highlight-face-func 'spaceline-highlight-face-evil-state
 	 spaceline-minor-modes-separator "·")
 
@@ -721,12 +731,20 @@
        (symbol-value 'centaur-tabs-projectile-buffer-group-calc)))
    #+end_src
 
-** Diminish built-in minor modes
+** Diminish some built-in minor modes
 
-   Diminish =auto-revert-mode=
+   Diminish =auto-revert-mode= and =el-doc-mode=
 
    #+begin_src emacs-lisp
-   (diminish 'auto-revert-mode "ⒶⓇ")
+   (use-package autorevert
+     :ensure nil
+     :config
+     (diminish 'auto-revert-mode "ⒶⓇ"))
+
+   (use-package eldoc
+     :ensure nil
+     :config
+     (diminish 'eldoc-mode))
    #+end_src
 
 * Org Mode
@@ -735,6 +753,7 @@
 
   #+begin_src emacs-lisp
   (use-package org
+    :diminish (org-src-mode . "ⓄⓈ")
     :config
     (setq org-agenda-start-with-log-mode t)
     (setq org-log-done 'time)
