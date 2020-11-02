@@ -535,12 +535,8 @@
        (battery :when active)
        (selection-info :priority 95)
        input-method
-       ((buffer-encoding-abbrev
-	 point-position
-	 line-column)
-	:separator " | "
+       (buffer-encoding-abbrev
 	:priority 96)
-       (global :when active)
        (buffer-position :priority 99)
        (hud :priority 99)))
 
