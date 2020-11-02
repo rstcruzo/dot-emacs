@@ -1499,7 +1499,10 @@
 
     ;; Global binds or shortcuts
     (bind-leader-key
-      "SPC" '(counsel-M-x :which-key "M-x")
+      "SPC" '(save-buffer :which-key "save buffer")
+
+      "c" '(counsel-M-x :which-key "M-x")
+
       "/" '(counsel-projectile-rg-with-input :which-key "search project")
       "*" '(counsel-projectile-rg-thing-at-point :which-key "search project thing at point")
 
@@ -1557,6 +1560,7 @@
       "d" '(projectile-dired :which-key "project dired")
       "p" '(projectile-switch-project :which-key "switch project")
       "f" '(projectile-find-file :which-key "find project file")
+      "b" '(counsel-projectile-switch-to-buffer :which-key "switch to project buffer")
       "T" '(projectile-add-to-treemacs :which-key "add current project to treemacs"))
 
     (bind-leader-key
@@ -1689,6 +1693,7 @@
       "t" '(treemacs :which-key "treemacs")
       "v" '(vterm :which-key "vterm")
       "e" '(eshell :which-key "eshell")
+      "s" '(shell :which-key "shell")
       "i" '(ielm :which-key "ielm"))
 
     (bind-leader-key
