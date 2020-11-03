@@ -350,6 +350,12 @@
   (use-package expand-region)
   #+end_src
 
+  Uniquify buffer names
+
+  #+begin_src emacs-lisp
+  (setq uniquify-buffer-name-style 'forward)
+  #+end_src
+
 ** Dired
 
    Enable a way to filter files in dired
