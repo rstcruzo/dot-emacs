@@ -758,6 +758,17 @@
      (diminish 'eldoc-mode))
    #+end_src
 
+** Popups
+
+   Add ability to close some windows with just =C-g=
+
+   #+begin_src emacs-lisp
+   (use-package popwin
+     :config
+     (popwin-mode 1)
+     (push '(TeX-output-mode :noselect t :tail t) popwin:special-display-config))
+   #+end_src
+
 * Org Mode
 
   Basic configuration
@@ -1697,7 +1708,9 @@
       "c" '(eyebrowse-close-window-config :which-key "close workspace")
 
       "u" '(winner-undo :which-key "winner undo")
-      "U" '(winner-redo :which-key "winner redo"))
+      "U" '(winner-redo :which-key "winner redo")
+
+      "M" '(popwin:messages :which-key "popup messages buffer"))
 
     (bind-mode-key
       :keymaps 'org-mode-map
