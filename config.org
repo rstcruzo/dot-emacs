@@ -1221,6 +1221,17 @@
       :config
       (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode)))
     #+end_src
+*** Kubernetes
+
+    Manage kubernetes resources from emacs
+
+    #+begin_src emacs-lisp
+    (use-package kubernetes
+      :commands (kubernetes-overview))
+
+    (use-package kubernetes-evil
+      :after kubernetes)
+    #+end_src
 
 * Writing
 
