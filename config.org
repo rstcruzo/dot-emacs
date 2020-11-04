@@ -1484,6 +1484,17 @@
     (treemacs-add-project-to-workspace (projectile-project-root)))
   #+end_src
 
+  Define a way to split line smartly and enter a new line
+
+  #+begin_src emacs-lisp
+  (defun rst/split-and-new-line ()
+    "Split a quoted string or s-expresion and insert a new line with
+  auto-indent"
+    (interactive)
+    (sp-split-sexp 1)
+    (sp-newline))
+  #+end_src
+
 * Keybindings
 
   #+begin_src emacs-lisp
@@ -1752,7 +1763,7 @@
 
     (bind-leader-key
       :infix "j"
-      "" '(:ignore t :which-key "jump")
+      "" '(:ignore t :which-key "jump/split")
       "j" '(avy-goto-char-2 :which-key "jump to char 2")
       "w" '(avy-goto-word-1 :which-key "jump to word")
       "r" '(avy-resume :which-key "resume jump")
@@ -1766,7 +1777,11 @@
       "m" '(avy-move-region :which-key "jump, cut and paste")
 
       "C" '(avy-copy-line :which-key "jump, copy and paste line")
-      "M" '(avy-move-line :which-key "jump, cut and paste line"))
+      "M" '(avy-move-line :which-key "jump, cut and paste line")
+
+      ;; split
+      "S" '(sp-split-sexp :which-key "split sexp")
+      "s" '(rst/split-and-new-line :which-key "split sexp and new line"))
 
     (bind-leader-key
       :infix "n"
