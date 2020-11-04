@@ -519,6 +519,7 @@
      '(((persp-name
 	 workspace-number
 	 window-number)
+	:separator " ⃒ "
 	:fallback evil-state
 	:face highlight-face
 	:priority 100)
@@ -899,6 +900,12 @@
     (setq org-fancy-priorities-list '("😈" "😃" "💩")))
   #+end_src
 
+  Use pomodoro technique for time management
+
+  #+begin_src emacs-lisp
+  (use-package org-pomodoro)
+  #+end_src
+
 * Development
 
 ** Editing
@@ -967,7 +974,9 @@
    #+begin_src emacs-lisp
    (use-package rainbow-delimiters
      :defer t
-     :hook (prog-mode . rainbow-delimiters-mode))
+     :hook
+     (prog-mode . rainbow-delimiters-mode)
+     (text-mode . rainbow-delimiters-mode))
    #+end_src
 
    Highlight matching pair
@@ -994,6 +1003,18 @@
      :defer t
      :config
      (add-hook 'emacs-lisp-mode-hook #'evil-smartparens-mode))
+   #+end_src
+
+   Highlight indent levels
+
+   #+begin_src emacs-lisp
+   (use-package highlight-indent-guides
+     :config
+     (setq highlight-indent-guides-method 'character
+	   highlight-indent-guides-responsive 'top
+	   highlight-indent-guides-auto-top-character-face-perc 20)
+     :hook
+     (prog-mode . highlight-indent-guides-mode))
    #+end_src
 
 ** Version Control
@@ -1219,6 +1240,10 @@
    Flyspell correct word with ivy
 
    #+begin_src emacs-lisp
+   (use-package flyspell
+     :ensure nil
+     :diminish (flyspell-mode . "ⓕ"))
+
    (use-package flyspell-correct
      :after flyspell)
 
@@ -1257,6 +1282,7 @@
    #+begin_src emacs-lisp
    (add-hook 'LaTeX-mode-hook
 	     (lambda () (auto-fill-mode)))
+   (diminish 'auto-fill-function "ⓐⓕ")
    #+end_src
 
    Enable spell checking and show compilation buffer
