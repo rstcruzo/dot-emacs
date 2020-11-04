@@ -789,7 +789,7 @@
   #+begin_src emacs-lisp
   (setq org-todo-keywords
 	'((sequence "TODO(t)" "|" "DONE(d!)")
-	  (sequence "BLOCKED(b)" "|" "DELEGATED(D)" "CANCELED(c)")))
+	  (sequence "BLOCKED(b)" "|" "DELEGATED(D)" "CANCELLED(c)")))
   #+end_src
 
   Improve org heading bullets
