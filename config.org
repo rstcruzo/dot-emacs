@@ -769,9 +769,7 @@
     (setq org-log-done 'time)
     (setq org-log-into-drawer t)
     (setq org-ellipsis " ↩")
-    (setq org-agenda-files
-	  '("~/.emacs.d/config.org"
-	    "~/Code/thesis/TODOs.org")))
+    (setq org-agenda-files '("~/Dropbox/org/")))
   #+end_src
 
   Configure todo keywords. Add a few states
