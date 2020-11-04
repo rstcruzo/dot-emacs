@@ -1679,6 +1679,7 @@
 
     (bind-mode-key
       :keymaps 'org-mode-map
+      "," '(org-babel-tangle :which-key "org babel tangle")
       "t" '(org-todo :which-key "org todo")
       "c" '(:ignore t :which-key "clock")
       "ci" '(org-clock-in :which-key "org clock in")
@@ -1769,22 +1770,6 @@
       "c" '(counsel-yank-pop :which-key "insert from clipboard")
       "u" '(counsel-unicode-char :which-key "unicode char"))
     )
-  #+end_src
-
-* Auto tangle this config on save
-
-  Use =org-bable-tangle= to auto generate emacs configuration on save
-
-  #+begin_src emacs-lisp
-  (defun org-babel-tangle-config ()
-    (when (string-equal (buffer-file-name)
-			(expand-file-name "~/.emacs.d/config.org"))
-      (let ((org-config-babel-evaluate nil))
-	(org-babel-tangle))))
-
-  (add-hook 'org-mode-hook
-	    (lambda ()
-	      (add-hook 'after-save-hook #'org-babel-tangle-config)))
   #+end_src
 
 * Configuration Debugging
