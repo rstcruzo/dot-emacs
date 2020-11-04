@@ -503,7 +503,7 @@
      :ensure spaceline
      :config
      (setq powerline-default-separator "slant"
-	   powerline-height 20)
+	   powerline-height 25)
      (set-face-attribute 'spaceline-evil-normal nil
 			 :foreground "#000")
      (set-face-attribute 'spaceline-evil-insert nil
@@ -581,7 +581,7 @@
    Set default font
 
    #+begin_src emacs-lisp
-   (set-face-attribute 'default nil :font "Fira Code Retina" :height 130)
+   (set-face-attribute 'default nil :font "Source Code Pro" :height 130)
    #+end_src
 
    Disable python =and= and =or= ligatures
@@ -999,6 +999,21 @@
      :hook (prog-mode . show-paren-mode))
    #+end_src
 
+   Highlight enclosing parenthesis
+
+   #+begin_src emacs-lisp
+   (use-package highlight-parentheses
+     :ensure nil
+     :config
+     (set-face-attribute 'highlight-parentheses-highlight nil
+			 :weight 'ultra-bold))
+
+   (setq highlight-parentheses-colors
+	 '("Springgreen3" "IndianRed1" "IndianRed3" "IndianRed4"))
+
+   (add-hook 'prog-mode-hook 'highlight-parentheses-mode)
+   #+end_src
+
    Automatically insert closing pairs and integrate it will evil
 
    #+begin_src emacs-lisp
@@ -1026,6 +1041,17 @@
 	   highlight-indent-guides-auto-top-character-face-perc 20)
      :hook
      (prog-mode . highlight-indent-guides-mode))
+   #+end_src
+
+   Change cursor color depending on evil mode
+
+   #+begin_src emacs-lisp
+   (setq evil-normal-state-cursor '("DarkGoldenrod2" box)
+	 evil-visual-state-cursor '("gray" (hbar . 2))
+	 evil-insert-state-cursor '("chartreuse3" (bar . 2))
+	 evil-replace-state-cursor '("chocolate" (hbar . 2))
+	 evil-iedit-state-cursor '("firebrick1" box)
+	 evil-iedit-insert-state-cursor '("firebrick1" (bar . 2)))
    #+end_src
 
 ** Version Control
