@@ -306,7 +306,7 @@
   Delete trailing whitespaces on file save
 
   #+begin_src emacs-lisp
-  (add-hook 'before-save-hook 'delete-trailing-whitespace)
+  (add-hook 'before-save-hook 'whitespace-cleanup)
   #+end_src
 
   Unbind right meta key
@@ -1231,7 +1231,7 @@
    #+begin_src emacs-lisp
    (use-package whitespace :diminish)
    (setq whitespace-line-column 80)
-   (setq whitespace-style '(face lines-tail))
+   (setq whitespace-style '(face lines-tail trailing))
 
    (add-hook 'prog-mode-hook 'whitespace-mode)
    (add-hook 'text-mode-hook 'whitespace-mode)
