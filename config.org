@@ -471,7 +471,7 @@
    #+begin_src emacs-lisp
    (defface rst/spaceline-iedit-face
      '((t :foreground "black"
-	  :background "red"
+	  :background "firebrick1"
 	  ))
      "Face for spaceline iedit state")
    #+end_src
