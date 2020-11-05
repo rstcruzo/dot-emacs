@@ -1258,6 +1258,7 @@
       :config
       (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode)))
     #+end_src
+
 *** Kubernetes
 
     Manage kubernetes resources from emacs
@@ -1775,6 +1776,7 @@
 
     (bind-mode-key
       :keymaps 'org-src-mode-map
+      "," '(org-edit-src-exit :which-key "org source exit")
       "s" '(org-edit-src-save :which-key "org source save")
       "e" '(org-edit-src-exit :which-key "org source exit")
       "a" '(org-edit-src-abort :which-key "org source abort")
