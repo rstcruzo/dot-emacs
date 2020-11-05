@@ -1219,6 +1219,15 @@
 
 *** Python
 
+    Install sphinx docs support
+
+    #+begin_src emacs-lisp
+    (use-package sphinx-doc
+      :config
+      :hook (python-mode . (lambda ()
+			     (sphinx-doc-mode t))))
+    #+end_src
+
     Enable =lsp-deferred= mode for python
 
     #+begin_src emacs-lisp
@@ -1813,6 +1822,10 @@
       :keymaps 'git-commit-mode-map
       "," '(with-editor-finish :which-key "finish")
       "k" '(with-editor-cancel :which-key "cancel"))
+
+    (bind-mode-key
+      :keymaps 'python-mode-map
+      "d" '(sphinx-doc :which-key "generate sphinx doc"))
 
     (bind-leader-key
       :infix "a"
