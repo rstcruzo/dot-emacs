@@ -990,15 +990,6 @@
      (text-mode . rainbow-delimiters-mode))
    #+end_src
 
-   Highlight matching pair
-
-   #+begin_src emacs-lisp
-   (use-package show-paren-mode
-     :ensure nil
-     :config (setq show-paren-style 'mixed)
-     :hook (prog-mode . show-paren-mode))
-   #+end_src
-
    Highlight enclosing parenthesis
 
    #+begin_src emacs-lisp
@@ -1014,7 +1005,8 @@
    (add-hook 'prog-mode-hook 'highlight-parentheses-mode)
    #+end_src
 
-   Automatically insert closing pairs and integrate it will evil
+   Automatically insert closing pairs and integrate it will evil.
+   Also, highlight matching pair.
 
    #+begin_src emacs-lisp
    (use-package smartparens
@@ -1022,6 +1014,8 @@
      :defer t
      :config (require 'smartparens-config)
      :hook
+     (text-mode . show-smartparens-mode)
+     (prog-mode . show-smartparens-mode)
      (text-mode . smartparens-mode)
      (prog-mode . smartparens-mode))
 
@@ -1789,7 +1783,8 @@
 
     (bind-mode-key
       :keymaps 'git-commit-mode-map
-      "," '(with-editor-finish :which-key "finish"))
+      "," '(with-editor-finish :which-key "finish")
+      "k" '(with-editor-cancel :which-key "cancel"))
 
     (bind-leader-key
       :infix "a"
