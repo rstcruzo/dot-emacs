@@ -71,6 +71,14 @@
   (setq exec-path (append exec-path '("/usr/local/bin" "/Library/TeX/texbin" "~/go/bin" "/usr/local/go/bin")))
   #+end_src
 
+  Install undo tree
+
+  #+begin_src emacs-lisp
+  (use-package undo-tree
+    :config
+    (global-undo-tree-mode))
+  #+end_src
+
   Install counsel, swiper and ivy. Setup global bindings.
 
   #+begin_src emacs-lisp
@@ -157,12 +165,13 @@
   #+begin_src emacs-lisp
   (use-package evil
     :init
-    (setq evil-want-integration t)
-    (setq evil-want-keybinding nil)
-    (setq evil-want-C-u-scroll t)
-    (setq evil-want-C-i-jump t)
+    (setq evil-want-integration t
+	  evil-want-keybinding nil
+	  evil-want-C-u-scroll t
+	  evil-want-C-i-jump t)
     :custom
     (evil-search-module 'evil-search)
+    (evil-undo-system 'undo-tree)
     :config
     (evil-mode 1)
 
