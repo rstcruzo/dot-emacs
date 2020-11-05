@@ -1184,9 +1184,38 @@
 
 *** Checkers
 
+    Configure flycheck and its fringe bitmap
+
     #+begin_src emacs-lisp
     (use-package flycheck
-      :diminish (flycheck-mode . "Ⓕ"))
+      :diminish (flycheck-mode . "Ⓕ")
+      :config
+
+      (define-fringe-bitmap 'flycheck-fringe-bitmap-ball
+	(vector #b00000000
+		#b00000000
+		#b00000000
+		#b00000000
+		#b00000000
+		#b01100000
+		#b11110000
+		#b11110000
+		#b11110000
+		#b01100000
+		#b00000000
+		#b00000000
+		#b00000000
+		#b00000000
+		#b00000000
+		#b00000000))
+
+      (flycheck-define-error-level 'error
+	:severity 100
+	:compilation-level 2
+	:overlay-category 'flycheck-error-overlay
+	:fringe-bitmap 'flycheck-fringe-bitmap-ball
+	:fringe-face 'flycheck-fringe-error
+	:error-list-face 'flycheck-error-list-error))
     #+end_src
 
 *** Language Servers
