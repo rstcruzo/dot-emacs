@@ -75,6 +75,7 @@
 
   #+begin_src emacs-lisp
   (use-package undo-tree
+    :diminish (undo-tree-mode . "Ⓤ")
     :config
     (global-undo-tree-mode))
   #+end_src
@@ -1103,6 +1104,12 @@
      :after treemacs magit)
    #+end_src
 
+   Generate links to the remote file
+
+   #+begin_src emacs-lisp
+   (use-package git-link)
+   #+end_src
+
 ** Terminal
 
    Install =vterm= and =shell-pop=. Configure it to use =zsh= and show
@@ -1683,7 +1690,9 @@
       "s" '(diff-hl-diff-goto-hunk :which-key "show current hunk diff")
       "r" '(diff-hl-revert-hunk :which-key "revert current hunk")
       "n" '(diff-hl-next-hunk :which-key "next hunk")
-      "p" '(diff-hl-previous-hunk :which-key "previous hunk"))
+      "p" '(diff-hl-previous-hunk :which-key "previous hunk")
+
+      "l" '(git-link :which-key "git link"))
 
     (bind-leader-key
       :infix "s"
