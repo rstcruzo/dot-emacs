@@ -241,7 +241,7 @@
 	  ("C-j" . company-select-next)
 	  ("C-k" . company-select-previous))
     :custom
-    ((company-minimum-prefix-length 1)
+    ((company-minimum-prefix-length 2)
      (company-idle-delay 0.2))
     :hook
     ((text-mode . company-mode)
@@ -1784,8 +1784,12 @@
       "q" '(org-edit-src-abort :which-key "org source abort"))
 
     (bind-mode-key
-      :keymspa 'dired-mode-map
+      :keymaps 'dired-mode-map
       "f" '(dired-narrow :which-key "dired narrow"))
+
+    (bind-mode-key
+      :keymaps 'git-commit-mode-map
+      "," '(with-editor-finish :which-key "finish"))
 
     (bind-leader-key
       :infix "a"
