@@ -175,6 +175,7 @@
     :config
     (evil-mode 1)
 
+    ;; Unbind conflicting keys
     (define-key evil-ex-completion-map (kbd "C-k") nil)
     (define-key evil-insert-state-map (kbd "C-k") nil)
 
@@ -238,6 +239,13 @@
     (setq evil-snipe-scope 'visible)
     ;; improve f command
     (evil-snipe-override-mode 1))
+  #+end_src
+
+  Workaround evil bindings not there before hitting space
+  https://github.com/emacs-evil/evil/issues/301
+
+  #+begin_src emacs-lisp
+  (add-hook 'org-src-mode-hook 'evil-normalize-keymaps)
   #+end_src
 
   Enable auto-completion with =company=
@@ -1050,6 +1058,7 @@
 
    #+begin_src emacs-lisp
    (setq evil-normal-state-cursor '("DarkGoldenrod2" box)
+	 evil-motion-state-cursor '("plum3" box)
 	 evil-visual-state-cursor '("gray" (hbar . 2))
 	 evil-insert-state-cursor '("chartreuse3" (bar . 2))
 	 evil-replace-state-cursor '("chocolate" (hbar . 2))
@@ -1881,7 +1890,11 @@
 ** TODO [#C] Check datetree
 ** TODO [#C] org capture templates (tables, datetrees, ...)
 ** TODO [#B] org habits
-** TODO [#C] Why do I need to hit Escape in Org source mode to access "," bindings?
+** DONE [#C] Why do I need to hit Escape in Org source mode to access "," bindings?
+   CLOSED: [2020-11-04 Wed 23:10]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2020-11-04 Wed 23:10]
+   :END:
 ** DONE Fix whitespace highlight on mini buffer
    CLOSED: [2020-10-24 Sat 13:42]
    :LOGBOOK:
