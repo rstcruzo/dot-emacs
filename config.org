@@ -241,7 +241,7 @@
     (evil-snipe-override-mode 1))
   #+end_src
 
-  Workaround evil bindings not there before hitting space
+  Workaround evil bindings not there before hitting =ESC=
   https://github.com/emacs-evil/evil/issues/301
 
   #+begin_src emacs-lisp
