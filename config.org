@@ -1053,6 +1053,7 @@
 	 evil-visual-state-cursor '("gray" (hbar . 2))
 	 evil-insert-state-cursor '("chartreuse3" (bar . 2))
 	 evil-replace-state-cursor '("chocolate" (hbar . 2))
+	 evil-emacs-state-cursor '("SkyBlue2" box)
 	 evil-iedit-state-cursor '("firebrick1" box)
 	 evil-iedit-insert-state-cursor '("firebrick1" (bar . 2)))
    #+end_src
