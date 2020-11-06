@@ -484,13 +484,26 @@
    (use-package diminish)
    #+end_src
 
-** Faces
+** Colors
+
+   Define evil mode colors
+
+   #+begin_src emacs-lisp
+   (setq evil-normal-color "DarkGoldenrod2"
+	 evil-insert-color "chartreuse3"
+	 evil-emacs-color "SkyBlue2"
+	 evil-replace-color "chocolate"
+	 evil-visual-color "gray"
+	 evil-motion-color "plum3"
+	 evil-iedit-color "firebrick1")
+   #+end_src
+
+   Define spaceline iedit face
 
    #+begin_src emacs-lisp
    (defface rst/spaceline-iedit-face
-     '((t :foreground "black"
-	  :background "firebrick1"
-	  ))
+     `((t :foreground "black"
+	  :background ,evil-iedit-color))
      "Face for spaceline iedit state")
    #+end_src
 
@@ -523,17 +536,23 @@
      (setq powerline-default-separator "slant"
 	   powerline-height 25)
      (set-face-attribute 'spaceline-evil-normal nil
-			 :foreground "#000")
+			 :foreground "black"
+			 :background evil-normal-color)
      (set-face-attribute 'spaceline-evil-replace nil
-			 :foreground "#000")
+			 :foreground "black"
+			 :background evil-replace-color)
      (set-face-attribute 'spaceline-evil-insert nil
-			 :foreground "#000")
+			 :foreground "black"
+			 :background evil-insert-color)
      (set-face-attribute 'spaceline-evil-visual nil
-			 :foreground "#000")
+			 :foreground "black"
+			 :background evil-visual-color)
      (set-face-attribute 'spaceline-evil-motion nil
-			 :foreground "#000")
+			 :foreground "black"
+			 :background evil-motion-color)
      (set-face-attribute 'spaceline-evil-emacs nil
-			 :foreground "#000"))
+			 :foreground "black"
+			 :background evil-emacs-color))
 
    (spaceline-compile
      '(((persp-name
@@ -587,13 +606,6 @@
 	 spaceline-minor-modes-separator "·")
 
    (setq-default mode-line-format '("%e" (:eval (spaceline-ml-main))))
-   #+end_src
-
-   Change cursor color
-
-   #+begin_src emacs-lisp
-   (set-face-attribute 'cursor nil
-		       :background "DarkGoldenrod1")
    #+end_src
 
 ** Font
@@ -1066,14 +1078,14 @@
    Change cursor color depending on evil mode
 
    #+begin_src emacs-lisp
-   (setq evil-normal-state-cursor '("DarkGoldenrod2" box)
-	 evil-motion-state-cursor '("plum3" box)
-	 evil-visual-state-cursor '("gray" (hbar . 2))
-	 evil-insert-state-cursor '("chartreuse3" (bar . 2))
-	 evil-replace-state-cursor '("chocolate" (hbar . 2))
-	 evil-emacs-state-cursor '("SkyBlue2" box)
-	 evil-iedit-state-cursor '("firebrick1" box)
-	 evil-iedit-insert-state-cursor '("firebrick1" (bar . 2)))
+   (setq evil-normal-state-cursor `(,evil-normal-color box)
+	 evil-motion-state-cursor `(,evil-motion-color box)
+	 evil-visual-state-cursor `(,evil-visual-color (hbar . 2))
+	 evil-insert-state-cursor `(,evil-insert-color (bar . 2))
+	 evil-replace-state-cursor `(,evil-replace-color (hbar . 2))
+	 evil-emacs-state-cursor `(,evil-emacs-color box)
+	 evil-iedit-state-cursor `(,evil-iedit-color box)
+	 evil-iedit-insert-state-cursor `(,evil-iedit-color (bar . 2)))
    #+end_src
 
 ** Version Control
