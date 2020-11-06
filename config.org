@@ -1230,12 +1230,28 @@
 		#b00000000))
 
       (flycheck-define-error-level 'error
-	:severity 100
+	:severity 2
 	:compilation-level 2
 	:overlay-category 'flycheck-error-overlay
 	:fringe-bitmap 'flycheck-fringe-bitmap-ball
 	:fringe-face 'flycheck-fringe-error
-	:error-list-face 'flycheck-error-list-error))
+	:error-list-face 'flycheck-error-list-error)
+
+      (flycheck-define-error-level 'warning
+	:severity 1
+	:compilation-level 2
+	:overlay-category 'flycheck-warning-overlay
+	:fringe-bitmap 'flycheck-fringe-bitmap-ball
+	:fringe-face 'flycheck-fringe-warning
+	:error-list-face 'flycheck-error-list-warning)
+
+      (flycheck-define-error-level 'info
+	:severity 0
+	:compilation-level 2
+	:overlay-category 'flycheck-info-overlay
+	:fringe-bitmap 'flycheck-fringe-bitmap-ball
+	:fringe-face 'flycheck-fringe-info
+	:error-list-face 'flycheck-error-list-info))
     #+end_src
 
 *** Language Servers
@@ -1286,6 +1302,12 @@
       :hook (python-mode . (lambda ()
 			     (require 'lsp-python-ms)
 			     (lsp))))  ; or lsp-deferred
+    #+end_src
+
+    Enable =flycheck= for python
+
+    #+begin_src emacs-lisp
+    (add-hook 'python-mode-hook 'flycheck-mode)
     #+end_src
 
 *** Go
