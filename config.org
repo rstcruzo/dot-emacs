@@ -524,6 +524,8 @@
 	   powerline-height 25)
      (set-face-attribute 'spaceline-evil-normal nil
 			 :foreground "#000")
+     (set-face-attribute 'spaceline-evil-replace nil
+			 :foreground "#000")
      (set-face-attribute 'spaceline-evil-insert nil
 			 :foreground "#000")
      (set-face-attribute 'spaceline-evil-visual nil
@@ -1012,6 +1014,7 @@
 
    #+begin_src emacs-lisp
    (use-package highlight-parentheses
+     :diminish (highlight-parentheses-mode . "ⒽⓅ")
      :ensure nil
      :config
      (set-face-attribute 'highlight-parentheses-highlight nil
@@ -1030,7 +1033,12 @@
    (use-package smartparens
      :diminish (smartparens-mode . "ⓈⓅ")
      :defer t
-     :config (require 'smartparens-config)
+     :config
+     (require 'smartparens-config)
+     (set-face-attribute 'sp-show-pair-match-face nil
+			 :foreground "#86dc2f"
+			 :weight 'ultra-bold
+			 :underline t)
      :hook
      (text-mode . show-smartparens-mode)
      (prog-mode . show-smartparens-mode)
