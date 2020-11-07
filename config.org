@@ -544,8 +544,8 @@
    Don't dim modeline when window is inactive
 
    #+begin_src emacs-lisp
-   (defun my-active-p (&rest args) t)
-   (advice-add 'powerline-selected-window-active :around 'my-active-p)
+   (defun rst/do-nothing (&rest args) t)
+   (advice-add 'powerline-selected-window-active :around 'rst/do-nothing)
    #+end_src
 
    Configure the mode line and set a theme
