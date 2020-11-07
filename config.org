@@ -989,18 +989,6 @@
     (evil-org-agenda-set-keys))
   #+end_src
 
-  Show fancier priorities symbols
-
-  #+begin_src emacs-lisp
-  (use-package org-fancy-priorities
-    :diminish
-    :ensure t
-    :hook
-    (org-mode . org-fancy-priorities-mode)
-    :config
-    (setq org-fancy-priorities-list '("😈" "😃" "💩")))
-  #+end_src
-
   Use pomodoro technique for time management
 
   #+begin_src emacs-lisp
