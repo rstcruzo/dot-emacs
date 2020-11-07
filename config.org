@@ -1209,6 +1209,9 @@
     #+begin_src emacs-lisp
     (use-package flycheck
       :diminish (flycheck-mode . "Ⓕ")
+      :custom
+      (flycheck-python-flake8-executable "flake8")
+      (flycheck-python-pylint-executable "pylint")
       :config
 
       (define-fringe-bitmap 'flycheck-fringe-bitmap-ball
@@ -1252,6 +1255,16 @@
 	:fringe-bitmap 'flycheck-fringe-bitmap-ball
 	:fringe-face 'flycheck-fringe-info
 	:error-list-face 'flycheck-error-list-info))
+    #+end_src
+
+    Show flycheck information in a popups
+
+    #+begin_src emacs-lisp
+    (use-package flycheck-popup-tip
+      :after flycheck
+      :custom
+      (flycheck-popup-tip-error-prefix "")
+      :hook (flycheck-mode . flycheck-popup-tip-mode))
     #+end_src
 
 *** Language Servers
