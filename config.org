@@ -560,12 +560,12 @@
 
    (use-package all-the-icons)
 
-   (load-theme 'spacemacs-dark t)
+   (load-theme 'doom-one t)
 
    (use-package spaceline-config
      :ensure spaceline
      :config
-     (setq powerline-default-separator "slant"
+     (setq powerline-default-separator "wave"
 	   powerline-height 25)
      (set-face-attribute 'spaceline-evil-normal nil
 			 :foreground "black"
@@ -729,9 +729,7 @@
    (use-package centaur-tabs
      :demand
      :config
-     (setq centaur-tabs-set-icons t
-	   centaur-tabs-gray-out-icons 'buffer
-	   centaur-tabs-style "wave"
+     (setq centaur-tabs-style "wave"
 	   centaur-tabs-cycle-scope 'tabs
 	   centaur-tabs-set-modified-marker t
 	   centaur-tabs-modified-marker "☻")
