@@ -645,7 +645,7 @@
    Set default font
 
    #+begin_src emacs-lisp
-   (set-face-attribute 'default nil :font "Source Code Pro" :height 130)
+   (set-face-attribute 'default nil :font "Fira Code Retina" :height 130)
    #+end_src
 
    Disable python =and= and =or= ligatures
