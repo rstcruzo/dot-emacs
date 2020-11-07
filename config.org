@@ -1042,9 +1042,6 @@
    Enable ivy rich after counsel projectile, they depend on this
 
    #+begin_src emacs-lisp
-   (use-package all-the-icons-ivy-rich
-     :init (all-the-icons-ivy-rich-mode 1))
-
    (use-package ivy-rich
      :init (ivy-rich-mode t))
    #+end_src
