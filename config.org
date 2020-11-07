@@ -838,7 +838,8 @@
    (use-package popwin
      :config
      (popwin-mode 1)
-     (push '(TeX-output-mode :noselect t :tail t) popwin:special-display-config))
+     (push '(TeX-output-mode :noselect t :tail t) popwin:special-display-config)
+     (push "*scratch*" popwin:special-display-config))
    #+end_src
 
 * Org Mode
@@ -1811,6 +1812,8 @@
       "K" '(kill-current-buffer :which-key "kill current buffer")
       "s" '((lambda () (interactive)
 	      (switch-to-buffer "*scratch*")) :which-key "switch to scratch")
+      "S" '((lambda () (interactive)
+	      (popwin:display-buffer "*scratch*")) :which-key "switch to popup scratch")
       "i" '(ibuffer :which-key "ibuffer")
       "R" '(revert-buffer :which-key "revert buffer"))
 
@@ -2025,6 +2028,14 @@
       "" '(:ignore t :which-key "insert")
       "c" '(counsel-yank-pop :which-key "insert from clipboard")
       "u" '(counsel-unicode-char :which-key "unicode char"))
+
+    (bind-leader-key
+      :infix "P"
+      "" '(:ignore t :which-key "popups")
+      "m" '(popwin:messages :which-key "popup messages")
+      "s" '((lambda () (interactive)
+	      (popwin:display-buffer "*scratch*")) :which-key "popup scratch")
+      "l" '(popwin:popup-last-buffer :which-key "last popup"))
     )
   #+end_src
 
