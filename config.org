@@ -306,14 +306,6 @@
     ;; Disable tab so it doesn't conflict with other expansions
     (define-key company-active-map (kbd "<tab>") nil)
     (define-key company-active-map (kbd "C-w") nil))
-
-  (use-package company-box
-    :diminish company-box-mode
-    :hook (company-mode . company-box-mode)
-    :config
-    (setq company-box-backends-colors nil)
-    :custom
-    ((company-box-doc-enable nil)))
   #+end_src
 
   Add =yasnippet= support for all company backends
