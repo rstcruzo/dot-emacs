@@ -3,13 +3,46 @@
 #+property: header-args:emacs-lisp :tangle ./init.el
 #+startup: content
 
-* Pre-init
+* Optimizations
 
   Make startup faster by reducing the frequency of garbage collection
-  Default is 800 kilobytes.
 
   #+begin_src emacs-lisp
-  (setq gc-cons-threshold (* 50 1000 1000))
+  (setq gc-cons-threshold most-positive-fixnum ; 2^61 bytes
+	gs-cons-percentage 0.6)
+  #+end_src
+
+  Reset garbage collection after startup
+
+  #+begin_src emacs-lisp
+  (add-hook 'emacs-startup-hook
+	    (lambda ()
+	      (setq gc-cons-threshold 16777216 ; 16 mb
+		    gs-cons-percentage 0.1)))
+  #+end_src
+
+  Raise gc-cons-threshold while the minibuffer is active, so the GC doesn’t slow
+  down expensive commands (or completion frameworks, like helm and ivy)
+
+  #+begin_src emacs-lisp
+  (defun rst/defer-garbage-collection-h ()
+    (setq gc-cons-threshold most-positive-fixnum))
+
+  (defun rst/restore-garbage-collection-h ()
+    ;; Defer it so that commands launched immediately after will enjoy the
+    ;; benefits.
+    (run-at-time
+     1 nil (lambda () (setq gc-cons-threshold 16777216))))
+
+  (add-hook 'minibuffer-setup-hook #'rst/defer-garbage-collection-h)
+  (add-hook 'minibuffer-exit-hook #'rst/restore-garbage-collection-h)
+  #+end_src
+
+  Emacs resizes the (GUI) frame when your newly set font is larger
+  (or smaller) than the system default
+
+  #+begin_src emacs-lisp
+  (setq frame-inhibit-implied-resize t)
   #+end_src
 
 * Package System Setup
@@ -35,7 +68,8 @@
     (package-install 'use-package))
 
   (require 'use-package)
-  (setq use-package-always-ensure t)
+  (setq use-package-always-ensure t
+	use-package-verbose t)
   #+end_src
 
 * General
@@ -126,6 +160,7 @@
 
   #+begin_src emacs-lisp
   (use-package ivy-posframe
+    :commands ivy-posframe-mode
     :diminish (ivy-posframe-mode . "ⒾⓅ")
     :config
     (setq ivy-posframe-display-functions-alist
@@ -226,16 +261,18 @@
     :after evil)
 
   (use-package evil-surround
+    :after evil
     :config
     (global-evil-surround-mode 1))
 
   (use-package evil-numbers
-    :config
+    :after evil
     :bind
     (:map evil-normal-state-map
 	  ("C-a" . evil-numbers/inc-at-pt)))
 
   (use-package evil-snipe
+    :after evil
     :config
     (setq evil-snipe-scope 'visible)
     ;; improve f command
@@ -253,6 +290,7 @@
 
   #+begin_src emacs-lisp
   (use-package company
+    :commands company-mode
     :diminish (company-mode . "Ⓒ")
     :bind
     (:map company-active-map
@@ -299,7 +337,7 @@
 
   #+begin_src emacs-lisp
   (use-package treemacs
-    :defer t
+    :commands treemacs
     :config
     (setq treemacs-indentation 2))
 
@@ -307,6 +345,7 @@
     :after treemacs evil)
 
   (use-package treemacs-all-the-icons
+    :after treemacs
     :config
     (treemacs-load-theme "all-the-icons"))
   #+end_src
@@ -363,7 +402,8 @@
   Install expand region
 
   #+begin_src emacs-lisp
-  (use-package expand-region)
+  (use-package expand-region
+    :commands er/expand-region)
   #+end_src
 
   Uniquify buffer names
@@ -946,7 +986,8 @@
   Use pomodoro technique for time management
 
   #+begin_src emacs-lisp
-  (use-package org-pomodoro)
+  (use-package org-pomodoro
+    :after org)
   #+end_src
 
 * Development
@@ -1093,10 +1134,14 @@
    Install magit and integrate it with vim
 
    #+begin_src emacs-lisp
-   (use-package magit)
-   (use-package evil-magit)
+   (use-package magit
+     :commands (magit-status magit-blame-addition))
 
-   (use-package forge)
+   (use-package evil-magit
+     :after magit)
+
+   (use-package forge
+     :commands (magit-status))
    #+end_src
 
    Enter Magit commit buffer in start mode
@@ -1127,7 +1172,8 @@
    Generate links to the remote file
 
    #+begin_src emacs-lisp
-   (use-package git-link)
+   (use-package git-link
+     :commands git-link)
    #+end_src
 
 ** Terminal
@@ -1137,9 +1183,12 @@
 
    #+begin_src emacs-lisp
    (use-package vterm
+     :commands vterm
      :config
      (setq vterm-max-scrollback 10000))
+
    (use-package shell-pop
+     :commands shell-pop
      :custom
      ((shell-pop-window-size 30)
       (shell-pop-window-position "bottom")
@@ -1286,13 +1335,15 @@
       (lsp-enable-which-key-integration t))
 
     (use-package lsp-ui
+      :after lsp
       :hook
       (lsp-mode . lsp-ui-mode))
 
     (use-package lsp-treemacs
       :after lsp)
 
-    (use-package lsp-ivy)
+    (use-package lsp-ivy
+      :after lsp)
     #+end_src
 
 *** Python
@@ -1301,6 +1352,7 @@
 
     #+begin_src emacs-lisp
     (use-package sphinx-doc
+      :commands sphinx-doc-mode
       :config
       :hook (python-mode . (lambda ()
 			     (sphinx-doc-mode t))))
@@ -1310,6 +1362,7 @@
 
     #+begin_src emacs-lisp
     (use-package lsp-python-ms
+      :after lsp
       :ensure t
       :init (setq lsp-python-ms-auto-install-server t)
       :hook (python-mode . (lambda ()
@@ -1328,7 +1381,8 @@
     Install =go-mode=
 
     #+begin_src emacs-lisp
-    (use-package go-mode)
+    (use-package go-mode
+      :commands go-mode)
     #+end_src
 
     Enable =lsp-deferred= mode for Go
@@ -1360,6 +1414,7 @@
 
     #+begin_src emacs-lisp
     (use-package dockerfile-mode
+      :commands dockerfile-mode
       :config
       (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
     #+end_src
@@ -1368,6 +1423,7 @@
 
     #+begin_src emacs-lisp
     (use-package yaml-mode
+      :commands yaml-mode
       :config
       (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode)))
     #+end_src
@@ -1391,7 +1447,10 @@
    Highlight characters over 80
 
    #+begin_src emacs-lisp
-   (use-package whitespace :diminish)
+   (use-package whitespace
+     :diminish
+     :commands whitespace-mode)
+
    (setq whitespace-line-column 80)
    (setq whitespace-style '(face lines-tail trailing))
 
@@ -1403,6 +1462,7 @@
 
    #+begin_src emacs-lisp
    (use-package flyspell
+     :commands flyspell-mode
      :ensure nil
      :diminish (flyspell-mode . "ⓕ"))
 
@@ -1476,6 +1536,7 @@
 
    #+begin_src emacs-lisp
    (use-package bibtex
+     :commands bibtex-mode
      :ensure nil
      :config
      (setq bibtex-dialect 'biblatex))
@@ -1489,10 +1550,13 @@
    #+begin_src emacs-lisp
    (use-package popup)
    (use-package google-translate
+     :commands google-translate-smooth-translate
      :config
      (setq google-translate-translation-directions-alist
 	   '(("en" . "es") ("es". "en"))))
+
    (use-package google-translate-default-ui
+     :after google-translate
      :ensure nil)
    #+end_src
 
@@ -1501,7 +1565,8 @@
    Install mermaid mode
 
    #+begin_src emacs-lisp
-   (use-package mermaid-mode)
+   (use-package mermaid-mode
+     :commands mermaid-mode)
    #+end_src
 
 * Networking
@@ -1973,12 +2038,6 @@
 
 * Post-init
 
-  Make garbage collection pause faster by decreasing threshold
-
-  #+begin_src emacs-lisp
-  (setq gc-cons-threshold (* 2 1000 1000))
-  #+end_src
-
   Workaround to centaur tabs and flyspell bug. Probably a race condition (?)
   When flyspell mode is enabled in a mode hook, the first file with that mode we
   open is not added to its project tab group. Looks related to initializing
@@ -1989,13 +2048,16 @@
   (ispell-init-process)
   #+end_src
 
+* Startup Time Analysis
 
-* Startup Times Analysis
-
-  | Time | Action |
-  |------+--------|
-  | 2.5s | -      |
-  |      |        |
+  |-------+-------------------------------------------------------------------|
+  | Time  | Action                                                            |
+  |-------+-------------------------------------------------------------------|
+  | 2.5s  | -                                                                 |
+  | 2.24s | Use :commands to lazy load some packages                          |
+  | 2.12s | Garbage collection optimizations                                  |
+  | 2.4s  | Inhibiting window resizing on startup. I feel it faster though... |
+  |-------+-------------------------------------------------------------------|
 
 * Pending Configuration
 ** TODO [#C] Check use package and general integration
