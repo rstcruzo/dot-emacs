@@ -552,7 +552,6 @@
 
    #+begin_src emacs-lisp
    (use-package doom-themes)
-   (doom-themes-treemacs-config)
 
    (use-package zerodark-theme)
    (use-package spacemacs-common
