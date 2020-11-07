@@ -847,6 +847,8 @@
   Basic configuration
 
   #+begin_src emacs-lisp
+  (defvar rst/org-files-path "~/Dropbox/org/")
+
   (use-package org
     :diminish (org-src-mode . "ⓄⓈ")
     :config
@@ -854,7 +856,34 @@
     (setq org-log-done 'time)
     (setq org-log-into-drawer t)
     (setq org-ellipsis " ↩")
-    (setq org-agenda-files '("~/Dropbox/org/")))
+    (setq org-agenda-files `(,rst/org-files-path)))
+  #+end_src
+
+  Configure a project org file
+
+  #+begin_src emacs-lisp
+  (defvar rst/org-projectile-filename nil
+    "Org file for current projectile notes.")
+
+  (defun rst/org-projectile-file ()
+    "Return current project org file."
+    (let ((project-name (projectile-project-name)))
+      (if (not (string= project-name "-"))
+	  (setq rst/org-projectile-filename
+		(concat
+		 (file-name-as-directory rst/org-files-path)
+		 project-name ".org"))
+	(message "Not in a project...")
+	nil
+	)
+      )
+    )
+
+  (defun rst/open-org-projectile-file ()
+    (interactive)
+    (let ((org-file (rst/org-projectile-file)))
+      (if org-file
+	  (find-file org-file))))
   #+end_src
 
   Configure todo keywords. Add a few states
@@ -1802,7 +1831,10 @@
       "f" '(counsel-find-file :which-key "find file")
       "e" '((lambda () (interactive)
 	      (find-file "~/.emacs.d/config.org"))
-	    :which-key "find config file"))
+	    :which-key "find config file")
+      "o" '((lambda () (interactive)
+	      (counsel-find-file rst/org-files-path))
+	    :which-key "find org file"))
 
     (bind-leader-key
       :infix "b"
@@ -1839,7 +1871,8 @@
       "p" '(projectile-switch-project :which-key "switch project")
       "f" '(projectile-find-file :which-key "find project file")
       "b" '(counsel-projectile-switch-to-buffer :which-key "switch to project buffer")
-      "T" '(projectile-add-to-treemacs :which-key "add current project to treemacs"))
+      "T" '(projectile-add-to-treemacs :which-key "add current project to treemacs")
+      "n" '(rst/open-org-projectile-file :which-key "open project org file"))
 
     (bind-leader-key
       :infix "g"
