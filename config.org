@@ -1990,6 +1990,13 @@
   #+end_src
 
 
+* Startup Times Analysis
+
+  | Time | Action |
+  |------+--------|
+  | 2.5s | -      |
+  |      |        |
+
 * Pending Configuration
 ** TODO [#C] Check use package and general integration
 ** TODO [#C] org wild notifier to show OS notifications
