@@ -803,18 +803,16 @@
 
 ** Diminish some built-in minor modes
 
-   Diminish =auto-revert-mode= and =el-doc-mode=
-
    #+begin_src emacs-lisp
    (use-package autorevert
      :ensure nil
-     :config
-     (diminish 'auto-revert-mode "ⒶⓇ"))
+     :diminish (auto-revert-mode . "ⒶⓇ"))
 
    (use-package eldoc
-     :ensure nil
-     :config
-     (diminish 'eldoc-mode))
+     :ensure nil :diminish)
+
+   (use-package page-break-lines
+     :ensure nil :diminish)
    #+end_src
 
 ** Popups
@@ -1120,6 +1118,7 @@
 
    #+begin_src emacs-lisp
    (use-package highlight-indent-guides
+     :diminish (highlight-indent-guides-mode . "ⒽⒾ")
      :config
      (setq highlight-indent-guides-method 'character
 	   highlight-indent-guides-responsive 'top
@@ -1324,8 +1323,7 @@
     (use-package flycheck-popup-tip
       :after flycheck
       :custom
-      (flycheck-popup-tip-error-prefix "")
-      :hook (flycheck-mode . flycheck-popup-tip-mode))
+      (flycheck-popup-tip-error-prefix ""))
     #+end_src
 
 *** Language Servers
@@ -1364,6 +1362,7 @@
 
     #+begin_src emacs-lisp
     (use-package sphinx-doc
+      :diminish (sphinx-doc-mode . "ⓈⒹ")
       :commands sphinx-doc-mode
       :config
       :hook (python-mode . (lambda ()
@@ -1374,8 +1373,6 @@
 
     #+begin_src emacs-lisp
     (use-package lsp-python-ms
-      :after lsp
-      :ensure t
       :init (setq lsp-python-ms-auto-install-server t)
       :hook (python-mode . (lambda ()
 			     (require 'lsp-python-ms)
@@ -1857,6 +1854,8 @@
       ;; Toggles
       "R" '(ivy-rich-mode :which-key "toggle ivy rich mode")
       "p" '(ivy-posframe-mode :which-key "toggle ivy posframe mode")
+
+      "f" '(flycheck-popup-tip-mode :which-key "toggle flycheck popups")
 
       "c" '(centaur-tabs-mode :which-key "toggle centaur tabs")
 
