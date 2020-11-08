@@ -1936,7 +1936,8 @@
       "n" '(eyebrowse-next-window-config :which-key "next workspace")
       "p" '(eyebrowse-prev-window-config :which-key "previous workspace")
       "r" '(eyebrowse-rename-window-config :which-key "rename workspace")
-      "c" '(eyebrowse-close-window-config :which-key "close workspace")
+      "C" '(eyebrowse-close-window-config :which-key "close workspace")
+      "c" '(eyebrowse-create-window-config :which-key "create workspace")
 
       "u" '(winner-undo :which-key "winner undo")
       "U" '(winner-redo :which-key "winner redo")
