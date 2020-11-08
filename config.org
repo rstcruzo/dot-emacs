@@ -644,7 +644,7 @@
    Set default font
 
    #+begin_src emacs-lisp
-   (set-face-attribute 'default nil :font "Fira Code Retina" :height 130)
+   (set-face-attribute 'default nil :font "Fira Code Retina" :height 125)
    #+end_src
 
    Disable python =and= and =or= ligatures
@@ -658,7 +658,9 @@
    #+begin_src emacs-lisp
    (use-package fira-code-mode
      :diminish
-     :custom (fira-code-mode-disabled-ligatures '("[]" "#{" "#(" "#_" "#_(" "x")) ;; List of ligatures to turn off
+     :custom
+     (fira-code-mode-disabled-ligatures
+      '("[]" "#{" "#(" "#_" "#_(" "x")) ;; List of ligatures to turn off
      :hook prog-mode)
    #+end_src
 
@@ -670,14 +672,14 @@
    (use-package dashboard
      :config
      (dashboard-setup-startup-hook)
-     (setq dashboard-center-content t)
-     (setq dashboard-set-heading-icons t)
-     (setq dashboard-banner-logo-title "Welcome rstcruzo!")
-     (setq dashboard-items '((agenda . 6)
+     (setq dashboard-center-content t
+	   dashboard-set-heading-icons t
+	   dashboard-banner-logo-title "Welcome rstcruzo!"
+	   dashboard-items '((agenda . 6)
 			     (recents . 6)
-			     (bookmarks . 3)))
-     (setq dashboard-set-init-info t)
-     (setq dashboard-startup-banner "~/Pictures/Icons/emacs.png"))
+			     (bookmarks . 3))
+	   dashboard-set-init-info t
+	   dashboard-startup-banner "~/Pictures/Icons/emacs.png"))
    #+end_src
 
 ** Window
@@ -717,7 +719,7 @@
    (use-package eyebrowse
      :config
      (eyebrowse-mode t)
-     (setq eyebrowse-new-workspace t))
+     (setq eyebrowse-new-workspace t)) ;; New workspace will display scratch buffer
    #+end_src
 
 ** Tabs
@@ -832,16 +834,17 @@
   Basic configuration
 
   #+begin_src emacs-lisp
-  (defvar rst/org-files-path "~/Dropbox/org/")
+  (defvar rst/org-files-path "~/Dropbox/org/"
+    "Folder path where all org files are stored")
 
   (use-package org
     :diminish (org-src-mode . "ⓄⓈ")
     :config
-    (setq org-agenda-start-with-log-mode t)
-    (setq org-log-done 'time)
-    (setq org-log-into-drawer t)
-    (setq org-ellipsis " ↩")
-    (setq org-agenda-files `(,rst/org-files-path)))
+    (setq org-agenda-start-with-log-mode t
+	  org-log-done 'time
+	  org-log-into-drawer t
+	  org-ellipsis " ↩"
+	  org-agenda-files `(,rst/org-files-path)))
   #+end_src
 
   Configure a project org file
@@ -886,7 +889,8 @@
     :after org
     :config
     (setq org-bullets-bullet-list
-	  '("○" "☉" "◎" "◉" "○" "◌" "◎" "●" "◦" "◯" "⚪" "⚫" "⚬" "❍" "￮" "⊙" "⊚" "⊛" "∙" "∘"))
+	  '("○" "☉" "◎" "◉" "○" "◌" "◎" "●" "◦" "◯"
+	    "⚪" "⚫" "⚬" "❍" "￮" "⊙" "⊚" "⊛" "∙" "∘"))
     :hook (org-mode . org-bullets-mode))
   #+end_src
 
@@ -928,14 +932,18 @@
   Add padding to document
 
   #+begin_src emacs-lisp
-  (defun org-mode-visual-fill ()
+  (defun rst/org-mode-visual-fill ()
     (setq visual-fill-column-width 100
 	  visual-fill-column-center-text t)
     (visual-fill-column-mode 1))
 
   (use-package visual-fill-column
-    :hook (org-mode . org-mode-visual-fill))
+    :hook (org-mode . rst/org-mode-visual-fill))
+  #+end_src
 
+  Don't indent org source blocks
+
+  #+begin_src emacs-lisp
   (setq org-edit-src-content-indentation 0)
   #+end_src
 
@@ -947,16 +955,21 @@
     :after mermaid-mode)
   #+end_src
 
-  Display inline images automatically after executing source block
+  Display inline images automatically after executing some source block
 
   #+begin_src emacs-lisp
-  (defun org-display-images-after-execute ()
-    "Redisplay inline images after executing source blocks with mermaid results."
+  (defvar rst/org-src-language-to-image
+    '("mermaid")
+    "A list of languages that generate images. Images will be displayed
+  when a source block of this language is executed.")
+
+  (defun rst/org-display-images-after-execute ()
+    "Redisplay inline images after executing source blocks of some languages."
     (let ((language (car (org-babel-get-src-block-info t))))
-      (when (string= language "mermaid")
+      (when (member language rst/org-src-language-to-image)
 	(org-display-inline-images))))
 
-  (add-hook 'org-babel-after-execute-hook #'org-display-images-after-execute)
+  (add-hook 'org-babel-after-execute-hook #'rst/org-display-images-after-execute)
   #+end_src
 
   Don't ask for confirmation when executing a source block
@@ -1460,8 +1473,8 @@
      :diminish
      :commands whitespace-mode)
 
-   (setq whitespace-line-column 80)
-   (setq whitespace-style '(face lines-tail trailing))
+   (setq whitespace-line-column 80
+	 whitespace-style '(face lines-tail trailing))
 
    (add-hook 'prog-mode-hook 'whitespace-mode)
    (add-hook 'text-mode-hook 'whitespace-mode)
@@ -1528,17 +1541,14 @@
    Define variable to store main TeX files. This file is used for compilation
 
    #+begin_src emacs-lisp
-   (defvar TeX-main-filename "main"
+   (defvar rst/TeX-main-filename "main.tex"
      "TeX main file to use for compilation.")
 
-   (defun TeX-main-file (&optional extension &rest r)
-     "Retrieve TeX main filename to use with AUCTeX."
+   (defun rst/TeX-main-file (&optional extension &rest r)
+     "Retrieve TeX main filename to use with AUCTeX. This ignores
+   all parameters."
      (interactive)
-     (if (eq extension t)
-	 (setq extension TeX-default-extension))
-     (if (null extension)
-	 TeX-main-filename
-       (format "%s.%s" TeX-main-filename extension)))
+     rst/TeX-main-filename)
    #+end_src
 
    Add =@online= entry to bibtex
@@ -1647,89 +1657,95 @@
 
 * Custom functions
 
-  Install hydra
+** Hydra
 
-  #+begin_src emacs-lisp
-  (use-package hydra)
-  #+end_src
+   Install hydra
 
-  Define hydra function to scale text
+   #+begin_src emacs-lisp
+   (use-package hydra)
+   #+end_src
 
-  #+begin_src emacs-lisp
-  (defhydra hydra-text-scale (:timeout 4)
-    "Scale text"
-    ("k" text-scale-increase "bigger")
-    ("j" text-scale-decrease "smaller")
-    ("q" nil "quit" :exit t))
-  #+end_src
+   Define hydra function to scale text
 
-  Define hydra function to merge conflicts
+   #+begin_src emacs-lisp
+   (defhydra rst/hydra-text-scale (:timeout 4)
+     "Scale text"
+     ("k" text-scale-increase "bigger")
+     ("j" text-scale-decrease "smaller")
+     ("q" nil "quit" :exit t))
+   #+end_src
 
-  #+begin_src emacs-lisp
-  (defhydra hydra-merge-conflicts ()
-    "Merge conflicts"
-    ("n" smerge-next "next conflict")
-    ("p" smerge-prev "previous conflict")
-    ("u" smerge-keep-upper "keep upper")
-    ("l" smerge-keep-lower "keep lower")
-    ("a" smerge-keep-all "keep all")
-    ("q" nil "quit" :exit t))
-  #+end_src
+   Define hydra function to merge conflicts
 
-  Define custom counsel projectile search functions to better handle default
-  inputs. This is used for =SPC /= and =SPC *= bindings.
+   #+begin_src emacs-lisp
+   (defhydra rst/hydra-merge-conflicts ()
+     "Merge conflicts"
+     ("n" smerge-next "next conflict")
+     ("p" smerge-prev "previous conflict")
+     ("u" smerge-keep-upper "keep upper")
+     ("l" smerge-keep-lower "keep lower")
+     ("a" smerge-keep-all "keep all")
+     ("q" nil "quit" :exit t))
+   #+end_src
 
-  #+begin_src emacs-lisp
-  (defun counsel-projectile-rg-with-input (&optional input)
-    "Custom counsel projectile rg to receive input as argument."
-    (interactive)
-    (counsel-rg input
-		(projectile-project-root)
-		nil
-		(projectile-prepend-project-name
-		 (concat (car (if (listp counsel-rg-base-command)
-				  counsel-rg-base-command
-				(split-string counsel-rg-base-command)))
-			 ": "))))
+** Counsel Projectile
 
-  (defun counsel-projectile-rg-thing-at-point ()
-    "Custom counsel projectile rg to pass thing at point as input."
-    (interactive)
-    (let ((thing (ivy-thing-at-point)))
-      (when (use-region-p)
-	(deactivate-mark))
-      (counsel-projectile-rg-with-input thing)))
-  #+end_src
+   Define custom counsel projectile search functions to better handle default
+   inputs. This is used for =SPC /= and =SPC *= bindings.
 
-  Define way to quickly switch to last buffer
+   #+begin_src emacs-lisp
+   (defun rst/counsel-projectile-rg-with-input (&optional input)
+     "Custom counsel projectile rg to receive input as argument."
+     (interactive)
+     (counsel-rg input
+		 (projectile-project-root)
+		 nil
+		 (projectile-prepend-project-name
+		  (concat (car (if (listp counsel-rg-base-command)
+				   counsel-rg-base-command
+				 (split-string counsel-rg-base-command)))
+			  ": "))))
 
-  #+begin_src emacs-lisp
-  (defun switch-to-previous-buffer ()
-    "Switch to previously open buffer.
-  Repeated invocations toggle between the two most recently open buffers."
-    (interactive)
-    (switch-to-buffer (other-buffer (current-buffer) 1)))
-  #+end_src
+   (defun rst/counsel-projectile-rg-thing-at-point ()
+     "Custom counsel projectile rg to pass thing at point as input."
+     (interactive)
+     (let ((thing (ivy-thing-at-point)))
+       (when (use-region-p)
+	 (deactivate-mark))
+       (counsel-projectile-rg-with-input thing)))
+   #+end_src
 
-  Define way to add current project to treemacs
+   Define way to add current project to treemacs
 
-  #+begin_src emacs-lisp
-  (defun projectile-add-to-treemacs ()
-    "Add current project to treemacs workspace."
-    (interactive)
-    (treemacs-add-project-to-workspace (projectile-project-root)))
-  #+end_src
+   #+begin_src emacs-lisp
+   (defun rst/projectile-add-to-treemacs ()
+     "Add current project to treemacs workspace."
+     (interactive)
+     (treemacs-add-project-to-workspace (projectile-project-root)))
+   #+end_src
 
-  Define a way to split line smartly and enter a new line
+** Helpers
 
-  #+begin_src emacs-lisp
-  (defun rst/split-and-new-line ()
-    "Split a quoted string or s-expresion and insert a new line with
-  auto-indent"
-    (interactive)
-    (sp-split-sexp 1)
-    (sp-newline))
-  #+end_src
+   Define way to quickly switch to last buffer
+
+   #+begin_src emacs-lisp
+   (defun rst/switch-to-previous-buffer ()
+     "Switch to previously open buffer.
+   Repeated invocations toggle between the two most recently open buffers."
+     (interactive)
+     (switch-to-buffer (other-buffer (current-buffer) 1)))
+   #+end_src
+
+   Define a way to split line smartly and enter a new line
+
+   #+begin_src emacs-lisp
+   (defun rst/split-and-new-line ()
+     "Split a quoted string or s-expresion and insert a new line with
+   auto-indent"
+     (interactive)
+     (sp-split-sexp 1)
+     (sp-newline))
+   #+end_src
 
 * Keybindings
 
@@ -1798,12 +1814,12 @@
 
       "c" '(counsel-M-x :which-key "M-x")
 
-      "/" '(counsel-projectile-rg-with-input :which-key "search project")
-      "*" '(counsel-projectile-rg-thing-at-point :which-key "search project thing at point")
+      "/" '(rst/counsel-projectile-rg-with-input :which-key "search project")
+      "*" '(rst/counsel-projectile-rg-thing-at-point :which-key "search project thing at point")
 
       "'" '(shell-pop :which-key "shell pop")
 
-      "<tab>" '(switch-to-previous-buffer :which-key "switch to last buffer")
+      "<tab>" '(rst/switch-to-previous-buffer :which-key "switch to last buffer")
 
       "." '(projectile-find-file :which-key "find project file")
       "," '(counsel-switch-buffer :which-key "switch buffer")
@@ -1847,7 +1863,7 @@
 
       ;; Text
       "t" '(google-translate-smooth-translate :which-key "google translate")
-      "s" '(hydra-text-scale/body :which-key "scale text")
+      "s" '(rst/hydra-text-scale/body :which-key "scale text")
 
       "T" '(counsel-load-theme :which-key "choose theme")
 
@@ -1873,14 +1889,14 @@
       "p" '(projectile-switch-project :which-key "switch project")
       "f" '(projectile-find-file :which-key "find project file")
       "b" '(counsel-projectile-switch-to-buffer :which-key "switch to project buffer")
-      "T" '(projectile-add-to-treemacs :which-key "add current project to treemacs")
+      "T" '(rst/projectile-add-to-treemacs :which-key "add current project to treemacs")
       "n" '(rst/open-org-projectile-file :which-key "open project org file"))
 
     (bind-leader-key
       :infix "g"
       "" '(:ignore t :which-key "git")
       "g" '(magit-status :which-key "git status")
-      "c" '(hydra-merge-conflicts/body :which-key "merge conflicts")
+      "c" '(rst/hydra-merge-conflicts/body :which-key "merge conflicts")
       "b" '(magit-blame-addition :which-key "blame")
 
       "s" '(diff-hl-diff-goto-hunk :which-key "show current hunk diff")
