@@ -1553,7 +1553,17 @@
      (setq bibtex-dialect 'biblatex))
    #+end_src
 
-** Translate
+** Google
+
+   Search something
+
+   #+begin_src emacs-lisp
+   (use-package google-this
+     :commands (google-this-noconfirm
+		google-this-search)
+     :config
+     (google-this-mode 1))
+   #+end_src
 
    Install google translate and its dependency popup.
    Configure languages too.
@@ -1885,7 +1895,10 @@
 
       "d" '(ispell-change-dictionary :which-key "change dictionary")
       "w" '(flyspell-auto-correct-word :which-key "auto-correct word")
-      "W" '(flyspell-correct-at-point :which-key "correct word"))
+      "W" '(flyspell-correct-at-point :which-key "correct word")
+
+      "g" '(google-this-noconfirm :which-key "google this")
+      "G" '(google-this-search :which-key "google search"))
 
     (bind-leader-key
       :infix "h"
