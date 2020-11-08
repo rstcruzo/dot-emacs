@@ -1860,7 +1860,10 @@
 
       "c" '(centaur-tabs-mode :which-key "toggle centaur tabs")
 
-      "i" '(org-toggle-inline-images :which-key "toggle org inline images"))
+      "i" '(org-toggle-inline-images :which-key "toggle org inline images")
+
+      "m" '(counsel-minor :which-key "toggle minor mode")
+      "M" '(counsel-major :which-key "toggle major mode"))
 
     (bind-leader-key
       :infix "p"
@@ -1908,8 +1911,9 @@
       "v" '(describe-variable :which-key "describe variable")
       "f" '(describe-function :which-key "describe function")
       "F" '(counsel-describe-face :which-key "describe face")
+      "m" '(describe-mode :which-key "describe mode")
       "k" '(describe-key :which-key "describe key")
-      "m" '(describe-mode :which-key "describe mode"))
+      "K" '(counsel-descbinds :which-key "describe bindings"))
 
     (bind-leader-key
       :infix "l"
@@ -2029,7 +2033,9 @@
     (bind-leader-key
       :infix "e"
       "" '(:ignore t :which-key "edit/errors")
-      "e" '(evil-iedit-state/iedit-mode :which-key "iedit mode"))
+      "e" '(evil-iedit-state/iedit-mode :which-key "iedit mode")
+
+      "f" '(counsel-flycheck :which-key "flycheck errors"))
 
     (bind-leader-key
       :infix "j"
