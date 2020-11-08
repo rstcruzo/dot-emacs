@@ -1055,6 +1055,15 @@
 
 ** Visual help
 
+   Sets background color to strings that match color names
+
+   #+begin_src emacs-lisp
+   (use-package rainbow-mode
+     :hook
+     (prog-mode . rainbow-mode)
+     (text-mode . rainbow-mode))
+   #+end_src
+
    Highlight pairs with different colors
 
    #+begin_src emacs-lisp
