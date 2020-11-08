@@ -419,6 +419,12 @@
    (setq dired-dwim-target t)
    #+end_src
 
+   Change =ls= options
+
+   #+begin_src emacs-lisp
+   (setq dired-listing-switches "-alh")
+   #+end_src
+
 * UI
 ** General
 
