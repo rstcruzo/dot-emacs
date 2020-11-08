@@ -832,7 +832,8 @@
      :config
      (popwin-mode 1)
      (push '(TeX-output-mode :noselect t :tail t) popwin:special-display-config)
-     (push "*scratch*" popwin:special-display-config))
+     (push "*scratch*" popwin:special-display-config)
+     (push '("*git-gutter:diff*" :stick t) popwin:special-display-config))
    #+end_src
 
 * Org Mode
@@ -1784,10 +1785,10 @@
       :prefix "]")
 
     (bind-op-square-brackets
-     "h" '(diff-hl-previous-hunk :which-key "git previous hunk"))
+     "h" '(git-gutter:previous-hunk :which-key "git previous hunk"))
 
     (bind-cl-square-brackets
-     "h" '(diff-hl-next-hunk :which-key "git next hunk"))
+     "h" '(git-gutter:next-hunk :which-key "git next hunk"))
 
     (bind-leader-key
       :infix "q"
@@ -1902,10 +1903,10 @@
       "c" '(rst/hydra-merge-conflicts/body :which-key "merge conflicts")
       "b" '(magit-blame-addition :which-key "blame")
 
-      "s" '(diff-hl-diff-goto-hunk :which-key "show current hunk diff")
-      "r" '(diff-hl-revert-hunk :which-key "revert current hunk")
-      "n" '(diff-hl-next-hunk :which-key "next hunk")
-      "p" '(diff-hl-previous-hunk :which-key "previous hunk")
+      "s" '(git-gutter:popup-hunk :which-key "show current hunk diff")
+      "r" '(git-gutter:revert-hunk :which-key "revert current hunk")
+      "n" '(git-gutter:next-hunk :which-key "next hunk")
+      "p" '(git-gutter:previous-hunk :which-key "previous hunk")
 
       "l" '(git-link :which-key "git link"))
 
