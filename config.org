@@ -1810,7 +1810,7 @@
 
     (bind-leader-key
       :infix "b"
-      "" '(:ignore t :which-key "buffers")
+      "" '(:ignore t :which-key "buffers/bookmarks")
       "b" '(counsel-switch-buffer :which-key "switch buffer")
       "k" '(kill-buffer :which-key "kill a buffer")
       "K" '(kill-current-buffer :which-key "kill current buffer")
@@ -1819,7 +1819,9 @@
       "S" '((lambda () (interactive)
 	      (popwin:display-buffer "*scratch*")) :which-key "switch to popup scratch")
       "i" '(ibuffer :which-key "ibuffer")
-      "R" '(revert-buffer :which-key "revert buffer"))
+      "R" '(revert-buffer :which-key "revert buffer")
+
+      "m" '(counsel-bookmark :which-key "create/jump to bookmarks"))
 
     (bind-leader-key
       :infix "t"
