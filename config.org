@@ -1941,17 +1941,6 @@
       "p" '(check-parens :which-key "check parens"))
 
     (bind-leader-key
-      :infix "o"
-      "" '(:ignore t :which-key "org")
-      "a" '(org-agenda :which-key "org agenda")
-      "s" '(org-schedule :which-key "org schedule")
-      "d" '(org-deadline :which-key "org deadline")
-      "t" '(org-todo :which-key "org todo")
-      "e" '(org-edit-src-code :which-key "org edit code")
-      "r" '(org-babel-execute-src-block :which-key "org execute code")
-      "i" '(org-display-inline-images :which-key "org display inline images"))
-
-    (bind-leader-key
       :infix "w"
       "" '(:ignore t :which-key "windows/workspaces")
       "j" '(evil-window-down :which-key "move to window below")
@@ -1993,7 +1982,8 @@
       "s" '(org-schedule :which-key "org schedule")
       "d" '(org-deadline :which-key "org deadline")
       "r" '(org-babel-execute-src-block :which-key "org execute code")
-      "i" '(org-display-inline-images :which-key "org display inline images"))
+      "i" '(org-display-inline-images :which-key "org display inline images")
+      "e" '(org-export-dispatch :which-key "org export"))
 
     (bind-mode-key
       :keymaps 'LaTeX-mode-map
@@ -2039,6 +2029,13 @@
       :keymaps 'python-mode-map
       "d" '(sphinx-doc :which-key "generate sphinx doc"))
 
+    (bind-mode-key
+      :keymaps 'go-mode-map
+      "n" '(go-import-add :which-key "add new import")
+      "i" '(go-goto-imports :which-key "go to imports")
+      "a" '(go-goto-arguments :which-key "go to function arguments")
+      "r" '(go-remove-unused-imports :which-key "remove unused imports"))
+
     (bind-leader-key
       :infix "a"
       "" '(:ignore t :which-key "applications")
@@ -2047,7 +2044,8 @@
       "v" '(vterm :which-key "vterm")
       "e" '(eshell :which-key "eshell")
       "s" '(shell :which-key "shell")
-      "i" '(ielm :which-key "ielm"))
+      "i" '(ielm :which-key "ielm")
+      "a" '(org-agenda :which-key "org agenda"))
 
     (bind-leader-key
       :infix "e"
