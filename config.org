@@ -1798,10 +1798,12 @@
       :prefix "]")
 
     (bind-op-square-brackets
-     "h" '(git-gutter:previous-hunk :which-key "git previous hunk"))
+     "h" '(git-gutter:previous-hunk :which-key "git previous hunk")
+     "e" '(flycheck-previous-error :which-key "flycheck previous error"))
 
     (bind-cl-square-brackets
-     "h" '(git-gutter:next-hunk :which-key "git next hunk"))
+     "h" '(git-gutter:next-hunk :which-key "git next hunk")
+     "e" '(flycheck-next-error :which-key "flycheck next error"))
 
     (bind-leader-key
       :infix "q"
@@ -2065,6 +2067,8 @@
       "" '(:ignore t :which-key "edit/errors")
       "e" '(evil-iedit-state/iedit-mode :which-key "iedit mode")
 
+      "n" '(flycheck-next-error :which-key "flycheck next error")
+      "p" '(flycheck-previous-error :which-key "flycheck previous error")
       "f" '(counsel-flycheck :which-key "flycheck errors"))
 
     (bind-leader-key
