@@ -1755,6 +1755,15 @@
      (sp-newline))
    #+end_src
 
+   Insert a date with =date= bash command
+
+   #+begin_src emacs-lisp
+   (defun rst/insert-date ()
+     "Insert a date with `date` command in current line"
+     (interactive)
+     (evil-read (- (evil-ex-current-line) 1) "!date \"+%F\""))
+   #+end_src
+
 * Keybindings
 
   #+begin_src emacs-lisp
@@ -2091,6 +2100,7 @@
       :infix "i"
       "" '(:ignore t :which-key "insert")
       "c" '(counsel-yank-pop :which-key "insert from clipboard")
+      "d" '(rst/insert-date :which-key "insert date")
       "u" '(counsel-unicode-char :which-key "unicode char"))
 
     (bind-leader-key
