@@ -1990,15 +1990,21 @@
       :keymaps 'org-mode-map
       "," '(org-babel-tangle :which-key "org babel tangle")
       "t" '(org-todo :which-key "org todo")
+      "D" '((lambda () (interactive)
+	      (org-todo 'done))
+	    :which-key "org mark as done")
+
       "c" '(:ignore t :which-key "clock")
       "ci" '(org-clock-in :which-key "org clock in")
       "co" '(org-clock-out :which-key "org clock out")
+
       "e" '(org-edit-src-code :which-key "org edit source")
       "s" '(org-schedule :which-key "org schedule")
       "d" '(org-deadline :which-key "org deadline")
       "r" '(org-babel-execute-src-block :which-key "org execute code")
       "i" '(org-display-inline-images :which-key "org display inline images")
-      "e" '(org-export-dispatch :which-key "org export"))
+      "x" '(org-export-dispatch :which-key "org export")
+      "h" '(org-toggle-heading :which-key "org toggle heading"))
 
     (bind-mode-key
       :keymaps 'LaTeX-mode-map
