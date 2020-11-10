@@ -1079,8 +1079,7 @@
    (use-package rainbow-mode
      :diminish (rainbow-mode . "Ⓡ")
      :hook
-     (prog-mode . rainbow-mode)
-     (text-mode . rainbow-mode))
+     (prog-mode . rainbow-mode))
    #+end_src
 
    Highlight pairs with different colors
@@ -1122,6 +1121,8 @@
 			 :foreground "#86dc2f"
 			 :weight 'ultra-bold
 			 :underline t)
+     ;; Configure new line behaviour
+     (sp-local-pair 'go-mode "{" nil :post-handlers '(("||\n[i]" "RET")))
      :hook
      (text-mode . show-smartparens-mode)
      (prog-mode . show-smartparens-mode)
@@ -1186,6 +1187,7 @@
 
    #+begin_src emacs-lisp
    (use-package git-gutter
+     :diminish
      :custom
      ((git-gutter:modified-sign "~"))
      :config
