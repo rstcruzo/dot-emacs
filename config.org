@@ -1352,14 +1352,14 @@
     Install =lsp-mode=, configure a prefix and integrate with =which-key=.
 
     #+begin_src emacs-lisp
-    (defun lsp-mode-setup ()
+    (defun rst/lsp-mode-setup ()
       (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
-      (lsp-headerline-breadcrumb-mode))
+      (lsp-headerline-breadcrumb-mode 1))
 
     (use-package lsp-mode
       :diminish (lsp-mode . "Ⓛ")
       :commands (lsp lsp-deferred)
-      :hook (lsp-mode . lsp-mode-setup)
+      :hook (lsp-mode . rst/lsp-mode-setup)
       :init
       (setq lsp-keymap-prefix "C-c l")
       :config
