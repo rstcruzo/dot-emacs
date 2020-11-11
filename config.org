@@ -1760,13 +1760,22 @@
      (sp-newline))
    #+end_src
 
-   Insert a date with =date= bash command
+   Insert a date with format =2020-11-04=
 
    #+begin_src emacs-lisp
    (defun rst/insert-date ()
      "Insert a date with `date` command in current line"
      (interactive)
      (evil-read (- (evil-ex-current-line) 1) "!date \"+%F\""))
+   #+end_src
+
+   Insert org header with current date
+
+   #+begin_src emacs-lisp
+   (defun rst/insert-org-header-with-date (heading-level)
+     (interactive "p")
+     (rst/insert-date)
+     (org-toggle-heading heading-level))
    #+end_src
 
 * Keybindings
@@ -2005,11 +2014,14 @@
       "ci" '(org-clock-in :which-key "org clock in")
       "co" '(org-clock-out :which-key "org clock out")
 
+      "i" '(:ignore t :which-key "insert")
+      "id" '(rst/insert-org-header-with-date :which-key "org header with date")
+
       "e" '(org-edit-src-code :which-key "org edit source")
       "s" '(org-schedule :which-key "org schedule")
       "d" '(org-deadline :which-key "org deadline")
       "r" '(org-babel-execute-src-block :which-key "org execute code")
-      "i" '(org-display-inline-images :which-key "org display inline images")
+      "I" '(org-display-inline-images :which-key "org display inline images")
       "x" '(org-export-dispatch :which-key "org export")
       "h" '(org-toggle-heading :which-key "org toggle heading"))
 
