@@ -1366,7 +1366,12 @@
       (lsp-enable-which-key-integration t))
 
     (use-package lsp-ui
-      :after lsp
+      :bind
+      (:map lsp-ui-peek-mode-map
+	    ("k" . lsp-ui-peek--select-prev)
+	    ("j" . lsp-ui-peek--select-next)
+	    ("l" . lsp-ui-peek--select-next-file)
+	    ("h" . lsp-ui-peek--select-prev-file))
       :hook
       (lsp-mode . lsp-ui-mode))
 
@@ -2055,7 +2060,13 @@
       "n" '(go-import-add :which-key "add new import")
       "i" '(go-goto-imports :which-key "go to imports")
       "a" '(go-goto-arguments :which-key "go to function arguments")
-      "r" '(go-remove-unused-imports :which-key "remove unused imports"))
+      "u" '(go-remove-unused-imports :which-key "remove unused imports")
+
+      "p" '(:ignore t :which-key "peek")
+      "pr" '(lsp-ui-peek-find-references :which-key "peek references")
+      "pd" '(lsp-ui-peek-find-definitions :which-key "peek definitions")
+
+      "d" '(lsp-find-definition :which-key "go to definition"))
 
     (bind-leader-key
       :infix "a"
