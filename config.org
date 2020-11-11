@@ -857,20 +857,15 @@
   Configure a project org file
 
   #+begin_src emacs-lisp
-  (defvar rst/org-projectile-filename nil
-    "Org file for current projectile notes.")
-
   (defun rst/org-projectile-file ()
-    "Return current project org file."
-    (let ((project-name (projectile-project-name)))
-      (if (not (string= project-name "-"))
-	  (setq rst/org-projectile-filename
-		(concat
-		 (file-name-as-directory rst/org-files-path)
-		 project-name ".org"))
-	(message "Not in a project...")
-	nil
-	)
+    "Return current project org file. If not in a project
+  currently, prompt for it."
+    (let* ((current-project (projectile-project-root))
+	   (project-path (projectile-ensure-project current-project)))
+
+      (concat
+       (file-name-as-directory rst/org-files-path)
+       (projectile-project-name project-path) ".org")
       )
     )
 
