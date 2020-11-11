@@ -1420,21 +1420,21 @@
       :commands go-mode)
     #+end_src
 
-    Enable =lsp-deferred= mode for Go
-
-    #+begin_src emacs-lisp
-    (add-hook 'go-mode-hook
-	      (lambda () (lsp-deferred)))
-    #+end_src
-
     Set tab width to 4
 
     #+begin_src emacs-lisp
     (add-hook 'go-mode-hook
-	      (lambda ()
-		(setq indent-tabs-mode nil)
-		(setq go-tab-width 4)
-		(setq tab-width 4)))
+              (lambda ()
+                (setq indent-tabs-mode nil
+                      go-tab-width 4
+                      tab-width 4)))
+    #+end_src
+
+    Enable =lsp-deferred= mode for Go
+
+    #+begin_src emacs-lisp
+    (add-hook 'go-mode-hook
+	      (lambda () (lsp)))
     #+end_src
 
 *** Javascript
@@ -1725,7 +1725,7 @@
      (let ((thing (ivy-thing-at-point)))
        (when (use-region-p)
 	 (deactivate-mark))
-       (counsel-projectile-rg-with-input thing)))
+       (rst/counsel-projectile-rg-with-input thing)))
    #+end_src
 
    Define way to add current project to treemacs
@@ -1902,7 +1902,9 @@
       "i" '(org-toggle-inline-images :which-key "toggle org inline images")
 
       "m" '(counsel-minor :which-key "toggle minor mode")
-      "M" '(counsel-major :which-key "toggle major mode"))
+      "M" '(counsel-major :which-key "toggle major mode")
+
+      "b" '(lsp-headerline-breadcrumb-mode :which-key "toggle lsp header breadcrumbs"))
 
     (bind-leader-key
       :infix "p"
