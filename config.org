@@ -74,6 +74,12 @@
 
 * General
 
+  Setup default directory
+
+  #+begin_src emacs-lisp
+  (setq default-directory "~/")
+  #+end_src
+
   Merge system clipboard with emacs kill ring
 
   #+begin_src emacs-lisp
