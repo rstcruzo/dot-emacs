@@ -1954,6 +1954,8 @@
       "m" '(counsel-minor :which-key "toggle minor mode")
       "M" '(counsel-major :which-key "toggle major mode")
 
+      "P" '(parrot-mode :which-key "toggle parrot")
+
       "b" '(lsp-headerline-breadcrumb-mode :which-key "toggle lsp header breadcrumbs"))
 
     (bind-leader-key
