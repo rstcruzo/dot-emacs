@@ -553,10 +553,7 @@
    #+begin_src emacs-lisp
    (use-package parrot
      :init
-     (setq parrot-num-rotations nil)
-     :config
-     (parrot-set-parrot-type 'default)
-     (parrot-mode))
+     (setq parrot-num-rotations nil))
 
    (declare-function parrot-create 'parrot)
      #+end_src
@@ -1815,7 +1812,7 @@
    Add some hooks to change parrot
 
    #+begin_src emacs-lisp
-   (add-hook 'git-commit-post-finish-hook 'rst/parrot-thumbs-up)
+   (add-hook 'git-commit-mode-hook 'rst/parrot-thumbs-up)
    #+end_src
 
 * Keybindings
