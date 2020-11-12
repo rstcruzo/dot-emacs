@@ -546,6 +546,20 @@
      "Face for spaceline iedit state")
    #+end_src
 
+** Fun
+
+   Add a beautiful parrot to the modeline
+
+   #+begin_src emacs-lisp
+   (use-package parrot
+     :init
+     (setq parrot-num-rotations nil)
+     :config
+     (parrot-set-parrot-type 'default)
+     (parrot-mode))
+
+   (declare-function parrot-create 'parrot)
+     #+end_src
 ** Theme
 
    Don't dim modeline when window is inactive
