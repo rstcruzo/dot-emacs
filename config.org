@@ -606,6 +606,11 @@
 			 :foreground "black"
 			 :background evil-emacs-color))
 
+   (spaceline-define-segment parrot
+     "Shows the infamous party parrot.  Requires `parrot-mode' to be enabled."
+     (when (bound-and-true-p parrot-mode)
+       (powerline-raw (parrot-create) default-face)))
+
    (spaceline-compile
      '(((persp-name
 	 workspace-number
@@ -631,7 +636,8 @@
 			:priority 78)
        (org-pomodoro :when active)
        (org-clock :when active)
-       nyan-cat)
+       nyan-cat
+       parrot)
 
      '(projectile-root
        which-function
@@ -850,7 +856,6 @@
      (push "*scratch*" popwin:special-display-config)
      (push '("*git-gutter:diff*" :stick t) popwin:special-display-config))
    #+end_src
-
 * Org Mode
 
   Basic configuration
