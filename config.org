@@ -488,25 +488,20 @@
    (setq frame-resize-pixelwise t)
    #+end_src
 
-   Highlight trailing whitespaces everywhere but some modes
+   Highlight current line on prog and text modes
 
    #+begin_src emacs-lisp
    (dolist (hook '(text-mode-hook
 		   prog-mode-hook))
      (add-hook hook
-	       (lambda () (setq show-trailing-whitespace t))))
+	       (lambda ()
+		 (hl-line-mode))))
    #+end_src
 
    Remove title bar icon. Looks ugly
 
    #+begin_src emacs-lisp
    (setq ns-use-proxy-icon nil)
-   #+end_src
-
-   Highlight current line
-
-   #+begin_src emacs-lisp
-   (global-hl-line-mode 1)
    #+end_src
 
    Disable bell
