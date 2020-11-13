@@ -556,7 +556,8 @@
      (setq parrot-num-rotations nil))
 
    (declare-function parrot-create 'parrot)
-     #+end_src
+   #+end_src
+
 ** Theme
 
    Don't dim modeline when window is inactive
@@ -668,7 +669,7 @@
    Set default font
 
    #+begin_src emacs-lisp
-   (set-face-attribute 'default nil :font "Fira Code Retina" :height 125)
+   (set-face-attribute 'default nil :font "Fira Code" :height 125)
    #+end_src
 
    Disable python =and= and =or= ligatures
@@ -853,6 +854,7 @@
      (push "*scratch*" popwin:special-display-config)
      (push '("*git-gutter:diff*" :stick t) popwin:special-display-config))
    #+end_src
+
 * Org Mode
 
   Basic configuration
@@ -925,7 +927,7 @@
 		  (org-level-7 . 1.1)
 		  (org-level-8 . 1.1)))
     (set-face-attribute (car face) nil
-			:font "Fira Code Retina"
+			:font "Fira Code"
 			:weight 'regular
 			:height (cdr face)))
   #+end_src
