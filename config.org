@@ -415,27 +415,6 @@
   (setq uniquify-buffer-name-style 'forward)
   #+end_src
 
-** Dired
-
-   Enable a way to filter files in dired
-
-   #+begin_src emacs-lisp
-   (use-package dired-narrow)
-   #+end_src
-
-   When there is two dired windows, copy and move commands will default to the
-   other window directory.
-
-   #+begin_src emacs-lisp
-   (setq dired-dwim-target t)
-   #+end_src
-
-   Change =ls= options
-
-   #+begin_src emacs-lisp
-   (setq dired-listing-switches "-alh")
-   #+end_src
-
 * UI
 ** General
 
@@ -879,6 +858,27 @@
      (push "*scratch*" popwin:special-display-config)
      (push '("*git-gutter:diff*" :stick t) popwin:special-display-config))
    #+end_src
+
+* Dired
+
+  Enable a way to filter files in dired
+
+  #+begin_src emacs-lisp
+  (use-package dired-narrow)
+  #+end_src
+
+  When there is two dired windows, copy and move commands will default to the
+  other window directory.
+
+  #+begin_src emacs-lisp
+  (setq dired-dwim-target t)
+  #+end_src
+
+  Change =ls= options
+
+  #+begin_src emacs-lisp
+  (setq dired-listing-switches "-alh")
+  #+end_src
 
 * Org Mode
 
