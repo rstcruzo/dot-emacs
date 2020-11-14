@@ -1,5 +1,6 @@
 #+title: Emacs Configuration
 
+#+author: Rodrigo Santa Cruz
 #+property: header-args:emacs-lisp :tangle ./init.el
 #+startup: content
 
