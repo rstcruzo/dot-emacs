@@ -542,6 +542,12 @@
    (declare-function parrot-create 'parrot)
    #+end_src
 
+   Render fire
+
+   #+begin_src emacs-lisp
+   (use-package fireplace)
+   #+end_src
+
 ** Theme
 
    Don't dim modeline when window is inactive
