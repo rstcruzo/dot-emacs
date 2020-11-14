@@ -685,30 +685,13 @@
 	   dashboard-items '((agenda . 6)
 			     (recents . 6)
 			     (bookmarks . 3))
-	   dashboard-set-init-info t
-	   dashboard-startup-banner "~/.emacs.d/banner.txt")
+	   dashboard-set-init-info t)
      (dashboard-setup-startup-hook))
 
    ;; Override choose banner to allow .txt when not inside a terminal
    (defun dashboard-choose-banner ()
      "Return the full path of a banner based on the dotfile value."
-     (when dashboard-startup-banner
-       (cond ((eq 'official dashboard-startup-banner)
-	      (if (and (display-graphic-p) (image-type-available-p 'png))
-		  dashboard-banner-official-png
-		(dashboard-get-banner-path 1)))
-	     ((eq 'logo dashboard-startup-banner)
-	      (if (and (display-graphic-p) (image-type-available-p 'png))
-		  dashboard-banner-logo-png
-		(dashboard-get-banner-path 1)))
-	     ((integerp dashboard-startup-banner)
-	      (dashboard-get-banner-path dashboard-startup-banner))
-	     ((stringp dashboard-startup-banner)
-	      (if (file-exists-p dashboard-startup-banner)
-		  dashboard-startup-banner
-		(message "could not find banner %s, use default instead" dashboard-startup-banner)
-		(dashboard-get-banner-path 1)))
-	     (t (dashboard-get-banner-path 1)))))
+     "~/.emacs.d/banner.txt")
    #+end_src
 
 ** Window
@@ -1230,6 +1213,7 @@
      :custom
      ((git-gutter:modified-sign "~"))
      :config
+     (add-to-list 'git-gutter:update-hooks 'focus-in-hook)
      (global-git-gutter-mode +1))
    #+end_src
 
