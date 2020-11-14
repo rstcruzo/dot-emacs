@@ -45,13 +45,10 @@
   (setq frame-inhibit-implied-resize t)
   #+end_src
 
-  To fix mac OS flickering problem, install the version in:
-  https://github.com/railwaycat/homebrew-emacsmacport
-
+  To fix mac OS flickering problem, install the version in this [[https://github.com/railwaycat/homebrew-emacsmacport][repo]]
   Command to install is =brew cask install emacs-mac=
 
-  Some bugs are solved if we don't turn off =menu-bar-mode=:
-  https://github.com/railwaycat/homebrew-emacsmacport/issues/124
+  Some bugs are solved if we don't turn off =menu-bar-mode= ([[  https://github.com/railwaycat/homebrew-emacsmacport/issues/124][github issue]])
 
 * Package System Setup
 
