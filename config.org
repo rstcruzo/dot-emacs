@@ -498,10 +498,10 @@
 		 (hl-line-mode))))
    #+end_src
 
-   Remove title bar icon. Looks ugly
+   Change titlebar title
 
    #+begin_src emacs-lisp
-   (setq ns-use-proxy-icon nil)
+   (setq-default frame-title-format '("Emacs"))
    #+end_src
 
    Disable bell
@@ -1605,14 +1605,18 @@
    #+begin_src emacs-lisp
    (use-package popup)
    (use-package google-translate
-     :commands google-translate-smooth-translate
      :config
      (setq google-translate-translation-directions-alist
 	   '(("en" . "es") ("es". "en"))))
 
    (use-package google-translate-default-ui
      :after google-translate
-     :ensure nil)
+     :ensure nil
+     :config
+     ;; Workaround to bug https://github.com/atykhonov/google-translate/issues/137
+     (defun google-translate--search-tkk ()
+       "Search TKK."
+       (list 430675 2721866130)))
    #+end_src
 
 ** Diagrams
