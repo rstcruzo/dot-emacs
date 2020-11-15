@@ -599,6 +599,14 @@
      (when (bound-and-true-p parrot-mode)
        (powerline-raw (parrot-create) default-face)))
 
+   (spaceline-define-segment git
+     "Shows the current git branch if any."
+     (when vc-mode
+       (powerline-raw
+	(concat (all-the-icons-octicon "git-compare" :v-adjust 0.01)
+		" "
+		(s-trim (substring vc-mode 5))))))
+
    (spaceline-compile
      '(((persp-name
 	 workspace-number
@@ -620,8 +628,7 @@
 		    :priority 9)
        (mu4e-alert-segment :when active)
        (erc-track :when active)
-       (version-control :when active
-			:priority 78)
+       (git :when active :priority 78)
        (org-pomodoro :when active)
        (org-clock :when active)
        nyan-cat
