@@ -695,10 +695,13 @@
 	   dashboard-set-init-info t)
      (dashboard-setup-startup-hook))
 
-   ;; Override choose banner to allow .txt when not inside a terminal
+   ;; Override dashbaord choose banner to allow .txt when not inside a terminal
+   ;; and to pick a random banner
    (defun dashboard-choose-banner ()
-     "Return the full path of a banner based on the dotfile value."
-     "~/.emacs.d/banner.txt")
+     "Return the full path of a banner based random id."
+     (let ((id (random 3)))
+       (format "~/.emacs.d/banner-%d.txt" id)
+       ))
    #+end_src
 
 ** Window
@@ -1733,6 +1736,19 @@
      ("q" nil "quit" :exit t))
    #+end_src
 
+   Define hydra function to cycle between git hunks
+
+   #+begin_src emacs-lisp
+   (defhydra rst/hydra-cycle-hunks ()
+     "Cycle, revert and stage hunks"
+     ("j" git-gutter:next-hunk "next hunk")
+     ("k" git-gutter:previous-hunk "previous hunk")
+     ("s" git-gutter:stage-hunk "stage hunk")
+     ("p" git-gutter:popup-hunk "popup hunk")
+     ("w" git-gutter:revert-hunk "revert hunk")
+     ("q" nil "quit" :exit t))
+   #+end_src
+
 ** Counsel Projectile
 
    Define custom counsel projectile search functions to better handle default
@@ -1992,6 +2008,7 @@
       "" '(:ignore t :which-key "git")
       "g" '(magit-status :which-key "git status")
       "c" '(rst/hydra-merge-conflicts/body :which-key "merge conflicts")
+      "h" '(rst/hydra-cycle-hunks/body :which-key "cycle hunks")
       "b" '(magit-blame-addition :which-key "blame")
 
       "s" '(git-gutter:popup-hunk :which-key "show current hunk diff")
