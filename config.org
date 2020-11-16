@@ -1210,7 +1210,20 @@
 	 evil-iedit-insert-state-cursor `(,evil-iedit-color (bar . 2)))
    #+end_src
 
+   Highlight todo and similar keywords
+
+   #+begin_src emacs-lisp
+   (use-package hl-todo
+     :hook (prog-mode . hl-todo-mode))
+   #+end_src
+
 ** Version Control
+
+   Update vc info automatically
+
+   #+begin_src emacs-lisp
+   (setq auto-revert-check-vc-info t)
+   #+end_src
 
    Install magit and integrate it with vim
 
