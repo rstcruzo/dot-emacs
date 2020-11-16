@@ -473,13 +473,23 @@
    #+end_src
 
    Highlight current line on prog and text modes
+   Also do an animation when cursor changes position.
 
    #+begin_src emacs-lisp
-   (dolist (hook '(text-mode-hook
-		   prog-mode-hook))
-     (add-hook hook
-	       (lambda ()
-		 (hl-line-mode))))
+   (use-package beacon
+     :diminish
+     :config
+     (setq beacon-color "SlateGray4"
+	   beacon-blink-when-window-scrolls nil
+	   beacon-size 25
+	   beacon-blink-when-point-moves-horizontally nil
+	   beacon-blink-when-point-moves-vertically 3)
+     (dolist (hook '(text-mode-hook
+		     prog-mode-hook))
+       (add-hook hook
+		 (lambda ()
+		   (hl-line-mode)
+		   (beacon-mode 1)))))
    #+end_src
 
    Change titlebar title
