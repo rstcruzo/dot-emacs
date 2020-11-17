@@ -121,7 +121,7 @@
 
   #+begin_src emacs-lisp
   (use-package undo-tree
-    :diminish (undo-tree-mode . "Ⓤ")
+    :diminish
     :config
     (global-undo-tree-mode))
   #+end_src
@@ -179,11 +179,7 @@
 	  '((swiper          . ivy-posframe-display-at-frame-top-center)
 	    (counsel-M-x     . ivy-posframe-display-at-frame-top-center)
 	    (t               . ivy-posframe-display-at-frame-top-center)))
-    (setq ivy-posframe-width 100
-	  ivy-posframe-min-width 100
-	  ivy-posframe-height 10
-	  ivy-posframe-min-height 10
-	  ivy-posframe-border-width 20))
+    (setq ivy-posframe-border-width 20))
   #+end_src
 
   Install =which-key= and other helpful information packages.
@@ -303,7 +299,7 @@
   #+begin_src emacs-lisp
   (use-package company
     :commands company-mode
-    :diminish (company-mode . "Ⓒ")
+    :diminish
     :bind
     (:map company-active-map
 	  ("C-j" . company-select-next)
@@ -454,7 +450,7 @@
    Increase line spacing
 
    #+begin_src emacs-lisp
-   (setq-default line-spacing 0.3)
+   (setq-default line-spacing 0.4)
    #+end_src
 
    Show relative line numbers in =prog-mode=
@@ -567,19 +563,29 @@
    (advice-add 'powerline-selected-window-active :around 'rst/do-nothing)
    #+end_src
 
-   Configure the mode line and set a theme
+   Configure and set a theme
 
    #+begin_src emacs-lisp
+   (defun rst/inherit-icon (icon)
+     "Make icon inherit faces. Use with all the icons."
+     (add-face-text-property
+      0 (length icon)
+      :inherit t icon)
+     icon)
+
    (use-package doom-themes)
 
-   (use-package zerodark-theme)
    (use-package spacemacs-common
      :ensure spacemacs-theme)
 
    (use-package all-the-icons)
 
-   (load-theme 'doom-one t)
+   (load-theme 'spacemacs-dark t)
+   #+end_src
 
+   Configure the mode line
+
+   #+begin_src emacs-lisp
    (use-package spaceline-config
      :ensure spaceline
      :config
@@ -613,7 +619,7 @@
      "Shows the current git branch if any."
      (when vc-mode
        (powerline-raw
-	(concat (all-the-icons-octicon "git-compare" :v-adjust 0.01)
+	(concat (rst/inherit-icon (all-the-icons-octicon "git-compare" :v-adjust 0.01))
 		" "
 		(s-trim (substring vc-mode 5))))))
 
@@ -621,7 +627,7 @@
      '(((persp-name
 	 workspace-number
 	 window-number)
-	:separator " ⃒ "
+	:separator "｜"
 	:fallback evil-state
 	:face highlight-face
 	:priority 100)
@@ -676,7 +682,7 @@
    Set default font
 
    #+begin_src emacs-lisp
-   (set-face-attribute 'default nil :font "Fira Code" :height 125)
+   (set-face-attribute 'default nil :font "Fira Code" :height 130)
    #+end_src
 
    Disable python =and= and =or= ligatures
@@ -775,7 +781,6 @@
 	   centaur-tabs-modified-marker "☻")
      (centaur-tabs-headline-match)
      (centaur-tabs-group-by-projectile-project)
-     (centaur-tabs-mode t)
      :bind
      (:map evil-normal-state-map
 	   ("gt" . centaur-tabs-forward)
@@ -1126,7 +1131,7 @@
 
    #+begin_src emacs-lisp
    (use-package rainbow-mode
-     :diminish (rainbow-mode . "Ⓡ")
+     :diminish
      :hook
      (prog-mode . rainbow-mode))
    #+end_src
@@ -1145,7 +1150,7 @@
 
    #+begin_src emacs-lisp
    (use-package highlight-parentheses
-     :diminish (highlight-parentheses-mode . "ⒽⓅ")
+     :diminish
      :ensure nil
      :config
      (set-face-attribute 'highlight-parentheses-highlight nil
@@ -1162,7 +1167,7 @@
 
    #+begin_src emacs-lisp
    (use-package smartparens
-     :diminish (smartparens-mode . "ⓈⓅ")
+     :diminish
      :defer t
      :config
      (require 'smartparens-config)
@@ -1188,7 +1193,7 @@
 
    #+begin_src emacs-lisp
    (use-package highlight-indent-guides
-     :diminish (highlight-indent-guides-mode . "ⒽⒾ")
+     :diminish
      :config
      (setq highlight-indent-guides-method 'character
 	   highlight-indent-guides-responsive 'top
@@ -1337,7 +1342,7 @@
 
    #+begin_src emacs-lisp
    (use-package yasnippet
-     :diminish (yas-minor-mode . "Ⓨ")
+     :diminish (yas-minor-mode . "")
      :config
      (yas-global-mode 1))
 
@@ -1352,7 +1357,7 @@
 
     #+begin_src emacs-lisp
     (use-package flycheck
-      :diminish (flycheck-mode . "Ⓕ")
+      :diminish
       :custom
       (flycheck-python-flake8-executable "flake8")
       (flycheck-python-pylint-executable "pylint")
@@ -1420,7 +1425,7 @@
       (lsp-headerline-breadcrumb-mode 1))
 
     (use-package lsp-mode
-      :diminish (lsp-mode . "Ⓛ")
+      :diminish (lsp-mode . "LSP")
       :commands (lsp lsp-deferred)
       :hook (lsp-mode . rst/lsp-mode-setup)
       :config
@@ -2265,18 +2270,6 @@
 
   #+begin_src emacs-lisp
   (use-package bug-hunter)
-  #+end_src
-
-* Post-init
-
-  Workaround to centaur tabs and flyspell bug. Probably a race condition (?)
-  When flyspell mode is enabled in a mode hook, the first file with that mode we
-  open is not added to its project tab group. Looks related to initializing
-  ispell, doing in at startup fixes the issue.
-
-  #+begin_src emacs-lisp
-  (ispell-set-spellchecker-params)
-  (ispell-init-process)
   #+end_src
 
 * Startup Time Analysis
