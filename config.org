@@ -319,10 +319,12 @@
   Show documentation in a popup while completing
 
   #+begin_src emacs-lisp
-  (use-package company-quickhelp
-    :hook (company-mode . company-quickhelp-mode)
+  (use-package company-box
+    :hook (company-mode . company-box-mode)
     :config
-    (setq company-quickhelp-delay 1))
+    (setq company-box-backends-colors nil
+	  company-box-max-candidates 1000))
+
   #+end_src
 
   Add =yasnippet= support for all company backends
@@ -448,12 +450,6 @@
 
    #+begin_src emacs-lisp
    (column-number-mode)
-   #+end_src
-
-   Increase line spacing
-
-   #+begin_src emacs-lisp
-   (setq-default line-spacing 0.4)
    #+end_src
 
    Show relative line numbers in =prog-mode=
@@ -685,7 +681,7 @@
    Set default font
 
    #+begin_src emacs-lisp
-   (set-face-attribute 'default nil :font "Fira Code" :height 130)
+   (set-face-attribute 'default nil :font "Source Code Pro" :height 130)
    #+end_src
 
    Disable python =and= and =or= ligatures
@@ -2055,7 +2051,8 @@
       "h" '(rst/hydra-cycle-hunks/body :which-key "cycle hunks")
       "b" '(magit-blame-addition :which-key "blame")
 
-      "s" '(git-gutter+-show-hunk :which-key "show current hunk diff")
+      "s" '(git-gutter+-show-hunk-inline-at-point :which-key "show current hunk diff")
+      "S" '(git-gutter+-show-hunk :which-key "show current hunk diff in a buffer")
       "r" '(git-gutter+-revert-hunk :which-key "revert current hunk")
       "n" '(git-gutter+-next-hunk :which-key "next hunk")
       "p" '(git-gutter+-previous-hunk :which-key "previous hunk")
