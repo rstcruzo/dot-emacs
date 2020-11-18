@@ -429,12 +429,6 @@
    (tooltip-mode -1)
    #+end_src
 
-   Widen fringe a little bit
-
-   #+begin_src emacs-lisp
-   (set-fringe-mode 5)
-   #+end_src
-
    Use spaces instead of tabs
 
    #+begin_src emacs-lisp
@@ -1249,17 +1243,25 @@
    (add-hook 'git-commit-mode-hook 'evil-insert-state)
    #+end_src
 
-   Visualize git hunks in the fringe.
+   Visualize git hunks in the fringe. Also, update them on magit refresh.
 
    #+begin_src emacs-lisp
    (use-package git-gutter+
      :diminish
-     :config
-     (global-git-gutter+-mode 1))
+     :hook
+     (text-mode . git-gutter+-mode)
+     (prog-mode . git-gutter+-mode))
 
    (use-package git-gutter-fringe+
      :config
-     (setq git-gutter-fr+-side 'right-fringe))
+     (setq right-fringe-width 20
+	   git-gutter-fr+-side 'right-fringe))
+
+   (defun rst/git-gutter+-refresh-in-all-buffers ()
+     (git-gutter+-in-all-buffers (when git-gutter+-mode (git-gutter+-refresh))))
+
+   (add-hook 'magit-pre-refresh-hook 'rst/git-gutter+-refresh-in-all-buffers)
+
    #+end_src
 
    Integrate treemacs with magit
