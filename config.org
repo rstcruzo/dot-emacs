@@ -306,7 +306,7 @@
 	  ("C-k" . company-select-previous))
     :custom
     ((company-minimum-prefix-length 2)
-     (company-idle-delay 0.2))
+     (company-idle-delay 0.1))
     :hook
     ((text-mode . company-mode)
      (prog-mode . company-mode))
