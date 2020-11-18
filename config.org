@@ -871,7 +871,7 @@
      (popwin-mode 1)
      (push '(TeX-output-mode :noselect t :tail t) popwin:special-display-config)
      (push "*scratch*" popwin:special-display-config)
-     (push '("*git-gutter:diff*" :stick t) popwin:special-display-config))
+     (push '("*git-gutter+-diff*" :stick t) popwin:special-display-config))
    #+end_src
 
 * Dired
@@ -1249,17 +1249,17 @@
    (add-hook 'git-commit-mode-hook 'evil-insert-state)
    #+end_src
 
-   Visualize git hunks in the fringe. Make sure they are updated when
-   we operate on magit.
+   Visualize git hunks in the fringe.
 
    #+begin_src emacs-lisp
-   (use-package git-gutter
+   (use-package git-gutter+
      :diminish
-     :custom
-     ((git-gutter:modified-sign "~"))
      :config
-     (add-to-list 'git-gutter:update-hooks 'focus-in-hook)
-     (global-git-gutter-mode +1))
+     (global-git-gutter+-mode 1))
+
+   (use-package git-gutter-fringe+
+     :config
+     (setq git-gutter-fr+-side 'right-fringe))
    #+end_src
 
    Integrate treemacs with magit
@@ -1776,11 +1776,10 @@
    #+begin_src emacs-lisp
    (defhydra rst/hydra-cycle-hunks ()
      "Cycle, revert and stage hunks"
-     ("j" git-gutter:next-hunk "next hunk")
-     ("k" git-gutter:previous-hunk "previous hunk")
-     ("s" git-gutter:stage-hunk "stage hunk")
-     ("p" git-gutter:popup-hunk "popup hunk")
-     ("w" git-gutter:revert-hunk "revert hunk")
+     ("j" git-gutter+-next-hunk "next hunk")
+     ("k" git-gutter+-previous-hunk "previous hunk")
+     ("s" git-gutter+-show-hunk "show hunk")
+     ("r" git-gutter+-revert-hunk "revert hunk")
      ("q" nil "quit" :exit t))
    #+end_src
 
@@ -1922,11 +1921,11 @@
       :prefix "]")
 
     (bind-op-square-brackets
-     "h" '(git-gutter:previous-hunk :which-key "git previous hunk")
+     "h" '(git-gutter+-previous-hunk :which-key "git previous hunk")
      "e" '(flycheck-previous-error :which-key "flycheck previous error"))
 
     (bind-cl-square-brackets
-     "h" '(git-gutter:next-hunk :which-key "git next hunk")
+     "h" '(git-gutter+-next-hunk :which-key "git next hunk")
      "e" '(flycheck-next-error :which-key "flycheck next error"))
 
     (bind-leader-key
@@ -2046,10 +2045,10 @@
       "h" '(rst/hydra-cycle-hunks/body :which-key "cycle hunks")
       "b" '(magit-blame-addition :which-key "blame")
 
-      "s" '(git-gutter:popup-hunk :which-key "show current hunk diff")
-      "r" '(git-gutter:revert-hunk :which-key "revert current hunk")
-      "n" '(git-gutter:next-hunk :which-key "next hunk")
-      "p" '(git-gutter:previous-hunk :which-key "previous hunk")
+      "s" '(git-gutter+-show-hunk :which-key "show current hunk diff")
+      "r" '(git-gutter+-revert-hunk :which-key "revert current hunk")
+      "n" '(git-gutter+-next-hunk :which-key "next hunk")
+      "p" '(git-gutter+-previous-hunk :which-key "previous hunk")
 
       "l" '(git-link :which-key "git link"))
 
