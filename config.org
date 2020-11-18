@@ -1261,7 +1261,6 @@
      (git-gutter+-in-all-buffers (when git-gutter+-mode (git-gutter+-refresh))))
 
    (add-hook 'magit-pre-refresh-hook 'rst/git-gutter+-refresh-in-all-buffers)
-
    #+end_src
 
    Integrate treemacs with magit
