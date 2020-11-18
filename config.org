@@ -320,6 +320,7 @@
 
   #+begin_src emacs-lisp
   (use-package company-box
+    :diminish
     :hook (company-mode . company-box-mode)
     :config
     (setq company-box-backends-colors nil
