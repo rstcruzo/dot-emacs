@@ -316,6 +316,15 @@
     (define-key company-active-map (kbd "C-w") nil))
   #+end_src
 
+  Show documentation in a popup while completing
+
+  #+begin_src emacs-lisp
+  (use-package company-quickhelp
+    :hook (company-mode . company-quickhelp-mode)
+    :config
+    (setq company-quickhelp-delay 1))
+  #+end_src
+
   Add =yasnippet= support for all company backends
   Source: https://github.com/syl20bnr/spacemacs/pull/179
 
