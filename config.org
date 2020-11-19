@@ -904,7 +904,7 @@
     "Folder path where all org files are stored")
 
   (use-package org
-    :diminish (org-src-mode . "ⓄⓈ")
+    :diminish
     :config
     (setq org-agenda-start-with-log-mode t
 	  org-log-done 'time
@@ -958,26 +958,28 @@
   Change org headings size
 
   #+begin_src emacs-lisp
-  (dolist (face '((org-level-1 . 1.3)
-		  (org-level-2 . 1.2)
-		  (org-level-3 . 1.1)
-		  (org-level-4 . 1.05)
-		  (org-level-5 . 1.1)
-		  (org-level-6 . 1.1)
-		  (org-level-7 . 1.1)
-		  (org-level-8 . 1.1)))
-    (set-face-attribute (car face) nil
-			:font "Fira Code"
-			:weight 'regular
-			:height (cdr face)))
+  (with-eval-after-load "org"
+    (dolist (face '((org-level-1 . 1.3)
+		    (org-level-2 . 1.2)
+		    (org-level-3 . 1.1)
+		    (org-level-4 . 1.05)
+		    (org-level-5 . 1.1)
+		    (org-level-6 . 1.1)
+		    (org-level-7 . 1.1)
+		    (org-level-8 . 1.1)))
+      (set-face-attribute (car face) nil
+			  :font "Fira Code"
+			  :weight 'regular
+			  :height (cdr face))))
   #+end_src
 
   Configure org title size and style
 
   #+begin_src emacs-lisp
-  (set-face-attribute 'org-document-title nil
-		      :underline t
-		      :height 1.4)
+  (with-eval-after-load "org"
+    (set-face-attribute 'org-document-title nil
+			:underline t
+			:height 1.4))
   #+end_src
 
   Configure templates expansion
@@ -1254,11 +1256,11 @@
    #+begin_src emacs-lisp
    (use-package git-gutter+
      :diminish
-     :hook
-     (text-mode . git-gutter+-mode)
-     (prog-mode . git-gutter+-mode))
+     :config
+     (global-git-gutter+-mode))
 
    (use-package git-gutter-fringe+
+     :after git-gutter+
      :config
      (setq right-fringe-width 20
 	   git-gutter-fr+-side 'right-fringe))
@@ -1353,7 +1355,8 @@
      :config
      (yas-global-mode 1))
 
-   (use-package yasnippet-snippets)
+   (use-package yasnippet-snippets
+     :after yasnippet)
    #+end_src
 
 ** Languages
@@ -1461,7 +1464,7 @@
 
     #+begin_src emacs-lisp
     (use-package sphinx-doc
-      :diminish (sphinx-doc-mode . "ⓈⒹ")
+      :diminish
       :commands sphinx-doc-mode
       :config
       :hook (python-mode . (lambda ()
@@ -1472,6 +1475,7 @@
 
     #+begin_src emacs-lisp
     (use-package lsp-python-ms
+      :commands (lsp lsp-deferred)
       :init (setq lsp-python-ms-auto-install-server t)
       :hook (python-mode . (lambda ()
 			     (require 'lsp-python-ms)
@@ -1666,6 +1670,7 @@
    #+begin_src emacs-lisp
    (use-package popup)
    (use-package google-translate
+     :commands (google-translate-smooth-translate)
      :config
      (setq google-translate-translation-directions-alist
 	   '(("en" . "es") ("es". "en"))))
