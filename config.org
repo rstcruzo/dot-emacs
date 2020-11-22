@@ -2007,7 +2007,9 @@
       "i" '(ibuffer :which-key "ibuffer")
       "R" '(revert-buffer :which-key "revert buffer")
 
-      "m" '(counsel-bookmark :which-key "create/jump to bookmarks"))
+      "m" '(counsel-bookmark :which-key "create/jump to bookmarks")
+
+      "n" '(evil-buffer-new :which-key "new buffer"))
 
     (bind-leader-key
       :infix "t"
