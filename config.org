@@ -524,7 +524,7 @@
          evil-replace-color "chocolate"
          evil-visual-color "gray"
          evil-motion-color "plum3"
-         evil-iedit-color "firebrick1")
+         evil-iedit-color "IndianRed1")
    #+end_src
 
    Define spaceline iedit face
