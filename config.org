@@ -2275,9 +2275,10 @@
     (bind-leader-key
       :infix "i"
       "" '(:ignore t :which-key "insert")
-      "c" '(counsel-yank-pop :which-key "insert from clipboard")
-      "d" '(rst/insert-date :which-key "insert date")
-      "u" '(counsel-unicode-char :which-key "unicode char"))
+      "c" '(counsel-yank-pop :which-key "from clipboard")
+      "d" '(rst/insert-date :which-key "date")
+      "u" '(counsel-unicode-char :which-key "unicode char")
+      "s" '(yas-insert-snippet :which-key "snippet"))
 
     (bind-leader-key
       :infix "P"
