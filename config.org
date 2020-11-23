@@ -10,16 +10,16 @@
 
   #+begin_src emacs-lisp
   (setq gc-cons-threshold most-positive-fixnum ; 2^61 bytes
-	gs-cons-percentage 0.6)
+        gs-cons-percentage 0.6)
   #+end_src
 
   Reset garbage collection after startup
 
   #+begin_src emacs-lisp
   (add-hook 'emacs-startup-hook
-	    (lambda ()
-	      (setq gc-cons-threshold 16777216 ; 16 mb
-		    gs-cons-percentage 0.1)))
+            (lambda ()
+              (setq gc-cons-threshold 16777216 ; 16 mb
+                    gs-cons-percentage 0.1)))
   #+end_src
 
   Raise gc-cons-threshold while the minibuffer is active, so the GC doesn’t slow
@@ -59,8 +59,8 @@
   (require 'package)
 
   (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-			   ("org" . "https://orgmode.org/elpa/")
-			   ("elpa" . "https://elpa.gnu.org/packages/")))
+                           ("org" . "https://orgmode.org/elpa/")
+                           ("elpa" . "https://elpa.gnu.org/packages/")))
 
   (package-initialize)
   (unless package-archive-contents
@@ -75,7 +75,7 @@
 
   (require 'use-package)
   (setq use-package-always-ensure t
-	use-package-verbose t)
+        use-package-verbose t)
   #+end_src
 
 * General
@@ -96,9 +96,9 @@
 
   #+begin_src emacs-lisp
   (setq backup-directory-alist
-	`((".*" . ,temporary-file-directory)))
+        `((".*" . ,temporary-file-directory)))
   (setq auto-save-file-name-transforms
-	`((".*" ,temporary-file-directory t)))
+        `((".*" ,temporary-file-directory t)))
   #+end_src
 
   Make ESC quit prompts
@@ -131,8 +131,8 @@
   #+begin_src emacs-lisp
   (use-package counsel
     :bind (("M-x" . counsel-M-x)
-	   ("C-x b" . counsel-ibuffer)
-	   ("C-x C-f" . counsel-find-file)))
+           ("C-x b" . counsel-ibuffer)
+           ("C-x C-f" . counsel-find-file)))
 
   (use-package swiper
     :diminish)
@@ -143,28 +143,28 @@
   (use-package ivy
     :diminish
     :bind (:map ivy-minibuffer-map
-		("TAB" . ivy-alt-done)
-		("C-l" . ivy-alt-done)
-		("M-RET" . ivy-immediate-done)
-		("C-h" . ivy-beginning-of-buffer)
-		("C-j" . ivy-next-line)
-		("C-k" . ivy-previous-line)
-		("C-w" . evil-delete-backward-word)
-		("C-a" . ivy-dispatching-done)
-		("C-i" . ivy-avy)
-		("C-e" . ivy-occur)
-		:map ivy-switch-buffer-map
-		("C-k" . ivy-previous-line)
-		("C-l" . ivy-done)
-		("C-d" . ivy-switch-buffer-kill)
-		:map ivy-reverse-i-search-map
-		("C-k" . ivy-previous-line)
-		("C-d" . ivy-reverse-i-search-kill))
+                ("TAB" . ivy-alt-done)
+                ("C-l" . ivy-alt-done)
+                ("M-RET" . ivy-immediate-done)
+                ("C-h" . ivy-beginning-of-buffer)
+                ("C-j" . ivy-next-line)
+                ("C-k" . ivy-previous-line)
+                ("C-w" . evil-delete-backward-word)
+                ("C-a" . ivy-dispatching-done)
+                ("C-i" . ivy-avy)
+                ("C-e" . ivy-occur)
+                :map ivy-switch-buffer-map
+                ("C-k" . ivy-previous-line)
+                ("C-l" . ivy-done)
+                ("C-d" . ivy-switch-buffer-kill)
+                :map ivy-reverse-i-search-map
+                ("C-k" . ivy-previous-line)
+                ("C-d" . ivy-reverse-i-search-kill))
     :config
     (setq ivy-initial-inputs-alist nil
-	  ivy-wrap t
-	  ivy-re-builders-alist
-	  '((t   . ivy--regex-ignore-order)))
+          ivy-wrap t
+          ivy-re-builders-alist
+          '((t   . ivy--regex-ignore-order)))
     (ivy-mode 1))
   #+end_src
 
@@ -176,9 +176,9 @@
     :diminish (ivy-posframe-mode . "ⒾⓅ")
     :config
     (setq ivy-posframe-display-functions-alist
-	  '((swiper          . ivy-posframe-display-at-frame-top-center)
-	    (counsel-M-x     . ivy-posframe-display-at-frame-top-center)
-	    (t               . ivy-posframe-display-at-frame-top-center)))
+          '((swiper          . ivy-posframe-display-at-frame-top-center)
+            (counsel-M-x     . ivy-posframe-display-at-frame-top-center)
+            (t               . ivy-posframe-display-at-frame-top-center)))
     (setq ivy-posframe-border-width 20))
   #+end_src
 
@@ -210,9 +210,9 @@
   (use-package evil
     :init
     (setq evil-want-integration t
-	  evil-want-keybinding nil
-	  evil-want-C-u-scroll t
-	  evil-want-C-i-jump t)
+          evil-want-keybinding nil
+          evil-want-C-u-scroll t
+          evil-want-C-i-jump t)
     :custom
     (evil-search-module 'evil-search)
     (evil-undo-system 'undo-tree)
@@ -277,7 +277,7 @@
     :after evil
     :bind
     (:map evil-normal-state-map
-	  ("C-a" . evil-numbers/inc-at-pt)))
+          ("C-a" . evil-numbers/inc-at-pt)))
 
   (use-package evil-snipe
     :after evil
@@ -302,8 +302,8 @@
     :diminish
     :bind
     (:map company-active-map
-	  ("C-j" . company-select-next)
-	  ("C-k" . company-select-previous))
+          ("C-j" . company-select-next)
+          ("C-k" . company-select-previous))
     :custom
     ((company-minimum-prefix-length 2)
      (company-idle-delay 0.1))
@@ -324,7 +324,7 @@
     :hook (company-mode . company-box-mode)
     :config
     (setq company-box-backends-colors nil
-	  company-box-max-candidates 1000))
+          company-box-max-candidates 1000))
 
   #+end_src
 
@@ -337,9 +337,9 @@
 
   (defun company-mode/backend-with-yas (backend)
     (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet backend)))
-	backend
+        backend
       (append (if (consp backend) backend (list backend))
-	      '(:with company-yasnippet))))
+              '(:with company-yasnippet))))
 
   (with-eval-after-load 'company
     (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends)))
@@ -369,7 +369,7 @@
   (use-package avy
     :config
     (setq avy-background t
-	  avy-style 'pre))
+          avy-style 'pre))
   #+end_src
 
   Delete trailing whitespaces on file save
@@ -444,7 +444,7 @@
    Use spaces instead of tabs
 
    #+begin_src emacs-lisp
-   (setq indent-tabs-mode nil)
+   (setq-default indent-tabs-mode nil)
    #+end_src
 
    Show column number in mode line
@@ -457,9 +457,9 @@
 
    #+begin_src emacs-lisp
    (add-hook 'prog-mode-hook
-	     (lambda ()
-	       (display-line-numbers-mode t)
-	       (setq display-line-numbers 'relative)))
+             (lambda ()
+               (display-line-numbers-mode t)
+               (setq display-line-numbers 'relative)))
    #+end_src
 
    Remove bottom emacs window margins (happens on Mac OS)
@@ -476,16 +476,16 @@
      :diminish
      :config
      (setq beacon-color "SlateGray4"
-	   beacon-blink-when-window-scrolls nil
-	   beacon-size 25
-	   beacon-blink-when-point-moves-horizontally nil
-	   beacon-blink-when-point-moves-vertically 3)
+           beacon-blink-when-window-scrolls nil
+           beacon-size 25
+           beacon-blink-when-point-moves-horizontally nil
+           beacon-blink-when-point-moves-vertically 3)
      (dolist (hook '(text-mode-hook
-		     prog-mode-hook))
+                     prog-mode-hook))
        (add-hook hook
-		 (lambda ()
-		   (hl-line-mode)
-		   (beacon-mode 1)))))
+                 (lambda ()
+                   (hl-line-mode)
+                   (beacon-mode 1)))))
    #+end_src
 
    Change titlebar title
@@ -519,12 +519,12 @@
 
    #+begin_src emacs-lisp
    (setq evil-normal-color "DarkGoldenrod2"
-	 evil-insert-color "chartreuse3"
-	 evil-emacs-color "SkyBlue2"
-	 evil-replace-color "chocolate"
-	 evil-visual-color "gray"
-	 evil-motion-color "plum3"
-	 evil-iedit-color "firebrick1")
+         evil-insert-color "chartreuse3"
+         evil-emacs-color "SkyBlue2"
+         evil-replace-color "chocolate"
+         evil-visual-color "gray"
+         evil-motion-color "plum3"
+         evil-iedit-color "firebrick1")
    #+end_src
 
    Define spaceline iedit face
@@ -532,7 +532,7 @@
    #+begin_src emacs-lisp
    (defface rst/spaceline-iedit-face
      `((t :foreground "black"
-	  :background ,evil-iedit-color))
+          :background ,evil-iedit-color))
      "Face for spaceline iedit state")
    #+end_src
 
@@ -580,7 +580,7 @@
 
    (use-package all-the-icons)
 
-   (load-theme 'spacemacs-dark t)
+   (load-theme 'doom-one t)
    #+end_src
 
    Configure the mode line
@@ -590,25 +590,25 @@
      :ensure spaceline
      :config
      (setq powerline-default-separator "wave"
-	   powerline-height 25)
+           powerline-height 25)
      (set-face-attribute 'spaceline-evil-normal nil
-			 :foreground "black"
-			 :background evil-normal-color)
+                         :foreground "black"
+                         :background evil-normal-color)
      (set-face-attribute 'spaceline-evil-replace nil
-			 :foreground "black"
-			 :background evil-replace-color)
+                         :foreground "black"
+                         :background evil-replace-color)
      (set-face-attribute 'spaceline-evil-insert nil
-			 :foreground "black"
-			 :background evil-insert-color)
+                         :foreground "black"
+                         :background evil-insert-color)
      (set-face-attribute 'spaceline-evil-visual nil
-			 :foreground "black"
-			 :background evil-visual-color)
+                         :foreground "black"
+                         :background evil-visual-color)
      (set-face-attribute 'spaceline-evil-motion nil
-			 :foreground "black"
-			 :background evil-motion-color)
+                         :foreground "black"
+                         :background evil-motion-color)
      (set-face-attribute 'spaceline-evil-emacs nil
-			 :foreground "black"
-			 :background evil-emacs-color))
+                         :foreground "black"
+                         :background evil-emacs-color))
 
    (spaceline-define-segment parrot
      "Shows the infamous party parrot.  Requires `parrot-mode' to be enabled."
@@ -619,29 +619,29 @@
      "Shows the current git branch if any."
      (when vc-mode
        (powerline-raw
-	(concat (rst/inherit-icon (all-the-icons-octicon "git-compare" :v-adjust 0.01))
-		" "
-		(s-trim (substring vc-mode 5))))))
+        (concat (rst/inherit-icon (all-the-icons-octicon "git-compare" :v-adjust 0.01))
+                " "
+                (s-trim (substring vc-mode 5))))))
 
    (spaceline-compile
      '(((persp-name
-	 workspace-number
-	 window-number)
-	:separator "｜"
-	:fallback evil-state
-	:face highlight-face
-	:priority 100)
+         workspace-number
+         window-number)
+        :separator "｜"
+        :fallback evil-state
+        :face highlight-face
+        :priority 100)
        (anzu :priority 95)
        auto-compile
        ((buffer-modified buffer-id remote-host)
-	:priority 98)
+        :priority 98)
        (major-mode :priority 79)
        (process :when active)
        ((flycheck-error flycheck-warning flycheck-info)
-	:when active
-	:priority 89)
+        :when active
+        :priority 89)
        (minor-modes :when active
-		    :priority 9)
+                    :priority 9)
        (mu4e-alert-segment :when active)
        (erc-track :when active)
        (git :when active :priority 78)
@@ -658,21 +658,21 @@
        (selection-info :priority 95)
        input-method
        (buffer-encoding-abbrev
-	:priority 96)
+        :priority 96)
        (buffer-position :priority 99)
        (hud :priority 99)))
 
    (setq spaceline-evil-state-faces
-	 '((normal . spaceline-evil-normal)
-	   (insert . spaceline-evil-insert)
-	   (emacs . spaceline-evil-emacs)
-	   (replace . spaceline-evil-replace)
-	   (visual . spaceline-evil-visual)
-	   (motion . spaceline-evil-motion)
-	   (iedit . rst/spaceline-iedit-face)
-	   (iedit-insert . rst/spaceline-iedit-face))
-	 spaceline-highlight-face-func 'spaceline-highlight-face-evil-state
-	 spaceline-minor-modes-separator "·")
+         '((normal . spaceline-evil-normal)
+           (insert . spaceline-evil-insert)
+           (emacs . spaceline-evil-emacs)
+           (replace . spaceline-evil-replace)
+           (visual . spaceline-evil-visual)
+           (motion . spaceline-evil-motion)
+           (iedit . rst/spaceline-iedit-face)
+           (iedit-insert . rst/spaceline-iedit-face))
+         spaceline-highlight-face-func 'spaceline-highlight-face-evil-state
+         spaceline-minor-modes-separator "·")
 
    (setq-default mode-line-format '("%e" (:eval (spaceline-ml-main))))
    #+end_src
@@ -710,12 +710,12 @@
    (use-package dashboard
      :config
      (setq dashboard-center-content t
-	   dashboard-set-heading-icons t
-	   dashboard-banner-logo-title "Welcome rstcruzo!"
-	   dashboard-items '((agenda . 6)
-			     (recents . 6)
-			     (bookmarks . 3))
-	   dashboard-set-init-info t)
+           dashboard-set-heading-icons t
+           dashboard-banner-logo-title "Welcome rstcruzo!"
+           dashboard-items '((projects . 4)
+                             (recents . 6)
+                             (bookmarks . 3))
+           dashboard-set-init-info t)
      (dashboard-setup-startup-hook))
 
    ;; Override dashbaord choose banner to allow .txt when not inside a terminal
@@ -743,11 +743,11 @@
 
    #+begin_src emacs-lisp
    (push '(("\\(.*\\) 1" . "winum-select-window-1") .
-	   ("\\1 1..9" . "window 1..9"))
-	 which-key-replacement-alist)
+           ("\\1 1..9" . "window 1..9"))
+         which-key-replacement-alist)
 
    (push '((nil . "winum-select-window-[2-9]") . t)
-	 which-key-replacement-alist)
+         which-key-replacement-alist)
    #+end_src
 
    Allow window operations to be undone
@@ -776,15 +776,15 @@
      :demand
      :config
      (setq centaur-tabs-style "wave"
-	   centaur-tabs-cycle-scope 'tabs
-	   centaur-tabs-set-modified-marker t
-	   centaur-tabs-modified-marker "☻")
+           centaur-tabs-cycle-scope 'tabs
+           centaur-tabs-set-modified-marker t
+           centaur-tabs-modified-marker "☻")
      (centaur-tabs-headline-match)
      (centaur-tabs-group-by-projectile-project)
      :bind
      (:map evil-normal-state-map
-	   ("gt" . centaur-tabs-forward)
-	   ("gT" . centaur-tabs-backward)))
+           ("gt" . centaur-tabs-forward)
+           ("gT" . centaur-tabs-backward)))
    #+end_src
 
    Ignore some buffers and magit
@@ -794,26 +794,26 @@
      "Do no to show buffer X in tabs."
      (let ((name (format "%s" x)))
        (or
-	;; Current window is not dedicated window.
-	(window-dedicated-p (selected-window))
+        ;; Current window is not dedicated window.
+        (window-dedicated-p (selected-window))
 
-	;; Buffer name not match below blacklist.
-	(string-prefix-p "*epc" name)
-	(string-prefix-p "*helm" name)
-	(string-prefix-p "*Helm" name)
-	(string-prefix-p "*Compile-Log*" name)
-	(string-prefix-p "*lsp" name)
-	(string-prefix-p "*company" name)
-	(string-prefix-p "*Flycheck" name)
-	(string-prefix-p "*tramp" name)
-	(string-prefix-p " *Mini" name)
-	(string-prefix-p "*help" name)
-	(string-prefix-p "*straight" name)
-	(string-prefix-p " *temp" name)
-	(string-prefix-p "*Help" name)
-	(string-prefix-p "*mybuf" name)
-	(string-prefix-p "magit" name)
-	)))
+        ;; Buffer name not match below blacklist.
+        (string-prefix-p "*epc" name)
+        (string-prefix-p "*helm" name)
+        (string-prefix-p "*Helm" name)
+        (string-prefix-p "*Compile-Log*" name)
+        (string-prefix-p "*lsp" name)
+        (string-prefix-p "*company" name)
+        (string-prefix-p "*Flycheck" name)
+        (string-prefix-p "*tramp" name)
+        (string-prefix-p " *Mini" name)
+        (string-prefix-p "*help" name)
+        (string-prefix-p "*straight" name)
+        (string-prefix-p " *temp" name)
+        (string-prefix-p "*Help" name)
+        (string-prefix-p "*mybuf" name)
+        (string-prefix-p "magit" name)
+        )))
    #+end_src
 
    When grouping projects, add eshell to the term group
@@ -822,28 +822,28 @@
    (defun centaur-tabs-projectile-buffer-groups ()
      "Return the list of group names BUFFER belongs to."
      (if centaur-tabs-projectile-buffer-group-calc
-	 (symbol-value 'centaur-tabs-projectile-buffer-group-calc)
+         (symbol-value 'centaur-tabs-projectile-buffer-group-calc)
        (set (make-local-variable 'centaur-tabs-projectile-buffer-group-calc)
 
-	    (cond
-	     ((or
-	       (get-buffer-process (current-buffer))
-	       (memq major-mode '(comint-mode compilation-mode))
-	       (equal major-mode 'eshell-mode))
-	      '("Term"))
-	     ((string-equal "*" (substring (buffer-name) 0 1)) '("Misc"))
-	     ((condition-case _err
-		  (projectile-project-root)
-		(error nil)) (list (projectile-project-name)))
-	     ((memq major-mode '(emacs-lisp-mode python-mode emacs-lisp-mode c-mode
-						 c++-mode javascript-mode js-mode
-						 js2-mode makefile-mode
-						 lua-mode vala-mode)) '("Coding"))
-	     ((memq major-mode '(nxhtml-mode html-mode
-					     mhtml-mode css-mode)) '("HTML"))
-	     ((memq major-mode '(org-mode calendar-mode diary-mode)) '("Org"))
-	     ((memq major-mode '(dired-mode)) '("Dir"))
-	     (t '("Other"))))
+            (cond
+             ((or
+               (get-buffer-process (current-buffer))
+               (memq major-mode '(comint-mode compilation-mode))
+               (equal major-mode 'eshell-mode))
+              '("Term"))
+             ((string-equal "*" (substring (buffer-name) 0 1)) '("Misc"))
+             ((condition-case _err
+                  (projectile-project-root)
+                (error nil)) (list (projectile-project-name)))
+             ((memq major-mode '(emacs-lisp-mode python-mode emacs-lisp-mode c-mode
+                                                 c++-mode javascript-mode js-mode
+                                                 js2-mode makefile-mode
+                                                 lua-mode vala-mode)) '("Coding"))
+             ((memq major-mode '(nxhtml-mode html-mode
+                                             mhtml-mode css-mode)) '("HTML"))
+             ((memq major-mode '(org-mode calendar-mode diary-mode)) '("Org"))
+             ((memq major-mode '(dired-mode)) '("Dir"))
+             (t '("Other"))))
        (symbol-value 'centaur-tabs-projectile-buffer-group-calc)))
    #+end_src
 
@@ -907,10 +907,10 @@
     :diminish
     :config
     (setq org-agenda-start-with-log-mode t
-	  org-log-done 'time
-	  org-log-into-drawer t
-	  org-ellipsis " ↩"
-	  org-agenda-files `(,rst/org-files-path)))
+          org-log-done 'time
+          org-log-into-drawer t
+          org-ellipsis " ↩"
+          org-agenda-files `(,rst/org-files-path)))
   #+end_src
 
   Configure a project org file
@@ -920,7 +920,7 @@
     "Return current project org file. If not in a project
   currently, prompt for it."
     (let* ((current-project (projectile-project-root))
-	   (project-path (projectile-ensure-project current-project)))
+           (project-path (projectile-ensure-project current-project)))
 
       (concat
        (file-name-as-directory rst/org-files-path)
@@ -932,15 +932,15 @@
     (interactive)
     (let ((org-file (rst/org-projectile-file)))
       (if org-file
-	  (find-file org-file))))
+          (find-file org-file))))
   #+end_src
 
   Configure todo keywords. Add a few states
 
   #+begin_src emacs-lisp
   (setq org-todo-keywords
-	'((sequence "TODO(t)" "|" "DONE(d!)")
-	  (sequence "BLOCKED(b)" "|" "DELEGATED(D)" "CANCELLED(c)")))
+        '((sequence "TODO(t)" "|" "DONE(d!)")
+          (sequence "BLOCKED(b)" "|" "DELEGATED(D)" "CANCELLED(c)")))
   #+end_src
 
   Improve org heading bullets
@@ -950,8 +950,8 @@
     :after org
     :config
     (setq org-bullets-bullet-list
-	  '("○" "☉" "◎" "◉" "○" "◌" "◎" "●" "◦" "◯"
-	    "⚪" "⚫" "⚬" "❍" "￮" "⊙" "⊚" "⊛" "∙" "∘"))
+          '("○" "☉" "◎" "◉" "○" "◌" "◎" "●" "◦" "◯"
+            "⚪" "⚫" "⚬" "❍" "￮" "⊙" "⊚" "⊛" "∙" "∘"))
     :hook (org-mode . org-bullets-mode))
   #+end_src
 
@@ -960,17 +960,17 @@
   #+begin_src emacs-lisp
   (with-eval-after-load "org"
     (dolist (face '((org-level-1 . 1.3)
-		    (org-level-2 . 1.2)
-		    (org-level-3 . 1.1)
-		    (org-level-4 . 1.05)
-		    (org-level-5 . 1.1)
-		    (org-level-6 . 1.1)
-		    (org-level-7 . 1.1)
-		    (org-level-8 . 1.1)))
+                    (org-level-2 . 1.2)
+                    (org-level-3 . 1.1)
+                    (org-level-4 . 1.05)
+                    (org-level-5 . 1.1)
+                    (org-level-6 . 1.1)
+                    (org-level-7 . 1.1)
+                    (org-level-8 . 1.1)))
       (set-face-attribute (car face) nil
-			  :font "Fira Code"
-			  :weight 'regular
-			  :height (cdr face))))
+                          :font "Fira Code"
+                          :weight 'regular
+                          :height (cdr face))))
   #+end_src
 
   Configure org title size and style
@@ -978,8 +978,8 @@
   #+begin_src emacs-lisp
   (with-eval-after-load "org"
     (set-face-attribute 'org-document-title nil
-			:underline t
-			:height 1.4))
+                        :underline t
+                        :height 1.4))
   #+end_src
 
   Configure templates expansion
@@ -997,7 +997,7 @@
   #+begin_src emacs-lisp
   (defun rst/org-mode-visual-fill ()
     (setq visual-fill-column-width 100
-	  visual-fill-column-center-text t)
+          visual-fill-column-center-text t)
     (visual-fill-column-mode 1))
 
   (use-package visual-fill-column
@@ -1030,7 +1030,7 @@
     "Redisplay inline images after executing source blocks of some languages."
     (let ((language (car (org-babel-get-src-block-info t))))
       (when (member language rst/org-src-language-to-image)
-	(org-display-inline-images))))
+        (org-display-inline-images))))
 
   (add-hook 'org-babel-after-execute-hook #'rst/org-display-images-after-execute)
   #+end_src
@@ -1056,8 +1056,8 @@
     :config
     (add-hook 'org-mode-hook 'evil-org-mode)
     (add-hook 'evil-org-mode-hook
-	      (lambda ()
-		(evil-org-set-key-theme)))
+              (lambda ()
+                (evil-org-set-key-theme)))
     (require 'evil-org-agenda)
     (evil-org-agenda-set-keys))
   #+end_src
@@ -1156,10 +1156,10 @@
      :ensure nil
      :config
      (set-face-attribute 'highlight-parentheses-highlight nil
-			 :weight 'ultra-bold))
+                         :weight 'ultra-bold))
 
    (setq highlight-parentheses-colors
-	 '("Springgreen3" "IndianRed1" "IndianRed3" "IndianRed4"))
+         '("Springgreen3" "IndianRed1" "IndianRed3" "IndianRed4"))
 
    (add-hook 'prog-mode-hook 'highlight-parentheses-mode)
    #+end_src
@@ -1174,9 +1174,9 @@
      :config
      (require 'smartparens-config)
      (set-face-attribute 'sp-show-pair-match-face nil
-			 :foreground "#86dc2f"
-			 :weight 'ultra-bold
-			 :underline t)
+                         :foreground "#86dc2f"
+                         :weight 'ultra-bold
+                         :underline t)
      ;; Configure new line behaviour
      (sp-local-pair 'go-mode "{" nil :post-handlers '(("||\n[i]" "RET")))
      :hook
@@ -1197,9 +1197,9 @@
    (use-package highlight-indent-guides
      :diminish
      :config
-     (setq highlight-indent-guides-method 'character
-	   highlight-indent-guides-responsive 'top
-	   highlight-indent-guides-auto-top-character-face-perc 20)
+     (setq highlight-indent-guides-method 'bitmap
+           highlight-indent-guides-responsive 'top
+           highlight-indent-guides-auto-top-character-face-perc 20)
      :hook
      (prog-mode . highlight-indent-guides-mode))
    #+end_src
@@ -1208,13 +1208,13 @@
 
    #+begin_src emacs-lisp
    (setq evil-normal-state-cursor `(,evil-normal-color box)
-	 evil-motion-state-cursor `(,evil-motion-color box)
-	 evil-visual-state-cursor `(,evil-visual-color (hbar . 2))
-	 evil-insert-state-cursor `(,evil-insert-color (bar . 2))
-	 evil-replace-state-cursor `(,evil-replace-color (hbar . 2))
-	 evil-emacs-state-cursor `(,evil-emacs-color box)
-	 evil-iedit-state-cursor `(,evil-iedit-color box)
-	 evil-iedit-insert-state-cursor `(,evil-iedit-color (bar . 2)))
+         evil-motion-state-cursor `(,evil-motion-color box)
+         evil-visual-state-cursor `(,evil-visual-color (hbar . 2))
+         evil-insert-state-cursor `(,evil-insert-color (bar . 2))
+         evil-replace-state-cursor `(,evil-replace-color (hbar . 2))
+         evil-emacs-state-cursor `(,evil-emacs-color box)
+         evil-iedit-state-cursor `(,evil-iedit-color box)
+         evil-iedit-insert-state-cursor `(,evil-iedit-color (bar . 2)))
    #+end_src
 
    Highlight todo and similar keywords
@@ -1263,7 +1263,7 @@
      :after git-gutter+
      :config
      (setq right-fringe-width 20
-	   git-gutter-fr+-side 'right-fringe))
+           git-gutter-fr+-side 'right-fringe))
 
    (defun rst/git-gutter+-refresh-in-all-buffers ()
      (git-gutter+-in-all-buffers (when git-gutter+-mode (git-gutter+-refresh))))
@@ -1311,7 +1311,7 @@
 
    #+begin_src emacs-lisp
    (add-hook 'shell-pop-in-after-hook
-	     (lambda () (setq mode-line-format nil)))
+             (lambda () (setq mode-line-format nil)))
    #+end_src
 
    Configure eshell
@@ -1327,9 +1327,9 @@
      (evil-define-key '(normal insert visual) eshell-mode-map (kbd "C-r") 'counsel-esh-history)
 
      (setq eshell-history-size 10000
-	   eshell-buffer-maximum-lines 10000
-	   eshell-hist-ignoredups t
-	   eshell-scroll-to-bottom-on-input t))
+           eshell-buffer-maximum-lines 10000
+           eshell-hist-ignoredups t
+           eshell-scroll-to-bottom-on-input t))
    #+end_src
 
    Install eshell git prompt to show git info in eshell
@@ -1374,46 +1374,46 @@
       :config
 
       (define-fringe-bitmap 'flycheck-fringe-bitmap-ball
-	(vector #b00000000
-		#b00000000
-		#b00000000
-		#b00000000
-		#b00000000
-		#b01100000
-		#b11110000
-		#b11110000
-		#b11110000
-		#b01100000
-		#b00000000
-		#b00000000
-		#b00000000
-		#b00000000
-		#b00000000
-		#b00000000))
-
+        (vector #b00000000
+                #b00000000
+                #b00000000
+                #b00000000
+                #b00000000
+                #b00111000
+                #b01111100
+                #b11111110
+                #b11111110
+                #b01111100
+                #b00111000
+                #b00000000
+                #b00000000
+                #b00000000
+                #b00000000
+                #b00000000
+                #b00000000))
       (flycheck-define-error-level 'error
-	:severity 2
-	:compilation-level 2
-	:overlay-category 'flycheck-error-overlay
-	:fringe-bitmap 'flycheck-fringe-bitmap-ball
-	:fringe-face 'flycheck-fringe-error
-	:error-list-face 'flycheck-error-list-error)
+        :severity 2
+        :compilation-level 2
+        :overlay-category 'flycheck-error-overlay
+        :fringe-bitmap 'flycheck-fringe-bitmap-ball
+        :fringe-face 'flycheck-fringe-error
+        :error-list-face 'flycheck-error-list-error)
 
       (flycheck-define-error-level 'warning
-	:severity 1
-	:compilation-level 2
-	:overlay-category 'flycheck-warning-overlay
-	:fringe-bitmap 'flycheck-fringe-bitmap-ball
-	:fringe-face 'flycheck-fringe-warning
-	:error-list-face 'flycheck-error-list-warning)
+        :severity 1
+        :compilation-level 2
+        :overlay-category 'flycheck-warning-overlay
+        :fringe-bitmap 'flycheck-fringe-bitmap-ball
+        :fringe-face 'flycheck-fringe-warning
+        :error-list-face 'flycheck-error-list-warning)
 
       (flycheck-define-error-level 'info
-	:severity 0
-	:compilation-level 2
-	:overlay-category 'flycheck-info-overlay
-	:fringe-bitmap 'flycheck-fringe-bitmap-ball
-	:fringe-face 'flycheck-fringe-info
-	:error-list-face 'flycheck-error-list-info))
+        :severity 0
+        :compilation-level 2
+        :overlay-category 'flycheck-info-overlay
+        :fringe-bitmap 'flycheck-fringe-bitmap-ball
+        :fringe-face 'flycheck-fringe-info
+        :error-list-face 'flycheck-error-list-info))
     #+end_src
 
     Show flycheck information in a popups
@@ -1444,10 +1444,10 @@
     (use-package lsp-ui
       :bind
       (:map lsp-ui-peek-mode-map
-	    ("k" . lsp-ui-peek--select-prev)
-	    ("j" . lsp-ui-peek--select-next)
-	    ("l" . lsp-ui-peek--select-next-file)
-	    ("h" . lsp-ui-peek--select-prev-file))
+            ("k" . lsp-ui-peek--select-prev)
+            ("j" . lsp-ui-peek--select-next)
+            ("l" . lsp-ui-peek--select-next-file)
+            ("h" . lsp-ui-peek--select-prev-file))
       :hook
       (lsp-mode . lsp-ui-mode))
 
@@ -1468,7 +1468,7 @@
       :commands sphinx-doc-mode
       :config
       :hook (python-mode . (lambda ()
-			     (sphinx-doc-mode t))))
+                             (sphinx-doc-mode t))))
     #+end_src
 
     Enable =lsp-deferred= mode for python
@@ -1478,8 +1478,8 @@
       :commands (lsp lsp-deferred)
       :init (setq lsp-python-ms-auto-install-server t)
       :hook (python-mode . (lambda ()
-			     (require 'lsp-python-ms)
-			     (lsp))))  ; or lsp-deferred
+                             (require 'lsp-python-ms)
+                             (lsp))))  ; or lsp-deferred
     #+end_src
 
     Enable =flycheck= for python
@@ -1511,7 +1511,18 @@
 
     #+begin_src emacs-lisp
     (add-hook 'go-mode-hook
-	      (lambda () (lsp)))
+              (lambda () (lsp)))
+    #+end_src
+
+    Setup completion
+
+    #+begin_src emacs-lisp
+    (use-package company-go
+      :commands go-mode
+      :config
+      (add-hook 'go-mode-hook
+                (lambda ()
+                  (set (make-local-variable 'company-backends) '(company-go)))))
     #+end_src
 
 *** Javascript
@@ -1564,7 +1575,7 @@
      :commands whitespace-mode)
 
    (setq whitespace-line-column 80
-	 whitespace-style '(face lines-tail trailing))
+         whitespace-style '(face lines-tail trailing))
 
    (add-hook 'prog-mode-hook 'whitespace-mode)
    (add-hook 'text-mode-hook 'whitespace-mode)
@@ -1595,27 +1606,27 @@
      :custom
      (LaTeX-font-list
       '((?a ""              ""  "\\mathcal{"    "}")
-	(?b "\\textbf{"     "}" "\\mathbf{"     "}")
-	(?c "\\textsc{"     "}")
-	(?e "\\emph{"       "}")
-	(?f "\\textsf{"     "}" "\\mathsf{"     "}")
-	(?i "\\textit{"     "}" "\\mathit{"     "}")
-	(?l "\\textulc{"    "}")
-	(?m "\\textmd{"     "}")
-	(?n "\\textnormal{" "}" "\\mathnormal{" "}")
-	(?r "\\textrm{"     "}" "\\mathrm{"     "}")
-	(?s "\\textsl{"     "}" "\\mathbb{"     "}")
-	(?t "\\texttt{"     "}" "\\mathtt{"     "}")
-	(?u "\\textup{"     "}")
-	(?w "\\textsw{"     "}")
-	(?d "" "" t))))
+        (?b "\\textbf{"     "}" "\\mathbf{"     "}")
+        (?c "\\textsc{"     "}")
+        (?e "\\emph{"       "}")
+        (?f "\\textsf{"     "}" "\\mathsf{"     "}")
+        (?i "\\textit{"     "}" "\\mathit{"     "}")
+        (?l "\\textulc{"    "}")
+        (?m "\\textmd{"     "}")
+        (?n "\\textnormal{" "}" "\\mathnormal{" "}")
+        (?r "\\textrm{"     "}" "\\mathrm{"     "}")
+        (?s "\\textsl{"     "}" "\\mathbb{"     "}")
+        (?t "\\texttt{"     "}" "\\mathtt{"     "}")
+        (?u "\\textup{"     "}")
+        (?w "\\textsw{"     "}")
+        (?d "" "" t))))
    #+end_src
 
    Automatically wrap long lines while writing
 
    #+begin_src emacs-lisp
    (add-hook 'LaTeX-mode-hook
-	     (lambda () (auto-fill-mode)))
+             (lambda () (auto-fill-mode)))
    (diminish 'auto-fill-function "ⓐⓕ")
    #+end_src
 
@@ -1623,7 +1634,7 @@
 
    #+begin_src emacs-lisp
    (add-hook 'LaTeX-mode-hook
-	     (lambda () (flyspell-mode 1)))
+             (lambda () (flyspell-mode 1)))
 
    (setq TeX-show-compilation t)
    #+end_src
@@ -1659,7 +1670,7 @@
    (use-package google-this
      :diminish (google-this-mode . "ⓖ")
      :commands (google-this-noconfirm
-		google-this-search)
+                google-this-search)
      :config
      (google-this-mode 1))
    #+end_src
@@ -1673,7 +1684,7 @@
      :commands (google-translate-smooth-translate)
      :config
      (setq google-translate-translation-directions-alist
-	   '(("en" . "es") ("es". "en"))))
+           '(("en" . "es") ("es". "en"))))
 
    (use-package google-translate-default-ui
      :after google-translate
@@ -1707,47 +1718,47 @@
   With a universal argument, prompt to specify which key."
     (interactive "P")
     (when (or arg
-	      (not (rst/ssh-agent-has-keys-p)))
+              (not (rst/ssh-agent-has-keys-p)))
       (rst/ssh-add-in-emacs
        (if (not arg)
-	   rst/ssh-default-key
-	 (read-file-name
-	  "Add key: \n" "~/.ssh" nil 't nil
-	  (lambda (x)
-	    (not (or (string-suffix-p ".pub" x)
-		     (string= "known_hosts" x)))))))))
+           rst/ssh-default-key
+         (read-file-name
+          "Add key: \n" "~/.ssh" nil 't nil
+          (lambda (x)
+            (not (or (string-suffix-p ".pub" x)
+                     (string= "known_hosts" x)))))))))
 
   (defun rst/ssh-agent-has-keys-p ()
     "Return t if the ssh-agent has a key."
     (when
-	(= 0 (call-process "ssh-add" nil nil nil "-l"))
+        (= 0 (call-process "ssh-add" nil nil nil "-l"))
       t))
 
   (defun rst/ssh-add-in-emacs (key-file)
     "Run ssh-add to add a key to the running SSH agent."
     (let ((process-connection-type t)
-	  process)
+          process)
       (unwind-protect
-	  (progn
-	    (setq process
-		  (start-process
-		   "ssh-add" nil "ssh-add"
-		   (expand-file-name key-file)))
-	    (set-process-filter
-	     process 'rst/ssh-add-process-filter)
-	    (while (accept-process-output process)))
-	(if (eq (process-status process) 'run)
-	    (kill-process process)))))
+          (progn
+            (setq process
+                  (start-process
+                   "ssh-add" nil "ssh-add"
+                   (expand-file-name key-file)))
+            (set-process-filter
+             process 'rst/ssh-add-process-filter)
+            (while (accept-process-output process)))
+        (if (eq (process-status process) 'run)
+            (kill-process process)))))
 
   (defun rst/ssh-add-process-filter (process string)
     "Process filter to enter passphrase when needed."
     (save-match-data
       (if (string-match ":\\s *\\'" string)
-	  (process-send-string process
-			       (concat
-				(read-passwd string)
-				"\n"))
-	(message "ssh-add: %s" string))))
+          (process-send-string process
+                               (concat
+                                (read-passwd string)
+                                "\n"))
+        (message "ssh-add: %s" string))))
   #+end_src
 
 * Custom functions
@@ -1805,20 +1816,20 @@
      "Custom counsel projectile rg to receive input as argument."
      (interactive)
      (counsel-rg input
-		 (projectile-project-root)
-		 nil
-		 (projectile-prepend-project-name
-		  (concat (car (if (listp counsel-rg-base-command)
-				   counsel-rg-base-command
-				 (split-string counsel-rg-base-command)))
-			  ": "))))
+                 (projectile-project-root)
+                 nil
+                 (projectile-prepend-project-name
+                  (concat (car (if (listp counsel-rg-base-command)
+                                   counsel-rg-base-command
+                                 (split-string counsel-rg-base-command)))
+                          ": "))))
 
    (defun rst/counsel-projectile-rg-thing-at-point ()
      "Custom counsel projectile rg to pass thing at point as input."
      (interactive)
      (let ((thing (ivy-thing-at-point)))
        (when (use-region-p)
-	 (deactivate-mark))
+         (deactivate-mark))
        (rst/counsel-projectile-rg-with-input thing)))
    #+end_src
 
@@ -1933,12 +1944,12 @@
       :prefix "]")
 
     (bind-op-square-brackets
-     "h" '(git-gutter+-previous-hunk :which-key "git previous hunk")
-     "e" '(flycheck-previous-error :which-key "flycheck previous error"))
+      "h" '(git-gutter+-previous-hunk :which-key "git previous hunk")
+      "e" '(flycheck-previous-error :which-key "flycheck previous error"))
 
     (bind-cl-square-brackets
-     "h" '(git-gutter+-next-hunk :which-key "git next hunk")
-     "e" '(flycheck-next-error :which-key "flycheck next error"))
+      "h" '(git-gutter+-next-hunk :which-key "git next hunk")
+      "e" '(flycheck-next-error :which-key "flycheck next error"))
 
     (bind-leader-key
       :infix "q"
@@ -1988,11 +1999,11 @@
       "s" '(save-buffer :which-key "save file")
       "f" '(counsel-find-file :which-key "find file")
       "e" '((lambda () (interactive)
-	      (find-file "~/.emacs.d/config.org"))
-	    :which-key "find config file")
+              (find-file "~/.emacs.d/config.org"))
+            :which-key "find config file")
       "o" '((lambda () (interactive)
-	      (counsel-find-file rst/org-files-path))
-	    :which-key "find org file"))
+              (counsel-find-file rst/org-files-path))
+            :which-key "find org file"))
 
     (bind-leader-key
       :infix "b"
@@ -2001,9 +2012,9 @@
       "k" '(kill-buffer :which-key "kill a buffer")
       "K" '(kill-current-buffer :which-key "kill current buffer")
       "s" '((lambda () (interactive)
-	      (switch-to-buffer "*scratch*")) :which-key "switch to scratch")
+              (switch-to-buffer "*scratch*")) :which-key "switch to scratch")
       "S" '((lambda () (interactive)
-	      (popwin:display-buffer "*scratch*")) :which-key "switch to popup scratch")
+              (popwin:display-buffer "*scratch*")) :which-key "switch to popup scratch")
       "i" '(ibuffer :which-key "ibuffer")
       "R" '(revert-buffer :which-key "revert buffer")
 
@@ -2152,8 +2163,8 @@
       "tt" '(org-todo :which-key "org todo")
       "th" '(org-toggle-heading :which-key "org toggle heading")
       "td" '((lambda () (interactive)
-	       (org-todo 'done))
-	     :which-key "org mark tas as DONE"))
+               (org-todo 'done))
+             :which-key "org mark tas as DONE"))
 
     (bind-mode-key
       :keymaps 'LaTeX-mode-map
@@ -2163,9 +2174,9 @@
 
       "C" '(TeX-command-master :which-key "compile")
       "c" '((lambda () (interactive) (TeX-command "LaTeX" 'TeX-main-file))
-	    :which-key "compile LaTeX")
+            :which-key "compile LaTeX")
       "b" '((lambda () (interactive) (TeX-command "BibTeX" 'TeX-main-file))
-	    :which-key "compile BibTeX")
+            :which-key "compile BibTeX")
 
       "f" '(TeX-font :which-key "font")
       "M" '(LaTeX-math-mode :which-key "math mode")
@@ -2273,7 +2284,7 @@
       "" '(:ignore t :which-key "popups")
       "m" '(popwin:messages :which-key "popup messages")
       "s" '((lambda () (interactive)
-	      (popwin:display-buffer "*scratch*")) :which-key "popup scratch")
+              (popwin:display-buffer "*scratch*")) :which-key "popup scratch")
       "l" '(popwin:popup-last-buffer :which-key "last popup"))
     )
   #+end_src
