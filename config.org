@@ -604,7 +604,8 @@
                          :inherit 'doom-modeline-info
                          :background nil)
      (setq doom-modeline-minor-modes t
-           doom-modeline-checker-simple-format nil))
+           doom-modeline-checker-simple-format nil)
+     (remove-hook 'org-src-mode-hook #'doom-modeline-set-org-src-modeline))
 
    (defsubst rst/doom-modeline-evil ()
      "The current evil state. Requires `evil-mode' to be enabled."
