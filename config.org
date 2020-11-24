@@ -602,7 +602,9 @@
                          :foreground rst/evil-emacs-color)
      (set-face-attribute 'doom-modeline-panel nil
                          :inherit 'doom-modeline-info
-                         :background nil))
+                         :background nil)
+     (setq doom-modeline-minor-modes t
+           doom-modeline-checker-simple-format nil))
 
    (defsubst rst/doom-modeline-evil ()
      "The current evil state. Requires `evil-mode' to be enabled."
@@ -632,7 +634,7 @@
    (doom-modeline-def-modeline 'rst
      '(bar workspace-name window-number rst/evil-state matches
            buffer-info remote-host buffer-position word-count parrot selection-info)
-     '(objed-state misc-info persp-name battery grip irc mu4e gnus github debug
+     '(misc-info persp-name battery grip irc mu4e gnus github debug
                    repl lsp minor-modes input-method indent-info buffer-encoding
                    major-mode process vcs checker))
 
