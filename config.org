@@ -518,22 +518,22 @@
    Define evil mode colors
 
    #+begin_src emacs-lisp
-   (setq evil-normal-color "DarkGoldenrod2"
-         evil-insert-color "chartreuse3"
-         evil-emacs-color "SkyBlue2"
-         evil-replace-color "chocolate"
-         evil-visual-color "gray"
-         evil-motion-color "plum3"
-         evil-iedit-color "IndianRed1")
+   (setq rst/evil-normal-color "SteelBlue1"
+         rst/evil-insert-color "chartreuse3"
+         rst/evil-emacs-color "SkyBlue2"
+         rst/evil-replace-color "chocolate"
+         rst/evil-visual-color "gray"
+         rst/evil-motion-color "plum3"
+         rst/evil-iedit-color "IndianRed1")
    #+end_src
 
-   Define spaceline iedit face
+   Define doom modeline iedit face
 
    #+begin_src emacs-lisp
-   (defface rst/spaceline-iedit-face
-     `((t :foreground "black"
-          :background ,evil-iedit-color))
-     "Face for spaceline iedit state")
+   (defface rst/doom-modeline-evil-iedit-face
+     `((t :foreground ,rst/evil-iedit-color
+          :background nil))
+     "Face for doom modeline iedit state")
    #+end_src
 
 ** Fun
@@ -586,95 +586,62 @@
    Configure the mode line
 
    #+begin_src emacs-lisp
-   (use-package spaceline-config
-     :ensure spaceline
+   (use-package doom-modeline
      :config
-     (setq powerline-default-separator "wave"
-           powerline-height 25)
-     (set-face-attribute 'spaceline-evil-normal nil
-                         :foreground "black"
-                         :background evil-normal-color)
-     (set-face-attribute 'spaceline-evil-replace nil
-                         :foreground "black"
-                         :background evil-replace-color)
-     (set-face-attribute 'spaceline-evil-insert nil
-                         :foreground "black"
-                         :background evil-insert-color)
-     (set-face-attribute 'spaceline-evil-visual nil
-                         :foreground "black"
-                         :background evil-visual-color)
-     (set-face-attribute 'spaceline-evil-motion nil
-                         :foreground "black"
-                         :background evil-motion-color)
-     (set-face-attribute 'spaceline-evil-emacs nil
-                         :foreground "black"
-                         :background evil-emacs-color))
+     (set-face-attribute 'doom-modeline-evil-normal-state nil
+                         :foreground rst/evil-normal-color)
+     (set-face-attribute 'doom-modeline-evil-replace-state nil
+                         :foreground rst/evil-replace-color)
+     (set-face-attribute 'doom-modeline-evil-insert-state nil
+                         :foreground rst/evil-insert-color)
+     (set-face-attribute 'doom-modeline-evil-visual-state nil
+                         :foreground rst/evil-visual-color)
+     (set-face-attribute 'doom-modeline-evil-motion-state nil
+                         :foreground rst/evil-motion-color)
+     (set-face-attribute 'doom-modeline-evil-emacs-state nil
+                         :foreground rst/evil-emacs-color)
+     (set-face-attribute 'doom-modeline-panel nil
+                         :inherit 'doom-modeline-info
+                         :background nil))
 
-   (spaceline-define-segment parrot
-     "Shows the infamous party parrot.  Requires `parrot-mode' to be enabled."
-     (when (bound-and-true-p parrot-mode)
-       (powerline-raw (parrot-create) default-face)))
+   (defsubst rst/doom-modeline-evil ()
+     "The current evil state. Requires `evil-mode' to be enabled."
+     (when (bound-and-true-p evil-local-mode)
+       (doom-modeline--modal-icon
+        ""
+        (cond
+         ((evil-normal-state-p) 'doom-modeline-evil-normal-state)
+         ((evil-emacs-state-p) 'doom-modeline-evil-emacs-state)
+         ((evil-insert-state-p) 'doom-modeline-evil-insert-state)
+         ((evil-motion-state-p) 'doom-modeline-evil-motion-state)
+         ((evil-visual-state-p) 'doom-modeline-evil-visual-state)
+         ((evil-operator-state-p) 'doom-modeline-evil-operator-state)
+         ((evil-replace-state-p) 'doom-modeline-evil-replace-state)
+         ((evil-iedit-state-p) 'rst/doom-modeline-evil-iedit-face)
+         ((evil-iedit-insert-state-p) 'rst/doom-modeline-evil-iedit-face)
+         (t 'doom-modeline-evil-normal-state))
+        "Evil state")))
 
-   (spaceline-define-segment git
-     "Shows the current git branch if any."
-     (when vc-mode
-       (powerline-raw
-        (concat (rst/inherit-icon (all-the-icons-octicon "git-compare" :v-adjust 0.01))
-                " "
-                (s-trim (substring vc-mode 5))))))
+   (doom-modeline-def-segment rst/evil-state
+     "Displays evil states."
+     (rst/doom-modeline-evil)
+     (let* ((evil (rst/doom-modeline-evil))
+            (sep (doom-modeline-spc)))
+       (concat sep (when evil evil) sep)))
 
-   (spaceline-compile
-     '(((persp-name
-         workspace-number
-         window-number)
-        :separator "｜"
-        :fallback evil-state
-        :face highlight-face
-        :priority 100)
-       (anzu :priority 95)
-       auto-compile
-       ((buffer-modified buffer-id remote-host)
-        :priority 98)
-       (major-mode :priority 79)
-       (process :when active)
-       ((flycheck-error flycheck-warning flycheck-info)
-        :when active
-        :priority 89)
-       (minor-modes :when active
-                    :priority 9)
-       (mu4e-alert-segment :when active)
-       (erc-track :when active)
-       (git :when active :priority 78)
-       (org-pomodoro :when active)
-       (org-clock :when active)
-       nyan-cat
-       parrot)
+   (doom-modeline-def-modeline 'rst
+     '(bar workspace-name window-number rst/evil-state matches
+           buffer-info remote-host buffer-position word-count parrot selection-info)
+     '(objed-state misc-info persp-name battery grip irc mu4e gnus github debug
+                   repl lsp minor-modes input-method indent-info buffer-encoding
+                   major-mode process vcs checker))
 
-     '(projectile-root
-       which-function
-       (python-pyvenv :fallback python-pyenv)
-       (purpose :priority 94)
-       (battery :when active)
-       (selection-info :priority 95)
-       input-method
-       (buffer-encoding-abbrev
-        :priority 96)
-       (buffer-position :priority 99)
-       (hud :priority 99)))
+   (defun rst/doom-modeline-setup ()
+     (doom-modeline-set-modeline 'rst 'default))
 
-   (setq spaceline-evil-state-faces
-         '((normal . spaceline-evil-normal)
-           (insert . spaceline-evil-insert)
-           (emacs . spaceline-evil-emacs)
-           (replace . spaceline-evil-replace)
-           (visual . spaceline-evil-visual)
-           (motion . spaceline-evil-motion)
-           (iedit . rst/spaceline-iedit-face)
-           (iedit-insert . rst/spaceline-iedit-face))
-         spaceline-highlight-face-func 'spaceline-highlight-face-evil-state
-         spaceline-minor-modes-separator "·")
+   (add-hook 'doom-modeline-mode-hook 'rst/doom-modeline-setup)
 
-   (setq-default mode-line-format '("%e" (:eval (spaceline-ml-main))))
+   (doom-modeline-mode 1)
    #+end_src
 
 ** Font
@@ -1207,14 +1174,14 @@
    Change cursor color depending on evil mode
 
    #+begin_src emacs-lisp
-   (setq evil-normal-state-cursor `(,evil-normal-color box)
-         evil-motion-state-cursor `(,evil-motion-color box)
-         evil-visual-state-cursor `(,evil-visual-color (hbar . 2))
-         evil-insert-state-cursor `(,evil-insert-color (bar . 2))
-         evil-replace-state-cursor `(,evil-replace-color (hbar . 2))
-         evil-emacs-state-cursor `(,evil-emacs-color box)
-         evil-iedit-state-cursor `(,evil-iedit-color box)
-         evil-iedit-insert-state-cursor `(,evil-iedit-color (bar . 2)))
+   (setq evil-normal-state-cursor `(,rst/evil-normal-color box)
+         evil-motion-state-cursor `(,rst/evil-motion-color box)
+         evil-visual-state-cursor `(,rst/evil-visual-color (hbar . 2))
+         evil-insert-state-cursor `(,rst/evil-insert-color (bar . 2))
+         evil-replace-state-cursor `(,rst/evil-replace-color (hbar . 2))
+         evil-emacs-state-cursor `(,rst/evil-emacs-color box)
+         evil-iedit-state-cursor `(,rst/evil-iedit-color box)
+         evil-iedit-insert-state-cursor `(,rst/evil-iedit-color (bar . 2)))
    #+end_src
 
    Highlight todo and similar keywords
@@ -1893,41 +1860,6 @@
      (keyboard-quit))
 
    (advice-add 'evil-force-normal-state :after #'rst/escape)
-   #+end_src
-
-   Cycle through powerline separators
-
-   #+begin_src emacs-lisp
-   (defun rst/cycle-powerline-separator ()
-     (interactive)
-     (let* ((all-separators
-             '("alternate"
-               "arrow"
-               "arrow-fade"
-               "bar"
-               "box"
-               "brace"
-               "butt"
-               "chamfer"
-               "contour"
-               "curve"
-               "rounded"
-               "roundstub"
-               "wave"
-               "zigzag"
-               "slant"
-               "utf-8"))
-            (current-separator-index
-             (cl-position powerline-default-separator all-separators :test 'equal))
-            (next-separator-index
-             (mod (+ current-separator-index 1) (length all-separators)))
-            (next-separator
-             (nth next-separator-index all-separators)))
-       (setq powerline-default-separator next-separator)
-
-       (spaceline-compile)
-       (force-mode-line-update)
-       (message powerline-default-separator)))
    #+end_src
 
 ** Parrot
