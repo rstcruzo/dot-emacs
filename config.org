@@ -1883,6 +1883,18 @@
      (org-toggle-heading heading-level))
    #+end_src
 
+   Do some cleanup when hitting ESC key
+
+   #+begin_src emacs-lisp
+   (defun rst/escape ()
+     (interactive)
+     (evil-ex-nohighlight)
+     (popwin:close-popup-window)
+     (keyboard-quit))
+
+   (advice-add 'evil-force-normal-state :after #'rst/escape)
+   #+end_src
+
 ** Parrot
 
    Create some functions to change parrot temporarily
