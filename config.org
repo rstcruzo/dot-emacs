@@ -603,7 +603,7 @@
      (set-face-attribute 'doom-modeline-panel nil
                          :inherit 'doom-modeline-info
                          :background nil)
-     (setq doom-modeline-minor-modes t
+     (setq doom-modeline-minor-modes nil
            doom-modeline-checker-simple-format nil)
      (remove-hook 'org-src-mode-hook #'doom-modeline-set-org-src-modeline))
 
@@ -634,9 +634,9 @@
 
    (doom-modeline-def-modeline 'rst
      '(bar workspace-name window-number rst/evil-state matches
-           buffer-info remote-host buffer-position word-count parrot selection-info)
-     '(misc-info persp-name battery grip irc mu4e gnus github debug
-                   repl lsp minor-modes input-method indent-info buffer-encoding
+           buffer-info remote-host word-count parrot selection-info)
+     '(misc-info persp-name battery irc mu4e gnus github debug
+                   repl lsp minor-modes indent-info buffer-encoding
                    major-mode process vcs checker))
 
    (defun rst/doom-modeline-setup ()
