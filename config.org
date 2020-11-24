@@ -1957,7 +1957,7 @@
 
     ;; Global binds or shortcuts
     (bind-leader-key
-      "SPC" '(save-buffer :which-key "save buffer")
+      "SPC" '(avy-goto-char-timer :which-key "avy go to char timer")
 
       "/" '(rst/counsel-projectile-rg-with-input :which-key "search project")
       "*" '(rst/counsel-projectile-rg-thing-at-point :which-key "search project thing at point")
@@ -1989,19 +1989,17 @@
 
     (bind-leader-key
       :infix "b"
-      "" '(:ignore t :which-key "buffers/bookmarks")
+      "" '(:ignore t :which-key "buffers")
       "b" '(counsel-switch-buffer :which-key "switch buffer")
       "k" '(kill-buffer :which-key "kill a buffer")
       "K" '(kill-current-buffer :which-key "kill current buffer")
-      "s" '((lambda () (interactive)
-              (switch-to-buffer "*scratch*")) :which-key "switch to scratch")
       "S" '((lambda () (interactive)
+              (switch-to-buffer "*scratch*")) :which-key "switch to scratch")
+      "s" '((lambda () (interactive)
               (popwin:display-buffer "*scratch*")) :which-key "switch to popup scratch")
       "i" '(ibuffer :which-key "ibuffer")
       "R" '(revert-buffer :which-key "revert buffer")
-
-      "m" '(counsel-bookmark :which-key "create/jump to bookmarks")
-
+      "m" '(popwin:messages :which-key "popup messages")
       "n" '(evil-buffer-new :which-key "new buffer"))
 
     (bind-leader-key
@@ -2243,6 +2241,8 @@
       "C" '(avy-copy-line :which-key "jump, copy and paste line")
       "M" '(avy-move-line :which-key "jump, cut and paste line")
 
+      "b" '(counsel-bookmark :which-key "create/jump to bookmarks")
+
       ;; split
       "S" '(sp-split-sexp :which-key "split sexp")
       "s" '(rst/split-and-new-line :which-key "split sexp and new line"))
@@ -2265,10 +2265,8 @@
     (bind-leader-key
       :infix "P"
       "" '(:ignore t :which-key "popups")
-      "m" '(popwin:messages :which-key "popup messages")
-      "s" '((lambda () (interactive)
-              (popwin:display-buffer "*scratch*")) :which-key "popup scratch")
-      "l" '(popwin:popup-last-buffer :which-key "last popup"))
+      "l" '(popwin:popup-last-buffer :which-key "last popup")
+      "s" '(popwin:stick-popup-window :which-key "stick popup"))
     )
   #+end_src
 
