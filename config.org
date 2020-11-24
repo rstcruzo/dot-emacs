@@ -1895,6 +1895,41 @@
    (advice-add 'evil-force-normal-state :after #'rst/escape)
    #+end_src
 
+   Cycle through powerline separators
+
+   #+begin_src emacs-lisp
+   (defun rst/cycle-powerline-separator ()
+     (interactive)
+     (let* ((all-separators
+             '("alternate"
+               "arrow"
+               "arrow-fade"
+               "bar"
+               "box"
+               "brace"
+               "butt"
+               "chamfer"
+               "contour"
+               "curve"
+               "rounded"
+               "roundstub"
+               "wave"
+               "zigzag"
+               "slant"
+               "utf-8"))
+            (current-separator-index
+             (cl-position powerline-default-separator all-separators :test 'equal))
+            (next-separator-index
+             (mod (+ current-separator-index 1) (length all-separators)))
+            (next-separator
+             (nth next-separator-index all-separators)))
+       (setq powerline-default-separator next-separator)
+
+       (spaceline-compile)
+       (force-mode-line-update)
+       (message powerline-default-separator)))
+   #+end_src
+
 ** Parrot
 
    Create some functions to change parrot temporarily
