@@ -1039,6 +1039,12 @@
     :after org)
   #+end_src
 
+  Show info in mode line
+
+  #+begin_src emacs-lisp
+  (add-hook 'org-mode-hook #'which-func-mode)
+  #+end_src
+
 * Development
 
 ** Editing
@@ -1865,6 +1871,18 @@
    (advice-add 'evil-force-normal-state :after #'rst/escape)
    #+end_src
 
+   Insert elisp source block and edit it
+
+   #+begin_src emacs-lisp
+   (defun rst/insert-and-edit-elisp-src-block ()
+     "Insert an elisp source block and edit it in
+   org src mode."
+     (interactive)
+     (org-cycle)
+     (org-insert-structure-template "src emacs-lisp")
+     (org-edit-src-code))
+   #+end_src
+
 ** Parrot
 
    Create some functions to change parrot temporarily
@@ -2132,6 +2150,8 @@
       "ih" '(org-insert-heading :which-key "org header")
 
       "e" '(org-edit-src-code :which-key "org edit source")
+      "l" '(rst/insert-and-edit-elisp-src-block :which-key "org new elisp src block")
+
       "s" '(org-schedule :which-key "org schedule")
       "d" '(org-deadline :which-key "org deadline")
       "r" '(org-babel-execute-src-block :which-key "org execute code")
@@ -2188,7 +2208,8 @@
 
     (bind-mode-key
       :keymaps 'python-mode-map
-      "d" '(sphinx-doc :which-key "generate sphinx doc"))
+      "d" '(sphinx-doc :which-key "generate sphinx doc")
+      "a" '(lsp-execute-code-action "execute code action"))
 
     (bind-mode-key
       :keymaps 'go-mode-map
