@@ -2323,11 +2323,23 @@
   |-------+-------------------------------------------------------------------|
 
 * Pending Configuration
-** TODO [#C] Check use package and general integration
+** DONE [#C] Check use package and general integration
+   CLOSED: [2020-11-24 Tue 23:31]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2020-11-24 Tue 23:31]
+   :END:
 ** TODO [#C] org wild notifier to show OS notifications
-** TODO [#C] Check datetree
+** DONE [#C] Check datetree
+   CLOSED: [2020-11-24 Tue 23:30]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2020-11-24 Tue 23:30]
+   :END:
 ** TODO [#C] org capture templates (tables, datetrees, ...)
-** TODO [#B] org habits
+** DONE [#B] org habits
+   CLOSED: [2020-11-24 Tue 23:28]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2020-11-24 Tue 23:28]
+   :END:
 ** DONE [#C] Why do I need to hit Escape in Org source mode to access "," bindings?
    CLOSED: [2020-11-04 Wed 23:10]
    :LOGBOOK:
