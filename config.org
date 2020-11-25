@@ -625,19 +625,46 @@
          (t 'doom-modeline-evil-normal-state))
         "Evil state")))
 
+   (defsubst rst/doom-modeline--buffer-name ()
+     "The current buffer name."
+     (if (and (not (eq doom-modeline-buffer-file-name-style 'file-name))
+              doom-modeline--limited-width-p)
+         (propertize "%b"
+                     'face (cond ((and buffer-file-name (buffer-modified-p))
+                                  'doom-modeline-buffer-modified)
+                                 ((doom-modeline--active) 'doom-modeline-buffer-file)
+                                 (t 'mode-line-inactive))
+                     'mouse-face 'mode-line-highlight
+                     'help-echo "Buffer name
+   mouse-1: Previous buffer\nmouse-3: Next buffer"
+                     'local-map mode-line-buffer-identification-keymap)
+       (when-let ((name (or doom-modeline--buffer-file-name
+                            (doom-modeline-update-buffer-file-name))))
+         (if (doom-modeline--active)
+             name
+           (propertize name 'face 'mode-line-inactive)))))
+
    (doom-modeline-def-segment rst/evil-state
      "Displays evil states."
-     (rst/doom-modeline-evil)
      (let* ((evil (rst/doom-modeline-evil))
             (sep (doom-modeline-spc)))
        (concat sep (when evil evil) sep)))
 
+   (doom-modeline-def-segment rst/buffer-info
+     "Displays buffer info."
+     (concat
+
+      (doom-modeline-spc)
+      (doom-modeline--buffer-mode-icon)
+      (doom-modeline--buffer-state-icon)
+      (rst/doom-modeline--buffer-name)))
+
    (doom-modeline-def-modeline 'rst
      '(bar workspace-name window-number rst/evil-state matches
-           buffer-info remote-host word-count parrot selection-info)
+           rst/buffer-info remote-host word-count parrot selection-info)
      '(misc-info persp-name battery irc mu4e gnus github debug
-                   repl lsp minor-modes indent-info buffer-encoding
-                   major-mode process vcs checker))
+                 repl lsp minor-modes indent-info buffer-encoding
+                 major-mode process vcs checker))
 
    (defun rst/doom-modeline-setup ()
      (doom-modeline-set-modeline 'rst 'default))
