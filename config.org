@@ -1804,29 +1804,18 @@
 
 ** Counsel Projectile
 
-   Define custom counsel projectile search functions to better handle default
-   inputs. This is used for =SPC /= and =SPC *= bindings.
+   Define custom counsel projectile search function to provide default input.
+   This is used for =SPC /= and =SPC *= bindings.
 
    #+begin_src emacs-lisp
-   (defun rst/counsel-projectile-rg-with-input (&optional input)
-     "Custom counsel projectile rg to receive input as argument."
-     (interactive)
-     (counsel-rg input
-                 (projectile-project-root)
-                 nil
-                 (projectile-prepend-project-name
-                  (concat (car (if (listp counsel-rg-base-command)
-                                   counsel-rg-base-command
-                                 (split-string counsel-rg-base-command)))
-                          ": "))))
-
    (defun rst/counsel-projectile-rg-thing-at-point ()
      "Custom counsel projectile rg to pass thing at point as input."
      (interactive)
-     (let ((thing (ivy-thing-at-point)))
+     (let* ((thing (ivy-thing-at-point))
+            (counsel-projectile-rg-initial-input thing))
        (when (use-region-p)
          (deactivate-mark))
-       (rst/counsel-projectile-rg-with-input thing)))
+       (counsel-projectile-rg)))
    #+end_src
 
    Define way to add current project to treemacs
@@ -1997,7 +1986,7 @@
     (bind-leader-key
       "SPC" '(avy-goto-char-timer :which-key "avy go to char timer")
 
-      "/" '(rst/counsel-projectile-rg-with-input :which-key "search project")
+      "/" '(counsel-projectile-rg :which-key "search project")
       "*" '(rst/counsel-projectile-rg-thing-at-point :which-key "search project thing at point")
 
       "'" '(shell-pop :which-key "shell pop")
