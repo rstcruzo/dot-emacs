@@ -515,21 +515,11 @@
 
 ** Colors
 
-   Define evil mode colors
-
-   #+begin_src emacs-lisp
-   (setq rst/evil-normal-color "SteelBlue1"
-         rst/evil-insert-color "chartreuse3"
-         rst/evil-emacs-color "SkyBlue2"
-         rst/evil-replace-color "chocolate"
-         rst/evil-visual-color "gray"
-         rst/evil-motion-color "plum3"
-         rst/evil-iedit-color "IndianRed1")
-   #+end_src
-
    Define doom modeline iedit face
 
    #+begin_src emacs-lisp
+   (setq rst/evil-iedit-color "IndianRed1")
+
    (defface rst/doom-modeline-evil-iedit-face
      `((t :foreground ,rst/evil-iedit-color
           :background nil))
