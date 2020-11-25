@@ -1259,7 +1259,7 @@
 
    (use-package git-gutter-fringe+
      :after git-gutter+
-     :init
+     :config
      (setq right-fringe-width 20
            git-gutter-fr+-side 'right-fringe)
      (set-face-foreground 'git-gutter-fr+-modified "SlateGrey"))
