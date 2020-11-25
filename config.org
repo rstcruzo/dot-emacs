@@ -588,23 +588,12 @@
    #+begin_src emacs-lisp
    (use-package doom-modeline
      :config
-     (set-face-attribute 'doom-modeline-evil-normal-state nil
-                         :foreground rst/evil-normal-color)
-     (set-face-attribute 'doom-modeline-evil-replace-state nil
-                         :foreground rst/evil-replace-color)
-     (set-face-attribute 'doom-modeline-evil-insert-state nil
-                         :foreground rst/evil-insert-color)
-     (set-face-attribute 'doom-modeline-evil-visual-state nil
-                         :foreground rst/evil-visual-color)
-     (set-face-attribute 'doom-modeline-evil-motion-state nil
-                         :foreground rst/evil-motion-color)
-     (set-face-attribute 'doom-modeline-evil-emacs-state nil
-                         :foreground rst/evil-emacs-color)
      (set-face-attribute 'doom-modeline-panel nil
                          :inherit 'doom-modeline-info
                          :background nil)
      (setq doom-modeline-minor-modes nil
-           doom-modeline-checker-simple-format nil)
+           doom-modeline-checker-simple-format nil
+           doom-modeline-buffer-file-name-style 'truncate-with-project)
      (remove-hook 'org-src-mode-hook #'doom-modeline-set-org-src-modeline))
 
    (defsubst rst/doom-modeline-evil ()
@@ -653,7 +642,6 @@
    (doom-modeline-def-segment rst/buffer-info
      "Displays buffer info."
      (concat
-
       (doom-modeline-spc)
       (doom-modeline--buffer-mode-icon)
       (doom-modeline--buffer-state-icon)
@@ -662,9 +650,9 @@
    (doom-modeline-def-modeline 'rst
      '(bar workspace-name window-number rst/evil-state matches
            rst/buffer-info remote-host word-count parrot selection-info)
-     '(misc-info persp-name battery irc mu4e gnus github debug
-                 repl lsp minor-modes indent-info buffer-encoding
-                 major-mode process vcs checker))
+     '(misc-info vcs persp-name battery irc mu4e gnus github debug
+                 repl lsp minor-modes indent-info
+                 major-mode process checker))
 
    (defun rst/doom-modeline-setup ()
      (doom-modeline-set-modeline 'rst 'default))
@@ -1207,17 +1195,32 @@
      (prog-mode . highlight-indent-guides-mode))
    #+end_src
 
-   Change cursor color depending on evil mode
+   Change cursor color depending on evil mode and doom-modeline state color
 
    #+begin_src emacs-lisp
-   (setq evil-normal-state-cursor `(,rst/evil-normal-color box)
-         evil-motion-state-cursor `(,rst/evil-motion-color box)
-         evil-visual-state-cursor `(,rst/evil-visual-color (hbar . 2))
-         evil-insert-state-cursor `(,rst/evil-insert-color (bar . 2))
-         evil-replace-state-cursor `(,rst/evil-replace-color (hbar . 2))
-         evil-emacs-state-cursor `(,rst/evil-emacs-color box)
-         evil-iedit-state-cursor `(,rst/evil-iedit-color box)
-         evil-iedit-insert-state-cursor `(,rst/evil-iedit-color (bar . 2)))
+   (setq evil-normal-state-cursor
+         `(,(face-attribute 'doom-modeline-evil-normal-state :foreground nil t) box)
+
+         evil-motion-state-cursor
+         `(,(face-attribute 'doom-modeline-evil-motion-state :foreground nil t) box)
+
+         evil-visual-state-cursor
+         `(,(face-attribute 'doom-modeline-evil-visual-state :foreground nil t) (hbar . 2))
+
+         evil-insert-state-cursor
+         `(,(face-attribute 'doom-modeline-evil-insert-state :foreground nil t) (bar . 2))
+
+         evil-replace-state-cursor
+         `(,(face-attribute 'doom-modeline-evil-replace-state :foreground nil t) (hbar . 2))
+
+         evil-emacs-state-cursor
+         `(,(face-attribute 'doom-modeline-evil-emacs-state :foreground nil t) box)
+
+         evil-iedit-state-cursor
+         `(,rst/evil-iedit-color box)
+
+         evil-iedit-insert-state-cursor
+         `(,rst/evil-iedit-color (bar . 2)))
    #+end_src
 
    Highlight todo and similar keywords
