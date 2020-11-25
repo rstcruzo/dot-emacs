@@ -475,7 +475,8 @@
    (use-package beacon
      :diminish
      :config
-     (setq beacon-color "SlateGray4"
+     (setq beacon-color
+           (face-attribute 'doom-modeline-evil-normal-state :foreground nil t)
            beacon-blink-when-window-scrolls nil
            beacon-size 25
            beacon-blink-when-point-moves-horizontally nil
