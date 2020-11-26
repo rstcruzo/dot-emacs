@@ -572,7 +572,7 @@
 
    (use-package all-the-icons)
 
-   (load-theme 'doom-vibrant t)
+   (load-theme 'doom-one t)
    #+end_src
 
    Configure the mode line
@@ -586,7 +586,8 @@
      (setq doom-modeline-minor-modes nil
            doom-modeline-checker-simple-format nil
            doom-modeline-buffer-file-name-style 'truncate-with-project)
-     (remove-hook 'org-src-mode-hook #'doom-modeline-set-org-src-modeline))
+     (remove-hook 'org-src-mode-hook #'doom-modeline-set-org-src-modeline)
+     (remove-hook 'git-commit-mode-hook #'doom-modeline-set-message-modeline))
 
    (defsubst rst/doom-modeline-evil ()
      "The current evil state. Requires `evil-mode' to be enabled."
@@ -659,7 +660,8 @@
    Set default font
 
    #+begin_src emacs-lisp
-   (set-face-attribute 'default nil :font "Monaco" :height 120)
+   (set-face-attribute 'default nil :font "Source Code Pro" :height 130)
+   (set-face-attribute 'mode-line nil :font "Monaco" :height 120)
    #+end_src
 
    Disable python =and= and =or= ligatures
@@ -2043,9 +2045,10 @@
       "T" '(counsel-load-theme :which-key "choose theme")
 
       ;; Toggles
-      "f" '(auto-fill-mode :which-key "toggle auto fill mode")
-      "R" '(ivy-rich-mode :which-key "toggle ivy rich mode")
-      "p" '(ivy-posframe-mode :which-key "toggle ivy posframe mode")
+      "f" '(auto-fill-mode :which-key "toggle auto fill")
+      "v" '(visual-fill-column-mode :which-key "toggle visual fill column")
+      "R" '(ivy-rich-mode :which-key "toggle ivy rich")
+      "p" '(ivy-posframe-mode :which-key "toggle ivy posframe")
 
       "f" '(flycheck-popup-tip-mode :which-key "toggle flycheck popups")
 
@@ -2058,7 +2061,7 @@
 
       "P" '(parrot-mode :which-key "toggle parrot")
 
-      "b" '(lsp-headerline-breadcrumb-mode :which-key "toggle lsp header breadcrumbs"))
+      "b" '(lsp-headerline-breadcrumb-mode :which-key "toggle lsp breadcrumbs"))
 
     (bind-leader-key
       :infix "p"
@@ -2093,6 +2096,7 @@
       "" '(:ignore t :which-key "search/spelling")
       "s" '(swiper :which-key "swiper")
       "S" '(swiper-thing-at-point :which-key "swiper thing at point")
+      "SPC" '(swiper-thing-at-point :which-key "swiper thing at point")
       "c" '(evil-ex-nohighlight :which-key "clear highlight")
 
       "d" '(ispell-change-dictionary :which-key "change dictionary")
