@@ -1138,7 +1138,6 @@
    #+begin_src emacs-lisp
    (use-package highlight-parentheses
      :diminish
-     :ensure nil
      :config
      (set-face-attribute 'highlight-parentheses-highlight nil
                          :weight 'ultra-bold))
