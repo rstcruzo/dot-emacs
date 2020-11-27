@@ -655,6 +655,37 @@
    (doom-modeline-mode 1)
    #+end_src
 
+   Make sure avy faces does not have background
+
+   #+begin_src emacs-lisp
+   (if (not (eq (face-attribute 'avy-lead-face :background nil t) 'unspecified))
+       (progn
+         (set-face-attribute
+          'avy-lead-face nil
+          :background nil
+          :foreground (face-attribute 'avy-lead-face :background nil t))
+         (set-face-attribute
+          'avy-lead-face-0 nil
+          :background nil
+          :foreground (face-attribute 'avy-lead-face-0 :background nil t))
+         (set-face-attribute
+          'avy-lead-face-1 nil
+          :background nil
+          :foreground (face-attribute 'avy-lead-face-1 :background nil t))
+         (set-face-attribute
+          'avy-lead-face-2 nil
+          :background nil
+          :foreground (face-attribute 'avy-lead-face-2 :background nil t))
+
+         (set-face-attribute
+          'avy-goto-char-timer-face nil
+          :background "gray20"
+          :foreground "SlateGray1"
+          :inherit nil)
+         )
+     )
+   #+end_src
+
 ** Font
 
    Set default font
@@ -2049,7 +2080,7 @@
       "R" '(ivy-rich-mode :which-key "toggle ivy rich")
       "p" '(ivy-posframe-mode :which-key "toggle ivy posframe")
 
-      "f" '(flycheck-popup-tip-mode :which-key "toggle flycheck popups")
+      "F" '(flycheck-popup-tip-mode :which-key "toggle flycheck popups")
 
       "c" '(centaur-tabs-mode :which-key "toggle centaur tabs")
 
