@@ -428,6 +428,12 @@
 * UI
 ** General
 
+   Hide file type icon in titlebar in macOS. Run the following bash command
+
+   #+begin_src bash
+   defaults write org.gnu.Emacs HideDocumentIcon YES
+   #+end_src
+
    Disable startup message
 
    #+begin_src emacs-lisp
@@ -573,7 +579,7 @@
 
    (use-package all-the-icons)
 
-   (load-theme 'doom-one t)
+   (load-theme 'doom-monokai-pro t)
    #+end_src
 
    Configure the mode line
