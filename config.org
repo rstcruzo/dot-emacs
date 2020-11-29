@@ -1871,6 +1871,15 @@
 
 ** Helpers
 
+
+   Open this config file
+
+   #+begin_src emacs-lisp
+   (defun rst/open-config-file ()
+     (interactive)
+     (find-file "~/.emacs.d/config.org"))
+   #+end_src
+
    Define way to quickly switch to last buffer
 
    #+begin_src emacs-lisp
@@ -1942,7 +1951,8 @@
      "Create config workspace."
      (eyebrowse-create-window-config)
      (eyebrowse-rename-window-config
-      (eyebrowse--get 'current-slot) "config"))
+      (eyebrowse--get 'current-slot) "config")
+     (rst/open-config-file))
    #+end_src
 
 ** Parrot
@@ -2060,9 +2070,7 @@
       "" '(:ignore t :which-key "files")
       "s" '(save-buffer :which-key "save file")
       "f" '(counsel-find-file :which-key "find file")
-      "e" '((lambda () (interactive)
-              (find-file "~/.emacs.d/config.org"))
-            :which-key "find config file")
+      "e" '(rst/open-config-file :which-key "open config file")
       "o" '((lambda () (interactive)
               (counsel-find-file rst/org-files-path))
             :which-key "find org file"))
