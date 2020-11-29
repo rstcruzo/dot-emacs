@@ -369,7 +369,8 @@
   (use-package avy
     :config
     (setq avy-background t
-          avy-style 'pre))
+          avy-style 'at-full
+          avy-timeout-seconds 0.3))
   #+end_src
 
   Delete trailing whitespaces on file save
