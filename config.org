@@ -579,7 +579,7 @@
 
    (use-package all-the-icons)
 
-   (load-theme 'doom-monokai-pro t)
+   (load-theme 'doom-one t)
    #+end_src
 
    Configure the mode line
@@ -1276,7 +1276,7 @@
      :commands (magit-status magit-blame-addition))
 
    (use-package evil-magit
-     :after magit)
+     :commands (magit-status magit-blame-addition))
 
    (use-package forge
      :commands (magit-status))
@@ -1934,6 +1934,17 @@
      (org-edit-src-code))
    #+end_src
 
+   Create workspace and give it a name
+
+   #+begin_src emacs-lisp
+   (defun rst/eyebrowse-create-config-window-config ()
+     (interactive)
+     "Create config workspace."
+     (eyebrowse-create-window-config)
+     (eyebrowse-rename-window-config
+      (eyebrowse--get 'current-slot) "config"))
+   #+end_src
+
 ** Parrot
 
    Create some functions to change parrot temporarily
@@ -2184,6 +2195,8 @@
       "r" '(eyebrowse-rename-window-config :which-key "rename workspace")
       "C" '(eyebrowse-close-window-config :which-key "close workspace")
       "c" '(eyebrowse-create-window-config :which-key "create workspace")
+      "e" '(rst/eyebrowse-create-config-window-config
+            :which-key "create config workspace")
 
       "u" '(winner-undo :which-key "winner undo")
       "U" '(winner-redo :which-key "winner redo")
