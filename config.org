@@ -522,6 +522,16 @@
    (use-package diminish)
    #+end_src
 
+   When you visit a file, point goes to the last place where it was
+   when you previously visited the same file.
+
+   #+begin_src emacs-lisp
+   (use-package saveplace
+     :ensure nil
+     :config
+     (save-place-mode 1))
+   #+end_src
+
 ** Colors
 
    Define doom modeline iedit face

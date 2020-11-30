@@ -58,3 +58,5 @@ site-lisp/package/
 init.el
 /projectile.cache
 /bookmarks
+
+places
