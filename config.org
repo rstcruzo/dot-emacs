@@ -305,7 +305,7 @@
           ("C-j" . company-select-next)
           ("C-k" . company-select-previous))
     :custom
-    ((company-minimum-prefix-length 2)
+    ((company-minimum-prefix-length 1)
      (company-idle-delay 0.3))
     :hook
     ((text-mode . company-mode)
@@ -594,7 +594,8 @@
            doom-modeline-checker-simple-format nil
            doom-modeline-buffer-file-name-style 'truncate-with-project)
      (remove-hook 'org-src-mode-hook #'doom-modeline-set-org-src-modeline)
-     (remove-hook 'git-commit-mode-hook #'doom-modeline-set-message-modeline))
+     (remove-hook 'git-commit-mode-hook #'doom-modeline-set-message-modeline)
+     (add-hook 'startup-mode-hook #'doom-modeline-set-dashboard-modeline))
 
    (defsubst rst/doom-modeline-evil ()
      "The current evil state. Requires `evil-mode' to be enabled."
@@ -721,27 +722,14 @@
 
 ** Dashboard
 
-   Install dashboard and configure its look
+   Install custom dashboard
 
    #+begin_src emacs-lisp
-   (use-package dashboard
-     :config
-     (setq dashboard-center-content t
-           dashboard-set-heading-icons t
-           dashboard-banner-logo-title "Welcome rstcruzo!"
-           dashboard-items '((projects . 4)
-                             (recents . 6)
-                             (bookmarks . 3))
-           dashboard-set-init-info t)
-     (dashboard-setup-startup-hook))
+   (add-to-list 'load-path "~/.emacs.d/custom")
 
-   ;; Override dashbaord choose banner to allow .txt when not inside a terminal
-   ;; and to pick a random banner
-   (defun dashboard-choose-banner ()
-     "Return the full path of a banner based random id."
-     (let ((id (random 3)))
-       (format "~/.emacs.d/banner-%d.txt" id)
-       ))
+   (require 'startup)
+
+   (startup-setup-hook)
    #+end_src
 
 ** Window
@@ -2080,6 +2068,8 @@
       "" '(:ignore t :which-key "files")
       "s" '(save-buffer :which-key "save file")
       "f" '(counsel-find-file :which-key "find file")
+      "r" '(counsel-recentf :which-key "find recent file")
+
       "e" '(rst/open-config-file :which-key "open config file")
       "o" '((lambda () (interactive)
               (counsel-find-file rst/org-files-path))
