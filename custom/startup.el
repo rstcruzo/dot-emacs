@@ -27,25 +27,25 @@
   "Startup buffer name.")
 
 (defcustom startup-list
-  '((:name "Projects" :text "Switch project" :icon "developer_board" :shortcut "p"
+  '((:name "Recents" :text "Recently opened files" :icon "insert_drive_file" :shortcut "r"
+           :action counsel-recentf)
+    (:name "Projects" :text "Switch project" :icon "developer_board" :shortcut "p"
            :action counsel-projectile-switch-project)
+    (:name "New Workspace" :text "Open new workspace"
+           :icon "work" :shortcut "w"
+           :action eyebrowse-create-named-window-config)
     (:name "Bookmarks" :text "Jump to bookmark" :icon "bookmark" :shortcut "b"
            :action counsel-bookmark)
     (:name "Agenda" :text "Open org-agenda" :icon "view_agenda" :shortcut "a"
            :action org-agenda)
-    (:name "Recents" :text "Recently opened files" :icon "insert_drive_file" :shortcut "r"
-           :action counsel-recentf)
+    (:name "Org" :text "Open org files" :icon "note" :shortcut "o"
+           :action (lambda () (interactive) (counsel-find-file "~/Dropbox/org")))
     (:name "Config" :text "Open emacs configuration" :icon "settings" :shortcut "d"
            :action (lambda () (interactive) (find-file "~/.emacs.d/config.org")))
-    (:name "Org" :text "Open org files" :icon "note" :shortcut "o"
-           :action (lambda () (interactive) (counsel-find-file "~/Dropbox/org"))))
+    (:name "Config Workspace" :text "Open configuration workspace"
+           :icon "settings_applications" :shortcut "D"
+           :action rst/eyebrowse-create-config-window-config))
   "Items that will be displayed in startup.")
-
-(defcustom startup-banner-files
-  '("~/.emacs.d/banner-0.txt"
-    "~/.emacs.d/banner-1.txt"
-    "~/.emacs.d/banner-2.txt")
-  "Files containing the banner text. One of them will be picked randomly.")
 
 (defun startup-center ()
   (let ((fill-column (window-width))
@@ -54,12 +54,11 @@
     (center-region 1 (point-max))))
 
 (defun startup-insert-banner ()
-  (let* ((total (length startup-banner-files))
-         (random-index (random total))
-         (random-filename (nth random-index startup-banner-files)))
-
-    (insert-file-contents random-filename)
-    (goto-char (point-max))))
+  (let* ((image (create-image "~/.emacs.d/banner.png"))
+         (width (car (image-size image)))
+         (left-margin (floor (- (/ (window-width) 2) (/ width 2)))))
+    (insert (make-string left-margin ?\ ))
+    (insert-image image)))
 
 (defun startup-insert-item (item)
   (destructuring-bind (&key name text icon shortcut action) item
@@ -111,7 +110,7 @@
     (when (and startup-window
                (not (window-minibuffer-p selected-window)))
       (with-selected-window startup-window
-        (startup-center)))))
+        (startup-insert-items)))))
 
 (add-hook 'window-setup-hook
           (lambda ()
@@ -122,6 +121,7 @@
   (add-hook 'after-init-hook (lambda ()
                                (switch-to-buffer startup-buffer-name)
                                (startup-mode)
-                               (startup-insert-items))))
+                               (startup-insert-items)
+                               (redisplay))))
 
 (provide 'startup)
