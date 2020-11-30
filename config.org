@@ -2105,6 +2105,7 @@
       "v" '(visual-fill-column-mode :which-key "toggle visual fill column")
       "R" '(ivy-rich-mode :which-key "toggle ivy rich")
       "p" '(ivy-posframe-mode :which-key "toggle ivy posframe")
+      "r" '(read-only-mode :which-key "toggle read only")
 
       "F" '(flycheck-popup-tip-mode :which-key "toggle flycheck popups")
 
