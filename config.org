@@ -1955,6 +1955,16 @@
      (rst/open-config-file))
    #+end_src
 
+   Execute current sexp
+
+   #+begin_src emacs-lisp
+   (defun rst/eval-current-sexp ()
+     (interactive)
+     (save-excursion
+       (sp-end-of-sexp)
+       (eval-last-sexp nil)))
+   #+end_src
+
 ** Parrot
 
    Create some functions to change parrot temporarily
@@ -2176,6 +2186,7 @@
       :infix "l"
       "" '(:ignore t :which-key "lisp")
       "e" '(eval-last-sexp :which-key "eval last sexp")
+      "l" '(rst/eval-current-sexp :which-key "eval current sexp")
       "p" '(check-parens :which-key "check parens"))
 
     (bind-leader-key
