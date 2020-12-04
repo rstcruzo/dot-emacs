@@ -109,12 +109,11 @@
 
   Add =/usr/local/bin= to emacs environment to access executables like =rg=
   Add =/Library/TeX/texbin= to emacs environment to access LaTeX executables
-  Add =~/go/bin= to emacs environment to access go executables like =gopls=
   Add =/usr/local/go/bin= to emacs environment to access go executables like =go=
 
   #+begin_src emacs-lisp
-  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin:/Library/TeX/texbin:~/go/bin:/usr/local/go/bin"))
-  (setq exec-path (append exec-path '("/usr/local/bin" "/Library/TeX/texbin" "~/go/bin" "/usr/local/go/bin")))
+  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin:/Library/TeX/texbin:/usr/local/go/bin"))
+  (setq exec-path (append exec-path '("/usr/local/bin" "/Library/TeX/texbin" "/usr/local/go/bin")))
   #+end_src
 
   Install undo tree
@@ -873,7 +872,7 @@
      :ensure nil :diminish)
 
    (use-package page-break-lines
-     :ensure nil :diminish)
+     :diminish)
    #+end_src
 
 ** Popups
@@ -2432,4 +2431,9 @@
 
    This was caused by evil collection. I disabled it and binded the keys in company mode
    manually.
-** TODO [#B] Clean up go environment paths. HOME?
+** DONE [#B] Clean up go environment paths. HOME?
+   CLOSED: [2020-12-04 Fri 16:14]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2020-12-04 Fri 16:14]
+   :END:
+   Changed =GOPATH= to =/usr/local/go=.
