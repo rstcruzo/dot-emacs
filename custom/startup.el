@@ -40,10 +40,10 @@
            :action org-agenda)
     (:name "Org" :text "Open org files" :icon "note" :shortcut "o"
            :action (lambda () (interactive) (counsel-find-file "~/Dropbox/org")))
-    (:name "Config" :text "Open emacs configuration" :icon "settings" :shortcut "d"
+    (:name "Config" :text "Open emacs configuration" :icon "settings" :shortcut "e"
            :action (lambda () (interactive) (find-file "~/.emacs.d/config.org")))
     (:name "Config Workspace" :text "Open configuration workspace"
-           :icon "settings_applications" :shortcut "D"
+           :icon "settings_applications" :shortcut "E"
            :action rst/eyebrowse-create-config-window-config))
   "Items that will be displayed in startup.")
 
