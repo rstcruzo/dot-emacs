@@ -323,7 +323,8 @@
     :hook (company-mode . company-box-mode)
     :config
     (setq company-box-backends-colors nil
-          company-box-max-candidates 1000))
+          company-box-max-candidates 1000
+          company-tooltip-maximum-width 60))
 
   #+end_src
 
@@ -708,8 +709,8 @@
    Set default font
 
    #+begin_src emacs-lisp
-   (set-face-attribute 'default nil :font "Source Code Pro" :height 130)
-   (set-face-attribute 'mode-line nil :font "Monaco" :height 120)
+   (set-face-attribute 'default nil :font "Jetbrains Mono" :height 130)
+   (set-face-attribute 'mode-line nil :font "Syne Mono" :height 120)
    #+end_src
 
    Disable python =and= and =or= ligatures
@@ -982,7 +983,7 @@
                     (org-level-7 . 1.1)
                     (org-level-8 . 1.1)))
       (set-face-attribute (car face) nil
-                          :font "Fira Code"
+                          :font "Roboto Mono"
                           :weight 'regular
                           :height (cdr face))))
   #+end_src
@@ -2247,6 +2248,7 @@
       "tc" '(org-toggle-checkbox :which-key "org toggle checkbox")
       "tt" '(org-todo :which-key "org todo")
       "th" '(org-toggle-heading :which-key "org toggle heading")
+      "tl" '(org-toggle-link-display :which-key "org toggle link display")
       "td" '((lambda () (interactive)
                (org-todo 'done))
              :which-key "org mark tas as DONE"))
