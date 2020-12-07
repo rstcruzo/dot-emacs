@@ -52,13 +52,13 @@
            :action rst/eyebrowse-create-config-window-config))
   "Items that will be displayed in startup.")
 
+(defun startup-align (beg end)
+  (align-regexp beg end "\\(\\s-*\\)(" nil 12))
+
 (defun startup-center (beg end)
   (let ((fill-column (window-width))
         (buffer-read-only nil))
-    (align-regexp beg end "\\(\\s-*\\)(" nil 12)
-
-    ;; use point since `align-regexp` will change position
-    (center-region beg (point))))
+    (center-region beg end)))
 
 (defun startup-insert-banner ()
   (let* ((image (create-image "~/.emacs.d/banner.png"))
@@ -89,7 +89,9 @@
 
 (defun startup-insert-navigator ()
   (widget-create 'url-link
-                 :tag (all-the-icons-octicon "logo-github")
+                 :tag (string-join
+                       `(,(all-the-icons-faicon "github" :v-adjust 0.03)
+                         "Github") " ")
                  :mouse-face 'highlight
                  :format "%[%t%]"
                  "https://github.com/rstcruzo/dot-emacs"))
@@ -106,16 +108,22 @@
           (erase-buffer)
           (startup-insert-separator)
           (startup-insert-banner)
-          (startup-insert-separator)
           (let ((beg (point)))
+            (startup-insert-separator)
             (startup-insert-navigator)
             (startup-insert-separator)
             (startup-insert-welcome-text)
             (startup-insert-separator)
+
+            (startup-center beg (point)))
+
+          (let ((beg (point)))
             (mapc (lambda (el)
                     (startup-insert-item el)
                     (startup-insert-separator))
                   startup-list)
+
+            (startup-align beg (point))
             (startup-center beg (point))))))))
 
 (evil-make-intercept-map startup-mode-map 'normal)
