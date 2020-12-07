@@ -4,4 +4,4 @@
 
    Highly inspired by [[https://github.com/emacs-dashboard/emacs-dashboard][Dashboard]] and [[https://github.com/hlissner/doom-emacs][Doom dashboard]].
 
-   [[./screenshot.png]]
+   [[./dashboard.png]]
