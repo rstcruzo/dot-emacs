@@ -13,10 +13,15 @@
 
 (defvar startup-mode-map
   (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "<tab>") #'widget-forward)
+    (define-key map (kbd "<backtab>") #'widget-backward)
     map)
   "Keymap for startup mode.")
 
-(define-derived-mode startup-mode special-mode "Startup"
+(defvar startup-buffer-last-width nil
+  "Previous width of startup buffer")
+
+(define-derived-mode startup-mode fundamental-mode "Startup"
   "Startup major mode for startup screen.
 \\<startup-mode-map>
 "
@@ -47,11 +52,13 @@
            :action rst/eyebrowse-create-config-window-config))
   "Items that will be displayed in startup.")
 
-(defun startup-center ()
+(defun startup-center (beg end)
   (let ((fill-column (window-width))
         (buffer-read-only nil))
-    (align-regexp (mark) (point) "\\(\\s-*\\)(" nil 12)
-    (center-region 1 (point-max))))
+    (align-regexp beg end "\\(\\s-*\\)(" nil 12)
+
+    ;; use point since `align-regexp` will change position
+    (center-region beg (point))))
 
 (defun startup-insert-banner ()
   (let* ((image (create-image "~/.emacs.d/banner.png"))
@@ -77,30 +84,39 @@
 (defun startup-insert-separator ()
   (insert "\n\n"))
 
-(defun startup-insert-top-margin ()
-  (insert "\n\n\n\n\n\n\n"))
-
 (defun startup-insert-welcome-text ()
   (insert (propertize "Welcome rstcruzo!" 'face 'startup-dim)))
+
+(defun startup-insert-navigator ()
+  (widget-create 'url-link
+                 :tag (all-the-icons-octicon "logo-github")
+                 :mouse-face 'highlight
+                 :format "%[%t%]"
+                 "https://github.com/rstcruzo/dot-emacs"))
 
 (defun startup-insert-items ()
   "Insert the list of items into the buffer."
   (interactive)
-  (let ((buffer-read-only nil))
-    (erase-buffer)
-    (startup-insert-top-margin)
-    (startup-insert-banner)
-    (startup-insert-separator)
-    (startup-insert-welcome-text)
-    (startup-insert-separator)
-    (set-mark (point))
-    (mapc (lambda (el)
-            (startup-insert-item el)
-            (startup-insert-separator))
-          startup-list)
-    (startup-center)
-    (deactivate-mark)
-    (goto-char 0)))
+  (let ((buffer-exists (buffer-live-p (get-buffer startup-buffer-name))))
+    (when (or (not (eq startup-buffer-last-width (window-width)))
+              (not buffer-exists))
+      (setq startup-buffer-last-width (window-width))
+      (save-excursion
+        (let ((buffer-read-only nil))
+          (erase-buffer)
+          (startup-insert-separator)
+          (startup-insert-banner)
+          (startup-insert-separator)
+          (let ((beg (point)))
+            (startup-insert-navigator)
+            (startup-insert-separator)
+            (startup-insert-welcome-text)
+            (startup-insert-separator)
+            (mapc (lambda (el)
+                    (startup-insert-item el)
+                    (startup-insert-separator))
+                  startup-list)
+            (startup-center beg (point))))))))
 
 (evil-make-intercept-map startup-mode-map 'normal)
 
