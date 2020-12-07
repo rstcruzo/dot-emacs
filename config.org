@@ -4,8 +4,6 @@
 #+property: header-args:emacs-lisp :tangle ./init.el
 #+startup: content
 
-[[./screenshot.png]]
-
 * Optimizations
 
   Make startup faster by reducing the frequency of garbage collection
