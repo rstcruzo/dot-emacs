@@ -1824,6 +1824,30 @@
      ("q" nil "quit" :exit t))
    #+end_src
 
+   Define hydra function to cycle through a bunch of stuff
+
+   #+begin_src emacs-lisp
+   (defhydra rst/hydra-cycle (:hint nil)
+     "
+   ^Hunk^             ^Avy^            ^Flycheck^
+   --------------------------------------------------
+   _h_: next          _j_: next        _e_: next
+   _H_: previous      _J_: previous    _E_: previous
+
+   _q_: quit
+   "
+     ("h" git-gutter+-next-hunk)
+     ("H" git-gutter+-previous-hunk)
+
+     ("j" avy-next)
+     ("J" avy-prev)
+
+     ("e" flycheck-next-error)
+     ("E" flycheck-previous-error)
+
+     ("q" nil :exit t))
+   #+end_src
+
 ** Counsel Projectile
 
    Define custom counsel projectile search function to provide default input.
@@ -2002,14 +2026,19 @@
       :prefix "[")
 
     (general-create-definer bind-cl-square-brackets
+      :keymaps 'override
       :states '(normal)
       :prefix "]")
 
     (bind-op-square-brackets
+      "j" '(avy-prev :which-key "avy previous")
       "h" '(git-gutter+-previous-hunk :which-key "git previous hunk")
       "e" '(flycheck-previous-error :which-key "flycheck previous error"))
 
     (bind-cl-square-brackets
+      "]" '(rst/hydra-cycle/body :which-key "cycle next")
+
+      "j" '(avy-next :which-key "avy next")
       "h" '(git-gutter+-next-hunk :which-key "git next hunk")
       "e" '(flycheck-next-error :which-key "flycheck next error"))
 
@@ -2059,6 +2088,7 @@
       :infix "f"
       "" '(:ignore t :which-key "files")
       "s" '(save-buffer :which-key "save file")
+      "SPC" '(save-buffer :which-key "save file")
       "f" '(counsel-find-file :which-key "find file")
       "r" '(counsel-recentf :which-key "find recent file")
 
@@ -2110,7 +2140,8 @@
 
       "P" '(parrot-mode :which-key "toggle parrot")
 
-      "b" '(lsp-headerline-breadcrumb-mode :which-key "toggle lsp breadcrumbs"))
+      "b" '(lsp-headerline-breadcrumb-mode :which-key "toggle lsp breadcrumbs")
+      "d" '(lsp-ui-doc-mode :which-key "toggle lsp doc"))
 
     (bind-leader-key
       :infix "p"
