@@ -15,13 +15,14 @@
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "<tab>") #'widget-forward)
     (define-key map (kbd "<backtab>") #'widget-backward)
+    (define-key map (kbd "R") #'startup-reload)
     map)
   "Keymap for startup mode.")
 
 (defvar startup-buffer-last-width nil
   "Previous width of startup buffer")
 
-(define-derived-mode startup-mode fundamental-mode "Startup"
+(define-derived-mode startup-mode special-mode "Startup"
   "Startup major mode for startup screen.
 \\<startup-mode-map>
 "
@@ -84,17 +85,33 @@
 (defun startup-insert-separator ()
   (insert "\n\n"))
 
-(defun startup-insert-welcome-text ()
-  (insert (propertize "Welcome rstcruzo!" 'face 'startup-dim)))
+(defun startup-reload (&rest _)
+  (interactive)
+  (message "Reloading...")
+  (projectile-discover-projects-in-directory "~/Code")
+  (startup-insert-items)
+  (message "done"))
 
 (defun startup-insert-navigator ()
   (widget-create 'url-link
                  :tag (string-join
                        `(,(all-the-icons-faicon "github" :v-adjust 0.03)
                          "Github") " ")
+                 :button-face 'startup-dim
                  :mouse-face 'highlight
                  :format "%[%t%]"
-                 "https://github.com/rstcruzo/dot-emacs"))
+                 "https://github.com/rstcruzo/dot-emacs")
+  (insert " ")
+  (widget-create 'item
+                 :tag (string-join
+                       `(,(all-the-icons-faicon "refresh" :v-adjust 0.03)
+                         "Refresh") " ")
+                 :button-face 'startup-dim
+                 :mouse-face 'highlight
+                 :format "%[%t%]"
+                 :button-prefix "["
+                 :button-suffix "]"
+                 :action #'startup-reload))
 
 (defun startup-insert-items ()
   "Insert the list of items into the buffer."
@@ -112,7 +129,6 @@
             (startup-insert-separator)
             (startup-insert-navigator)
             (startup-insert-separator)
-            (startup-insert-welcome-text)
             (startup-insert-separator)
 
             (startup-center beg (point)))
