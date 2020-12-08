@@ -319,13 +319,14 @@
 
   #+begin_src emacs-lisp
   (use-package company-box
+    :load-path "company-box"
     :diminish
     :hook (company-mode . company-box-mode)
     :config
     (setq company-box-backends-colors nil
           company-box-max-candidates 1000
           company-tooltip-maximum-width 60
-          company-box-icons-alist 'company-box-icons-idea))
+          company-box-icons-alist 'company-box-icons-all-the-icons))
   #+end_src
 
   Add =yasnippet= support for all company backends
@@ -716,7 +717,7 @@
 
    #+begin_src emacs-lisp
    (set-face-attribute 'default nil :font "Jetbrains Mono" :height 130)
-   (set-face-attribute 'mode-line nil :font "Syne Mono" :height 120)
+   (set-face-attribute 'mode-line nil :font "Roboto Mono" :height 120)
    #+end_src
 
    Disable python =and= and =or= ligatures
@@ -1305,7 +1306,7 @@
      :config
      (setq right-fringe-width 20
            git-gutter-fr+-side 'right-fringe)
-     (set-face-foreground 'git-gutter-fr+-modified "SlateGrey"))
+     (set-face-foreground 'git-gutter-fr+-modified "DarkGoldenrod2"))
 
    (defun rst/git-gutter+-refresh-in-all-buffers ()
      (git-gutter+-in-all-buffers (when git-gutter+-mode (git-gutter+-refresh))))

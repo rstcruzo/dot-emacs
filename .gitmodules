@@ -1,0 +1,3 @@
+[submodule "company-box"]
+	path = company-box
+	url = git@github.com:rstcruzo/company-box.git
