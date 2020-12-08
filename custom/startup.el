@@ -39,6 +39,9 @@
 \\<startup-mode-map>
 "
   (run-hooks 'startup-mode-hook)
+  (if (and (featurep 'evil)
+           (evil-mode))
+      (evil-make-intercept-map startup-mode-map 'normal))
   (startup-insert-items))
 
 (defcustom startup-buffer-name "*startup*"
@@ -69,14 +72,17 @@ Currently, only material icons are supported."
   :type 'list)
 
 (defun startup-align (beg end)
+  "Align region defined by BEG and END by brackets."
   (align-regexp beg end "\\(\\s-*\\)(" nil 12))
 
 (defun startup-center (beg end)
+  "Center region defined by BEG and END."
   (let ((fill-column (window-width))
         (buffer-read-only nil))
     (center-region beg end)))
 
 (defun startup-insert-banner ()
+  "Insert centered banner image."
   (let* ((image (create-image startup-banner-path))
          (width (car (image-size image)))
          (left-margin (floor (- (/ (window-width) 2) (/ width 2)))))
@@ -84,6 +90,10 @@ Currently, only material icons are supported."
     (insert-image image)))
 
 (defun startup-insert-item (item)
+  "Insert ITEM.
+
+With its icon as prefix and shortcut as suffix enclosed in brackets.
+Only material icons are supported currently."
   (destructuring-bind (&key name text icon shortcut action) item
     (insert (all-the-icons-material icon :face 'startup-item :height 1))
     (insert (propertize (concat "  " text) 'face 'startup-item))
@@ -92,15 +102,21 @@ Currently, only material icons are supported."
     (startup-define-shortcut shortcut action)))
 
 (defun startup-insert-shortcut (shortcut)
+  "Insert SHORTCUT enclosed in brackets."
   (insert (propertize (concat "(" shortcut ")") 'face 'startup-dim)))
 
 (defun startup-define-shortcut (shortcut action)
+  "Bind SHORTCUT to ACTION in startup-mode-map."
   (define-key startup-mode-map (kbd shortcut) action))
 
 (defun startup-insert-separator ()
+  "Insert separator."
   (insert "\n\n"))
 
 (defun startup-reload (&rest _)
+  "Reload startup screen.
+
+Also, reload projectile projects if startup-projectile-path is set."
   (interactive)
   (message "Reloading...")
   (if (not (null startup-projectile-path))
@@ -109,6 +125,9 @@ Currently, only material icons are supported."
   (message "done"))
 
 (defun startup-insert-navigator ()
+  "Insert navigator.
+
+Consists of a github link to my repo and a refresh button."
   (widget-create 'url-link
                  :tag (string-join
                        `(,(all-the-icons-faicon "github" :v-adjust 0.03)
@@ -158,8 +177,6 @@ Currently, only material icons are supported."
             (startup-align beg (point))
             (startup-center beg (point))))))))
 
-(evil-make-intercept-map startup-mode-map 'normal)
-
 (defun startup-resize-on-hook (&rest _)
   "Reinsert items when necessary."
   (let ((startup-window (get-buffer-window startup-buffer-name))
@@ -183,3 +200,5 @@ Currently, only material icons are supported."
                                (redisplay))))
 
 (provide 'startup)
+;;; startup.el ends here
+
