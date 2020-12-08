@@ -532,6 +532,12 @@
      (save-place-mode 1))
    #+end_src
 
+   Truncate lines by default
+
+   #+begin_src emacs-lisp
+   (setq-default truncate-lines t)
+   #+end_src
+
 ** Colors
 
    Define doom modeline iedit face
