@@ -324,8 +324,8 @@
     :config
     (setq company-box-backends-colors nil
           company-box-max-candidates 1000
-          company-tooltip-maximum-width 60))
-
+          company-tooltip-maximum-width 60
+          company-box-icons-alist 'company-box-icons-idea))
   #+end_src
 
   Add =yasnippet= support for all company backends
