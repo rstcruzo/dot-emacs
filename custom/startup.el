@@ -1,9 +1,19 @@
+;;; startup.el --- A startup screen
+
+;;; Commentary:
+
+;;; A customizable startup screen.  Highly inspired in dashboard.el
+;;; and Doom Emacs dashboard.
+
 (require 'all-the-icons)
 (require 'projectile)
 (require 'counsel)
 
+;;; Code:
+
 (defgroup startup nil
-  "Extensible startup screen.")
+  "Extensible startup screen."
+  :group 'applications)
 
 (defface startup-item
   '((t (:inherit font-lock-keyword-face)))
@@ -22,7 +32,7 @@
   "Keymap for startup mode.")
 
 (defvar startup-buffer-last-width nil
-  "Previous width of startup buffer")
+  "Previous width of startup buffer.")
 
 (define-derived-mode startup-mode special-mode "Startup"
   "Startup major mode for the startup screen.
@@ -37,7 +47,7 @@
 
 (defcustom startup-banner-path
   (expand-file-name "banner.png" (file-name-directory (locate-library "startup")))
-  "Startup banner path"
+  "Startup banner path."
   :type 'string)
 
 (defcustom startup-projectile-path nil
@@ -151,6 +161,7 @@ Currently, only material icons are supported."
 (evil-make-intercept-map startup-mode-map 'normal)
 
 (defun startup-resize-on-hook (&rest _)
+  "Reinsert items when necessary."
   (let ((startup-window (get-buffer-window startup-buffer-name))
         (selected-window (frame-selected-window)))
     (when (and startup-window
@@ -164,6 +175,7 @@ Currently, only material icons are supported."
             (startup-resize-on-hook)))
 
 (defun startup-setup-hook ()
+  "Setup Startup to appear on Emacs startup."
   (add-hook 'after-init-hook (lambda ()
                                (switch-to-buffer startup-buffer-name)
                                (startup-mode)
