@@ -1,4 +1,6 @@
 (require 'all-the-icons)
+(require 'projectile)
+(require 'counsel)
 
 (defgroup startup nil
   "Extensible startup screen.")
@@ -23,35 +25,38 @@
   "Previous width of startup buffer")
 
 (define-derived-mode startup-mode special-mode "Startup"
-  "Startup major mode for startup screen.
+  "Startup major mode for the startup screen.
 \\<startup-mode-map>
 "
   (run-hooks 'startup-mode-hook)
   (startup-insert-items))
 
 (defcustom startup-buffer-name "*startup*"
-  "Startup buffer name.")
+  "Startup buffer name."
+  :type 'string)
+
+(defcustom startup-banner-path
+  (expand-file-name "banner.png" (file-name-directory (locate-library "startup")))
+  "Startup banner path"
+  :type 'string)
+
+(defcustom startup-projectile-path nil
+  "Projectile path to reload projects from."
+  :type 'string)
 
 (defcustom startup-list
   '((:name "Recents" :text "Recently opened files" :icon "insert_drive_file" :shortcut "r"
            :action counsel-recentf)
     (:name "Projects" :text "Switch project" :icon "developer_board" :shortcut "p"
            :action counsel-projectile-switch-project)
-    (:name "New Workspace" :text "Open new workspace"
-           :icon "work" :shortcut "w"
-           :action eyebrowse-create-named-window-config)
     (:name "Bookmarks" :text "Jump to bookmark" :icon "bookmark" :shortcut "b"
            :action counsel-bookmark)
     (:name "Agenda" :text "Open org-agenda" :icon "view_agenda" :shortcut "a"
-           :action org-agenda)
-    (:name "Org" :text "Open org files" :icon "note" :shortcut "o"
-           :action (lambda () (interactive) (counsel-find-file "~/Dropbox/org")))
-    (:name "Config" :text "Open emacs configuration" :icon "settings" :shortcut "e"
-           :action (lambda () (interactive) (find-file "~/.emacs.d/config.org")))
-    (:name "Config Workspace" :text "Open configuration workspace"
-           :icon "settings_applications" :shortcut "E"
-           :action rst/eyebrowse-create-config-window-config))
-  "Items that will be displayed in startup.")
+           :action org-agenda))
+  "Items that will be displayed in startup.
+
+Currently, only material icons are supported."
+  :type 'list)
 
 (defun startup-align (beg end)
   (align-regexp beg end "\\(\\s-*\\)(" nil 12))
@@ -62,7 +67,7 @@
     (center-region beg end)))
 
 (defun startup-insert-banner ()
-  (let* ((image (create-image "~/.emacs.d/banner.png"))
+  (let* ((image (create-image startup-banner-path))
          (width (car (image-size image)))
          (left-margin (floor (- (/ (window-width) 2) (/ width 2)))))
     (insert (make-string left-margin ?\ ))
@@ -88,7 +93,8 @@
 (defun startup-reload (&rest _)
   (interactive)
   (message "Reloading...")
-  (projectile-discover-projects-in-directory "~/Code")
+  (if (not (null startup-projectile-path))
+      (projectile-discover-projects-in-directory startup-projectile-path))
   (startup-insert-items)
   (message "done"))
 
