@@ -2119,21 +2119,26 @@
       "n" '(evil-buffer-new :which-key "new buffer"))
 
     (bind-leader-key
-      :infix "t"
-      "" '(:ignore t :which-key "toggles/text")
+      :infix "x"
+      "" '(:ignore t :which-key "text")
 
-      ;; Text
       "t" '(google-translate-smooth-translate :which-key "google translate")
       "s" '(rst/hydra-text-scale/body :which-key "scale text")
+      "j" '(json-pretty-print-buffer-ordered :which-key "pretty print json"))
+
+    (bind-leader-key
+      :infix "t"
+      "" '(:ignore t :which-key "toggles")
 
       "T" '(counsel-load-theme :which-key "choose theme")
 
-      ;; Toggles
       "f" '(auto-fill-mode :which-key "toggle auto fill")
       "v" '(visual-fill-column-mode :which-key "toggle visual fill column")
       "R" '(ivy-rich-mode :which-key "toggle ivy rich")
       "p" '(ivy-posframe-mode :which-key "toggle ivy posframe")
       "r" '(read-only-mode :which-key "toggle read only")
+      "w" '(whitespace-mode :which-key "toggle whitespace")
+      "t" '(toggle-truncate-lines :which-key "toggle truncate lines")
 
       "F" '(flycheck-popup-tip-mode :which-key "toggle flycheck popups")
 
@@ -2226,6 +2231,7 @@
       "s" '(evil-window-split :which-key "horizontal split")
       "v" '(evil-window-vsplit :which-key "vertical split")
       "m" '(delete-other-windows :which-key "maximize window")
+      "=" '(balance-windows :which-key "balances windows")
 
       "w" '(eyebrowse-last-window-config :which-key "last workspace")
       "W" '(eyebrowse-switch-to-window-config :which-key "switch workspace")
