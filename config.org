@@ -461,15 +461,6 @@
    (column-number-mode)
    #+end_src
 
-   Show relative line numbers in =prog-mode=
-
-   #+begin_src emacs-lisp
-   (add-hook 'prog-mode-hook
-             (lambda ()
-               (display-line-numbers-mode t)
-               (setq display-line-numbers 'relative)))
-   #+end_src
-
    Remove bottom emacs window margins (happens on Mac OS)
 
    #+begin_src emacs-lisp
@@ -667,7 +658,7 @@
 
    (doom-modeline-def-modeline 'rst
      '(bar workspace-name window-number rst/evil-state matches
-           rst/buffer-info remote-host word-count parrot selection-info)
+           rst/buffer-info buffer-position remote-host word-count parrot selection-info)
      '(misc-info vcs persp-name battery irc mu4e gnus github debug
                  repl lsp minor-modes indent-info
                  major-mode process checker))
@@ -1245,9 +1236,9 @@
    (use-package highlight-indent-guides
      :diminish
      :config
-     (setq highlight-indent-guides-method 'bitmap
+     (setq highlight-indent-guides-method 'character
            highlight-indent-guides-responsive 'top
-           highlight-indent-guides-auto-top-character-face-perc 20)
+           highlight-indent-guides-auto-top-character-face-perc 30)
      :hook
      (prog-mode . highlight-indent-guides-mode))
    #+end_src
@@ -2094,7 +2085,7 @@
 
     ;; Global binds or shortcuts
     (bind-leader-key
-      "SPC" '(avy-goto-char-timer :which-key "avy go to char timer")
+      "SPC" '(save-buffer :which-key "save buffer")
 
       "/" '(counsel-projectile-rg :which-key "search project")
       "*" '(rst/counsel-projectile-rg-thing-at-point :which-key "search project thing at point")
@@ -2167,6 +2158,7 @@
       "c" '(centaur-tabs-mode :which-key "toggle centaur tabs")
 
       "i" '(org-toggle-inline-images :which-key "toggle org inline images")
+      "h" '(highlight-indent-guides-mode :which-key "toggle highlight indent guides")
 
       "m" '(counsel-minor :which-key "toggle minor mode")
       "M" '(counsel-major :which-key "toggle major mode")
