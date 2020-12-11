@@ -570,7 +570,7 @@
    (advice-add 'powerline-selected-window-active :around 'rst/do-nothing)
    #+end_src
 
-   Configure and set a theme
+   Install some themes
 
    #+begin_src emacs-lisp
    (defun rst/inherit-icon (icon)
@@ -586,8 +586,24 @@
      :ensure spacemacs-theme)
 
    (use-package all-the-icons)
+   #+end_src
 
-   (load-theme 'doom-one t)
+   Set a random theme from a list
+
+   #+begin_src emacs-lisp
+   (setq themes-random-list '(spacemacs-dark
+                              doom-dark+
+                              doom-dracula
+                              doom-one
+                              doom-vibrant
+                              doom-monokai-pro
+                              doom-gruvbox
+                              doom-challenger-deep
+                              doom-snazzy
+                              doom-horizon))
+
+   (let ((random-index (random (length themes-random-list))))
+     (load-theme (nth random-index themes-random-list) t))
    #+end_src
 
    Configure the mode line
