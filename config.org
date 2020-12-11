@@ -2018,8 +2018,14 @@
 * Keybindings
 
   #+begin_src emacs-lisp
+  (use-package key-chord)
+
   (use-package general
     :config
+    (general-define-key
+     :states '(normal insert motion visual emacs)
+     :keymaps 'override
+     "M-j" 'avy-goto-char-timer)
 
     (general-create-definer bind-leader-key
       :states '(normal insert motion visual emacs)
