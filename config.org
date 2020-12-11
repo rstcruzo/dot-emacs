@@ -755,23 +755,23 @@
 
    (setq startup-list
      '((:name "Recents" :text "Recently opened files" :icon "insert_drive_file" :shortcut "r"
-              :action counsel-recentf)
+              :action (lambda (&rest _) (interactive) (counsel-recentf)))
        (:name "Projects" :text "Switch project" :icon "developer_board" :shortcut "p"
-              :action counsel-projectile-switch-project)
+              :action (lambda (&rest _) (interactive) (counsel-projectile-switch-project)))
        (:name "New Workspace" :text "Open new workspace"
               :icon "work" :shortcut "w"
-              :action eyebrowse-create-named-window-config)
+              :action (lambda (&rest _) (interactive) (eyebrowse-create-named-window-config)))
        (:name "Bookmarks" :text "Jump to bookmark" :icon "bookmark" :shortcut "b"
-              :action counsel-bookmark)
+              :action (lambda (&rest _) (interactive) (counsel-bookmark)))
        (:name "Agenda" :text "Open org-agenda" :icon "view_agenda" :shortcut "a"
-              :action org-agenda)
+              :action (lambda (&rest _) (interactive) (org-agenda)))
        (:name "Org" :text "Open org files" :icon "note" :shortcut "o"
-              :action (lambda () (interactive) (counsel-find-file "~/Dropbox/org")))
+              :action (lambda (&rest _) (interactive) (counsel-find-file "~/Dropbox/org")))
        (:name "Config" :text "Open emacs configuration" :icon "settings" :shortcut "e"
-              :action (lambda () (interactive) (find-file "~/.emacs.d/config.org")))
+              :action (lambda (&rest _) (interactive) (find-file "~/.emacs.d/config.org")))
        (:name "Config Workspace" :text "Open configuration workspace"
               :icon "settings_applications" :shortcut "E"
-              :action rst/eyebrowse-create-config-window-config))
+              :action (lambda (&rest _) (interactive) (rst/eyebrowse-create-config-window-config))))
      startup-projectile-path "~/Code")
 
    (startup-setup-hook)

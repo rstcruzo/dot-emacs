@@ -28,6 +28,9 @@
     (define-key map (kbd "<tab>") #'widget-forward)
     (define-key map (kbd "<backtab>") #'widget-backward)
     (define-key map (kbd "R") #'startup-reload)
+
+    (define-key map (kbd "j") #'widget-forward)
+    (define-key map (kbd "k") #'widget-backward)
     map)
   "Keymap for startup mode.")
 
@@ -59,13 +62,13 @@
 
 (defcustom startup-list
   '((:name "Recents" :text "Recently opened files" :icon "insert_drive_file" :shortcut "r"
-           :action counsel-recentf)
+           :action (lambda (&rest _) (interactive) (counsel-recentf)))
     (:name "Projects" :text "Switch project" :icon "developer_board" :shortcut "p"
-           :action counsel-projectile-switch-project)
+           :action (lambda (&rest _) (interactive) (counsel-projectile-switch-project)))
     (:name "Bookmarks" :text "Jump to bookmark" :icon "bookmark" :shortcut "b"
-           :action counsel-bookmark)
+           :action (lambda (&rest _) (interactive) (counsel-bookmark)))
     (:name "Agenda" :text "Open org-agenda" :icon "view_agenda" :shortcut "a"
-           :action org-agenda))
+           :action (lambda (&rest _) (interactive) (org-agenda))))
   "Items that will be displayed in startup.
 
 Currently, only material icons are supported."
@@ -96,9 +99,15 @@ With its icon as prefix and shortcut as suffix enclosed in brackets.
 Only material icons are supported currently."
   (destructuring-bind (&key name text icon shortcut action) item
     (insert (all-the-icons-material icon :face 'startup-item :height 1))
-    (insert (propertize (concat "  " text) 'face 'startup-item))
+    (insert " ")
+    (widget-create 'link
+                   :tag (propertize text 'face 'startup-item)
+                   :mouse-face 'highlight
+                   :format "%[%t%]"
+                   :action action
+                   :button-prefix ""
+                   :button-suffix "")
     (startup-insert-shortcut shortcut)
-
     (startup-define-shortcut shortcut action)))
 
 (defun startup-insert-shortcut (shortcut)
@@ -137,7 +146,7 @@ Consists of a github link to my repo and a refresh button."
                  :format "%[%t%]"
                  "https://github.com/rstcruzo/dot-emacs")
   (insert " ")
-  (widget-create 'item
+  (widget-create 'link
                  :tag (string-join
                        `(,(all-the-icons-faicon "refresh" :v-adjust 0.03)
                          "Refresh") " ")
@@ -175,7 +184,9 @@ Consists of a github link to my repo and a refresh button."
                   startup-list)
 
             (startup-align beg (point))
-            (startup-center beg (point))))))))
+            (startup-center beg (point)))))
+      ;; jump to first item - 2 navigator widgets plus 1
+      (widget-forward 3))))
 
 (defun startup-resize-on-hook (&rest _)
   "Reinsert items when necessary."
