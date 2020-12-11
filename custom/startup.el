@@ -99,11 +99,12 @@ With its icon as prefix and shortcut as suffix enclosed in brackets.
 Only material icons are supported currently."
   (destructuring-bind (&key name text icon shortcut action) item
     (insert (all-the-icons-material icon :face 'startup-item :height 1))
-    (insert " ")
+    (insert "  ")
     (widget-create 'link
                    :tag (propertize text 'face 'startup-item)
                    :mouse-face 'highlight
                    :format "%[%t%]"
+                   :help-echo nil
                    :action action
                    :button-prefix ""
                    :button-suffix "")
@@ -143,6 +144,7 @@ Consists of a github link to my repo and a refresh button."
                          "Github") " ")
                  :button-face 'startup-dim
                  :mouse-face 'highlight
+                 :help-echo "Go to github repository"
                  :format "%[%t%]"
                  "https://github.com/rstcruzo/dot-emacs")
   (insert " ")
@@ -153,6 +155,7 @@ Consists of a github link to my repo and a refresh button."
                  :button-face 'startup-dim
                  :mouse-face 'highlight
                  :format "%[%t%]"
+                 :help-echo "Refresh startup page"
                  :button-prefix "["
                  :button-suffix "]"
                  :action #'startup-reload))
