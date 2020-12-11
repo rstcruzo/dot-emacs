@@ -1867,6 +1867,17 @@
      ("q" nil :exit t))
    #+end_src
 
+   Define hydra function to resize windows
+
+   #+begin_src emacs-lisp
+   (defhydra rst/hydra-window-resize ()
+     ("l" evil-window-increase-width "increase width")
+     ("h" evil-window-decrease-width "decrease width")
+
+     ("k" evil-window-increase-height "increase height")
+     ("j" evil-window-decrease-height "increase height"))
+   #+end_src
+
 ** Counsel Projectile
 
    Define custom counsel projectile search function to provide default input.
@@ -2252,6 +2263,7 @@
       "v" '(evil-window-vsplit :which-key "vertical split")
       "m" '(delete-other-windows :which-key "maximize window")
       "=" '(balance-windows :which-key "balances windows")
+      "R" '(rst/hydra-window-resize/body :which-key "resize window")
 
       "w" '(eyebrowse-last-window-config :which-key "last workspace")
       "W" '(eyebrowse-switch-to-window-config :which-key "switch workspace")
