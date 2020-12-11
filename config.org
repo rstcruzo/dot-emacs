@@ -2200,10 +2200,14 @@
     (bind-leader-key
       :infix "g"
       "" '(:ignore t :which-key "git")
-      "g" '(magit-status :which-key "git status")
+      "g" '(magit-status :which-key "status")
+      "G" '(magit-status-here :which-key "status here")
+
       "c" '(rst/hydra-merge-conflicts/body :which-key "merge conflicts")
       "h" '(rst/hydra-cycle-hunks/body :which-key "cycle hunks")
-      "b" '(magit-blame-addition :which-key "blame")
+
+      "b" '(magit-branch-checkout :which-key "branch checkout")
+      "B" '(magit-blame-addition :which-key "blame")
 
       "s" '(git-gutter+-show-hunk-inline-at-point :which-key "show current hunk diff")
       "S" '(git-gutter+-show-hunk :which-key "show current hunk diff in a buffer")
@@ -2211,7 +2215,8 @@
       "n" '(git-gutter+-next-hunk :which-key "next hunk")
       "p" '(git-gutter+-previous-hunk :which-key "previous hunk")
 
-      "l" '(git-link :which-key "git link"))
+      "l" '(magit-log-buffer-file :which-key "buffer logs")
+      "L" '(git-link :which-key "git link"))
 
     (bind-leader-key
       :infix "s"
