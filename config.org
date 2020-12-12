@@ -128,6 +128,8 @@
   Install counsel, swiper and ivy. Setup global bindings.
 
   #+begin_src emacs-lisp
+  (use-package smex)
+
   (use-package counsel
     :bind (("M-x" . counsel-M-x)
            ("C-x b" . counsel-ibuffer)
