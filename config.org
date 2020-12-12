@@ -327,7 +327,8 @@
     :config
     (setq company-box-backends-colors nil
           company-box-max-candidates 1000
-          company-tooltip-maximum-width 60
+          company-tooltip-maximum-width 80
+          company-tooltip-minimum-width 30
           company-box-icons-alist 'company-box-icons-all-the-icons))
   #+end_src
 
@@ -2376,7 +2377,11 @@
     (bind-mode-key
       :keymaps 'python-mode-map
       "d" '(sphinx-doc :which-key "generate sphinx doc")
-      "a" '(lsp-execute-code-action "execute code action"))
+      "a" '(lsp-execute-code-action :which-key "execute code action")
+      "s" '(:ignore t :which-key "shell")
+      "sd" '(python-shell-send-defun :which-key "send defun to shell")
+      "sr" '(python-shell-send-region :which-key "send region to shell")
+      "ss" '(python-shell-send-statement :which-key "send statement to shell"))
 
     (bind-mode-key
       :keymaps 'go-mode-map
