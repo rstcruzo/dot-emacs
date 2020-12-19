@@ -18,8 +18,14 @@
   #+begin_src emacs-lisp
   (add-hook 'emacs-startup-hook
             (lambda ()
-              (setq gc-cons-threshold 16777216 ; 16 mb
+              (setq gc-cons-threshold 100000000 ; 100 mb
                     gs-cons-percentage 0.1)))
+  #+end_src
+
+  Increase amount of data which Emacs reads from the process
+
+  #+begin_src emacs-lisp
+  (setq read-process-output-max (* 1024 1024)) ;; 1 mb
   #+end_src
 
   Raise gc-cons-threshold while the minibuffer is active, so the GC doesn’t slow
@@ -33,7 +39,7 @@
     ;; Defer it so that commands launched immediately after will enjoy the
     ;; benefits.
     (run-at-time
-     1 nil (lambda () (setq gc-cons-threshold 16777216))))
+     1 nil (lambda () (setq gc-cons-threshold 100000000))))
 
   (add-hook 'minibuffer-setup-hook #'rst/defer-garbage-collection-h)
   (add-hook 'minibuffer-exit-hook #'rst/restore-garbage-collection-h)
@@ -125,64 +131,6 @@
     (global-undo-tree-mode))
   #+end_src
 
-  Install counsel, swiper and ivy. Setup global bindings.
-
-  #+begin_src emacs-lisp
-  (use-package smex)
-
-  (use-package counsel
-    :bind (("M-x" . counsel-M-x)
-           ("C-x b" . counsel-ibuffer)
-           ("C-x C-f" . counsel-find-file)))
-
-  (use-package swiper
-    :diminish)
-
-  (use-package ivy-avy)
-  (use-package ivy-hydra)
-
-  (use-package ivy
-    :diminish
-    :bind (:map ivy-minibuffer-map
-                ("TAB" . ivy-alt-done)
-                ("C-l" . ivy-alt-done)
-                ("M-RET" . ivy-immediate-done)
-                ("C-h" . ivy-beginning-of-buffer)
-                ("C-j" . ivy-next-line)
-                ("C-k" . ivy-previous-line)
-                ("C-w" . evil-delete-backward-word)
-                ("C-a" . ivy-dispatching-done)
-                ("C-i" . ivy-avy)
-                ("C-e" . ivy-occur)
-                :map ivy-switch-buffer-map
-                ("C-k" . ivy-previous-line)
-                ("C-l" . ivy-done)
-                ("C-d" . ivy-switch-buffer-kill)
-                :map ivy-reverse-i-search-map
-                ("C-k" . ivy-previous-line)
-                ("C-d" . ivy-reverse-i-search-kill))
-    :config
-    (setq ivy-initial-inputs-alist nil
-          ivy-wrap t
-          ivy-re-builders-alist
-          '((t   . ivy--regex-ignore-order)))
-    (ivy-mode 1))
-  #+end_src
-
-  Show some ivy/counsel buffers in popups
-
-  #+begin_src emacs-lisp
-  (use-package ivy-posframe
-    :commands ivy-posframe-mode
-    :diminish (ivy-posframe-mode . "ⒾⓅ")
-    :config
-    (setq ivy-posframe-display-functions-alist
-          '((swiper          . ivy-posframe-display-at-frame-top-center)
-            (counsel-M-x     . ivy-posframe-display-at-frame-top-center)
-            (t               . ivy-posframe-display-at-frame-top-center)))
-    (setq ivy-posframe-border-width 20))
-  #+end_src
-
   Install =which-key= and other helpful information packages.
 
   #+begin_src emacs-lisp
@@ -194,15 +142,31 @@
     (setq which-key-allow-evil-operators t)
     (setq which-key-add-column-padding 4))
 
-  (use-package helpful
-    :custom
-    (counsel-describe-function-function #'helpful-callable)
-    (counsel-describe-variable-function #'helpful-variable)
-    :bind
-    ([remap describe-function] . counsel-describe-function)
-    ([remap describe-command] . helpful-command)
-    ([remap describe-variable] . counsel-describe-variable)
-    ([remap describe-key] . helpful-key))
+  (use-package helpful)
+  #+end_src
+
+  Install helm
+
+  #+begin_src emacs-lisp
+  (use-package helm
+    :config
+    (helm-mode))
+
+  (use-package helm-rg)
+  (use-package helm-ag
+    :config
+    (setq helm-ag-base-command "rg --no-heading"
+          helm-ag-success-exit-status '(0 2)))
+  (use-package helm-projectile
+    :config
+    (helm-projectile-on))
+  (use-package swiper-helm)
+  (use-package helm-swoop)
+
+  (setq helm-describe-function-function #'helpful-callable
+        helm-describe-variable-function #'helpful-variable
+        helm-projectile-set-input-automatically nil
+        helm-echo-input-in-header-line t)
   #+end_src
 
   Install evil and evil packages.
@@ -232,6 +196,7 @@
 
   (use-package evil-collection
     :after evil
+    :init
     :config
     ;; disable company integration. It breaks stuff
     (setq evil-collection-mode-list (remove 'company evil-collection-mode-list))
@@ -303,11 +268,11 @@
     :diminish
     :bind
     (:map company-active-map
-          ("C-j" . company-select-next)
-          ("C-k" . company-select-previous))
+          ("M-j" . company-select-next)
+          ("M-k" . company-select-previous))
     :custom
     ((company-minimum-prefix-length 1)
-     (company-idle-delay 0.3))
+     (company-idle-delay 0.1))
     :hook
     ((text-mode . company-mode)
      (prog-mode . company-mode))
@@ -591,19 +556,15 @@
    (use-package all-the-icons)
    #+end_src
 
-   Set a random theme from a list
+   Set aa random theme from a list
 
    #+begin_src emacs-lisp
-   (setq themes-random-list '(spacemacs-dark
-                              doom-dark+
+   (setq themes-random-list '(doom-one
                               doom-dracula
-                              doom-one
-                              doom-vibrant
-                              doom-monokai-pro
+                              doom-dark+
                               doom-gruvbox
-                              doom-challenger-deep
                               doom-snazzy
-                              doom-horizon))
+                              spacemacs-dark))
 
    (let ((random-index (random (length themes-random-list))))
      (load-theme (nth random-index themes-random-list) t))
@@ -728,6 +689,7 @@
    #+begin_src emacs-lisp
    (set-face-attribute 'default nil :font "Jetbrains Mono" :height 130)
    (set-face-attribute 'mode-line nil :font "Roboto Mono" :height 120)
+   (set-face-attribute 'mode-line-inactive nil :font "Roboto Mono" :height 120)
    #+end_src
 
    Disable python =and= and =or= ligatures
@@ -758,18 +720,18 @@
 
    (setq startup-list
      '((:name "Recents" :text "Recently opened files" :icon "insert_drive_file" :shortcut "r"
-              :action (lambda (&rest _) (interactive) (counsel-recentf)))
+              :action (lambda (&rest _) (interactive) (helm-recentf)))
        (:name "Projects" :text "Switch project" :icon "developer_board" :shortcut "p"
-              :action (lambda (&rest _) (interactive) (counsel-projectile-switch-project)))
+              :action (lambda (&rest _) (interactive) (helm-projectile-switch-project)))
        (:name "New Workspace" :text "Open new workspace"
               :icon "work" :shortcut "w"
               :action (lambda (&rest _) (interactive) (eyebrowse-create-named-window-config)))
        (:name "Bookmarks" :text "Jump to bookmark" :icon "bookmark" :shortcut "b"
-              :action (lambda (&rest _) (interactive) (counsel-bookmark)))
+              :action (lambda (&rest _) (interactive) (helm-filtered-bookmarks)))
        (:name "Agenda" :text "Open org-agenda" :icon "view_agenda" :shortcut "a"
               :action (lambda (&rest _) (interactive) (org-agenda)))
        (:name "Org" :text "Open org files" :icon "note" :shortcut "o"
-              :action (lambda (&rest _) (interactive) (counsel-find-file "~/Dropbox/org")))
+              :action (lambda (&rest _) (interactive) (helm-find-files-1 "~/Dropbox/org/")))
        (:name "Config" :text "Open emacs configuration" :icon "settings" :shortcut "e"
               :action (lambda (&rest _) (interactive) (find-file "~/.emacs.d/config.org")))
        (:name "Config Workspace" :text "Open configuration workspace"
@@ -1139,7 +1101,7 @@
    #+end_src
 
    Install wgrep to edit files in a grep buffer.
-   Used to do project-wide edits with ivy-occur.
+   Used to do project-wide edits with ivy-occur or helm-occur.
 
    #+begin_src emacs-lisp
    (use-package wgrep)
@@ -1148,35 +1110,14 @@
 ** Projectile
 
    Install projectile and search for projects in =~/Code=.
-   We use ivy as completion system and install counsel for better integration.
 
    #+begin_src emacs-lisp
    (use-package projectile
      :diminish
      :config (projectile-mode)
-     :custom ((projectile-completion-system 'ivy))
      :init
      (when (file-directory-p "~/Code")
        (setq projectile-project-search-path '("~/Code"))))
-
-   ;; Install better ivy and projectile integration
-   (use-package counsel-projectile
-     :config (counsel-projectile-mode))
-
-   (counsel-projectile-modify-action
-    'counsel-projectile-switch-project-action
-    '((default counsel-projectile-switch-project-action-dired)))
-
-   (counsel-projectile-modify-action
-    'counsel-projectile-find-file-action
-    '((default counsel-projectile-find-file-action-other-window)))
-   #+end_src
-
-   Enable ivy rich after counsel projectile, they depend on this
-
-   #+begin_src emacs-lisp
-   (use-package ivy-rich
-     :init (ivy-rich-mode t))
    #+end_src
 
    Install treemacs and projectile integration
@@ -1203,8 +1144,7 @@
    (use-package rainbow-delimiters
      :defer t
      :hook
-     (prog-mode . rainbow-delimiters-mode)
-     (text-mode . rainbow-delimiters-mode))
+     (prog-mode . rainbow-delimiters-mode))
    #+end_src
 
    Highlight enclosing parenthesis
@@ -1337,7 +1277,8 @@
      :config
      (setq right-fringe-width 20
            git-gutter-fr+-side 'right-fringe)
-     (set-face-foreground 'git-gutter-fr+-modified "DarkGoldenrod2"))
+     (set-face-foreground 'git-gutter-fr+-modified
+                          (face-attribute 'highlight :background nil t)))
 
    (defun rst/git-gutter+-refresh-in-all-buffers ()
      (git-gutter+-in-all-buffers (when git-gutter+-mode (git-gutter+-refresh))))
@@ -1397,8 +1338,6 @@
 
      ;; Truncate buffer for performance
      (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
-
-     (evil-define-key '(normal insert visual) eshell-mode-map (kbd "C-r") 'counsel-esh-history)
 
      (setq eshell-history-size 10000
            eshell-buffer-maximum-lines 10000
@@ -1508,9 +1447,6 @@
       (lsp-mode . lsp-ui-mode))
 
     (use-package lsp-treemacs
-      :after lsp)
-
-    (use-package lsp-ivy
       :after lsp)
     #+end_src
 
@@ -1637,19 +1573,16 @@
    (add-hook 'text-mode-hook 'whitespace-mode)
    #+end_src
 
-   Flyspell correct word with ivy
+   Flyspell correct word
 
    #+begin_src emacs-lisp
    (use-package flyspell
      :commands flyspell-mode
      :ensure nil
-     :diminish (flyspell-mode . "ⓕ"))
+     :diminish)
 
    (use-package flyspell-correct
      :after flyspell)
-
-   (use-package flyspell-correct-ivy
-     :after flyspell-correct)
    #+end_src
 
 ** LaTeX
@@ -1897,21 +1830,7 @@
      ("j" evil-window-decrease-height "increase height"))
    #+end_src
 
-** Counsel Projectile
-
-   Define custom counsel projectile search function to provide default input.
-   This is used for =SPC /= and =SPC *= bindings.
-
-   #+begin_src emacs-lisp
-   (defun rst/counsel-projectile-rg-thing-at-point ()
-     "Custom counsel projectile rg to pass thing at point as input."
-     (interactive)
-     (let* ((thing (ivy-thing-at-point))
-            (counsel-projectile-rg-initial-input thing))
-       (when (use-region-p)
-         (deactivate-mark))
-       (counsel-projectile-rg)))
-   #+end_src
+** Projectile
 
    Define way to add current project to treemacs
 
@@ -2045,6 +1964,25 @@
    (add-hook 'git-commit-mode-hook 'rst/parrot-thumbs-up)
    #+end_src
 
+** Helm
+
+   #+begin_src emacs-lisp
+   (defun rst/helm-projectile-rg-thing-at-point ()
+     (interactive)
+     (let ((helm-projectile-set-input-automatically t))
+       (helm-projectile-rg)))
+
+   (defun rst/helm-do-ag-project-root-thing-at-point ()
+     (interactive)
+     (let ((helm-ag-insert-at-point 'symbol))
+       (helm-do-ag-project-root)))
+
+   (defun rst/swiper-helm-thing-at-point ()
+     (interactive)
+     (let ((thing (thing-at-point 'symbol)))
+       (swiper-helm thing)))
+   #+end_src
+
 * Keybindings
 
   #+begin_src emacs-lisp
@@ -2123,18 +2061,18 @@
     (bind-leader-key
       "SPC" '(save-buffer :which-key "save buffer")
 
-      "/" '(counsel-projectile-rg :which-key "search project")
-      "*" '(rst/counsel-projectile-rg-thing-at-point :which-key "search project thing at point")
+      "/" '(helm-do-ag-project-root :which-key "search project")
+      "*" '(rst/helm-do-ag-project-root-thing-at-point :which-key "search project thing at point")
 
       "'" '(shell-pop :which-key "shell pop")
 
       "<tab>" '(rst/switch-to-previous-buffer :which-key "switch to last buffer")
 
-      "." '(projectile-find-file :which-key "find project file")
-      "," '(counsel-switch-buffer :which-key "switch buffer")
+      "." '(helm-projectile-find-file :which-key "find project file")
+      "," '(helm-mini :which-key "switch buffer")
 
       ":" '(eval-expression :which-key "eval expression")
-      ";" '(ivy-resume :which-key "ivy resume")
+      ";" '(helm-resume :which-key "helm resume")
 
       "v" '(er/expand-region :which-key "expand region")
       "u" '(universal-argument :which-key "universal argument"))
@@ -2144,18 +2082,18 @@
       "" '(:ignore t :which-key "files")
       "s" '(save-buffer :which-key "save file")
       "SPC" '(save-buffer :which-key "save file")
-      "f" '(counsel-find-file :which-key "find file")
-      "r" '(counsel-recentf :which-key "find recent file")
+      "f" '(helm-find-files :which-key "find file")
+      "r" '(helm-recentf :which-key "find recent file")
 
       "e" '(rst/open-config-file :which-key "open config file")
       "o" '((lambda () (interactive)
-              (counsel-find-file rst/org-files-path))
+              (helm-find-files-1 rst/org-files-path))
             :which-key "find org file"))
 
     (bind-leader-key
       :infix "b"
       "" '(:ignore t :which-key "buffers")
-      "b" '(counsel-switch-buffer :which-key "switch buffer")
+      "b" '(helm-buffers-list :which-key "switch buffer")
       "k" '(kill-buffer :which-key "kill a buffer")
       "K" '(kill-current-buffer :which-key "kill current buffer")
       "S" '((lambda () (interactive)
@@ -2179,14 +2117,11 @@
       :infix "t"
       "" '(:ignore t :which-key "toggles")
 
-      "T" '(counsel-load-theme :which-key "choose theme")
-
-      "f" '(auto-fill-mode :which-key "toggle auto fill")
+      "a" '(auto-fill-mode :which-key "toggle auto fill")
       "v" '(visual-fill-column-mode :which-key "toggle visual fill column")
-      "R" '(ivy-rich-mode :which-key "toggle ivy rich")
-      "p" '(ivy-posframe-mode :which-key "toggle ivy posframe")
       "r" '(read-only-mode :which-key "toggle read only")
       "w" '(whitespace-mode :which-key "toggle whitespace")
+      "W" '(which-function-mode :which-key "toggle which func")
       "t" '(toggle-truncate-lines :which-key "toggle truncate lines")
 
       "F" '(flycheck-popup-tip-mode :which-key "toggle flycheck popups")
@@ -2196,9 +2131,6 @@
       "i" '(org-toggle-inline-images :which-key "toggle org inline images")
       "h" '(highlight-indent-guides-mode :which-key "toggle highlight indent guides")
 
-      "m" '(counsel-minor :which-key "toggle minor mode")
-      "M" '(counsel-major :which-key "toggle major mode")
-
       "P" '(parrot-mode :which-key "toggle parrot")
 
       "b" '(lsp-headerline-breadcrumb-mode :which-key "toggle lsp breadcrumbs")
@@ -2207,12 +2139,12 @@
     (bind-leader-key
       :infix "p"
       "" '(:ignore t :which-key "projects")
-      "s" '(counsel-projectile-rg :which-key "search project")
+      "s" '(helm-do-ag-project-root :which-key "search project")
       "v" '(projectile-edit-dir-locals :which-key "edit project dir locals")
       "d" '(projectile-dired :which-key "project dired")
-      "p" '(projectile-switch-project :which-key "switch project")
-      "f" '(projectile-find-file :which-key "find project file")
-      "b" '(counsel-projectile-switch-to-buffer :which-key "switch to project buffer")
+      "p" '(helm-projectile-switch-project :which-key "switch project")
+      "f" '(helm-projectile-find-file :which-key "find project file")
+      "b" '(helm-projectile-switch-to-buffer :which-key "switch to project buffer")
       "T" '(rst/projectile-add-to-treemacs :which-key "add current project to treemacs")
       "n" '(rst/open-org-projectile-file :which-key "open project org file"))
 
@@ -2240,9 +2172,9 @@
     (bind-leader-key
       :infix "s"
       "" '(:ignore t :which-key "search/spelling")
-      "s" '(swiper :which-key "swiper")
-      "S" '(swiper-thing-at-point :which-key "swiper thing at point")
-      "SPC" '(swiper-thing-at-point :which-key "swiper thing at point")
+      "s" '(swiper-helm :which-key "swiper")
+      "S" '(rst/swiper-helm-thing-at-point :which-key "swiper thing at point")
+      "SPC" '(rst/swiper-helm-thing-at-point :which-key "swiper thing at point")
       "c" '(evil-ex-nohighlight :which-key "clear highlight")
 
       "d" '(ispell-change-dictionary :which-key "change dictionary")
@@ -2255,12 +2187,9 @@
     (bind-leader-key
       :infix "h"
       "" '(:ignore t :which-key "help")
-      "v" '(describe-variable :which-key "describe variable")
-      "f" '(describe-function :which-key "describe function")
-      "F" '(counsel-describe-face :which-key "describe face")
+      "h" '(helm-apropos :which-key "apropos")
       "m" '(describe-mode :which-key "describe mode")
-      "k" '(describe-key :which-key "describe key")
-      "K" '(counsel-descbinds :which-key "describe bindings"))
+      "k" '(describe-key :which-key "describe key"))
 
     (bind-leader-key
       :infix "l"
@@ -2307,6 +2236,8 @@
     (bind-mode-key
       :keymaps 'org-mode-map
       "," '(org-babel-tangle :which-key "org babel tangle")
+
+      "o" '(org-open-at-point :which-key "org open at point")
 
       "c" '(:ignore t :which-key "clock")
       "ci" '(org-clock-in :which-key "org clock in")
@@ -2396,6 +2327,11 @@
 
       "d" '(lsp-find-definition :which-key "go to definition"))
 
+    (bind-mode-key
+      :keymaps 'helm-ag-edit-map
+      "," '(helm-ag--edit-commit :which-key "commit")
+      "k" '(helm-ag--edit-abort :which-key "abort"))
+
     (bind-leader-key
       :infix "a"
       "" '(:ignore t :which-key "applications")
@@ -2413,8 +2349,7 @@
       "e" '(evil-iedit-state/iedit-mode :which-key "iedit mode")
 
       "n" '(flycheck-next-error :which-key "flycheck next error")
-      "p" '(flycheck-previous-error :which-key "flycheck previous error")
-      "f" '(counsel-flycheck :which-key "flycheck errors"))
+      "p" '(flycheck-previous-error :which-key "flycheck previous error"))
 
     (bind-leader-key
       :infix "j"
@@ -2426,7 +2361,7 @@
       "n" '(avy-next :which-key "jump to next candidate")
       "p" '(avy-prev :which-key "jump to previous candidate")
 
-      "i" '(counsel-imenu :which-key "imenu")
+      "i" '(helm-imenu :which-key "imenu")
 
       "c" '(avy-copy-region :which-key "jump, copy and paste")
       "m" '(avy-move-region :which-key "jump, cut and paste")
@@ -2434,7 +2369,7 @@
       "C" '(avy-copy-line :which-key "jump, copy and paste line")
       "M" '(avy-move-line :which-key "jump, cut and paste line")
 
-      "b" '(counsel-bookmark :which-key "create/jump to bookmarks")
+      "b" '(helm-filtered-bookmarks :which-key "create/jump to bookmarks")
 
       ;; split
       "S" '(sp-split-sexp :which-key "split sexp")
@@ -2450,10 +2385,9 @@
     (bind-leader-key
       :infix "i"
       "" '(:ignore t :which-key "insert")
-      "c" '(counsel-yank-pop :which-key "from clipboard")
       "d" '(rst/insert-date :which-key "date")
-      "u" '(counsel-unicode-char :which-key "unicode char")
-      "s" '(yas-insert-snippet :which-key "snippet"))
+      "s" '(yas-insert-snippet :which-key "snippet")
+      "k" '(helm-show-kill-ring :which-key "kill ring"))
 
     (bind-leader-key
       :infix "P"
@@ -2461,6 +2395,11 @@
       "l" '(popwin:popup-last-buffer :which-key "last popup")
       "s" '(popwin:stick-popup-window :which-key "stick popup"))
     )
+
+  (general-define-key "M-x" 'helm-M-x)
+  (general-define-key :keymaps 'helm-map
+                      "M-j" 'helm-next-line
+                      "M-k" 'helm-previous-line)
   #+end_src
 
 * Configuration Debugging
