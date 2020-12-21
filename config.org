@@ -1525,6 +1525,12 @@
     (setq js-indent-level 2)
     #+end_src
 
+*** Php
+
+    #+begin_src emacs-lisp
+    (use-package php-mode)
+    #+end_src
+
 *** Docker
 
     #+begin_src emacs-lisp
