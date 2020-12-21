@@ -1585,6 +1585,12 @@
      :after flyspell)
    #+end_src
 
+   Insert unicode chars with helm
+
+   #+begin_src emacs-lisp
+   (use-package helm-unicode)
+   #+end_src
+
 ** LaTeX
 
    Install AucTeX and simplify =TeX-font= bindings
@@ -2386,6 +2392,7 @@
       :infix "i"
       "" '(:ignore t :which-key "insert")
       "d" '(rst/insert-date :which-key "date")
+      "u" '(helm-unicode :which-key "unicode")
       "s" '(yas-insert-snippet :which-key "snippet")
       "k" '(helm-show-kill-ring :which-key "kill ring"))
 
