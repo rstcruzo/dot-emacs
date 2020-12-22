@@ -167,6 +167,8 @@
         helm-describe-variable-function #'helpful-variable
         helm-projectile-set-input-automatically nil
         helm-echo-input-in-header-line t)
+
+  (use-package helm-themes)
   #+end_src
 
   Install evil and evil packages.
@@ -285,6 +287,7 @@
   Show documentation in a popup while completing
 
   #+begin_src emacs-lisp
+  (use-package frame-local) ;; company-box dependency
   (use-package company-box
     :load-path "company-box"
     :diminish
@@ -560,10 +563,11 @@
 
    #+begin_src emacs-lisp
    (setq themes-random-list '(doom-one
+                              doom-vibrant
                               doom-dracula
                               doom-dark+
                               doom-gruvbox
-                              doom-snazzy
+                              doom-moonlight
                               spacemacs-dark))
 
    (let ((random-index (random (length themes-random-list))))
@@ -1195,9 +1199,9 @@
    (use-package highlight-indent-guides
      :diminish
      :config
-     (setq highlight-indent-guides-method 'character
-           highlight-indent-guides-responsive 'top
-           highlight-indent-guides-auto-top-character-face-perc 30)
+     (setq highlight-indent-guides-method 'fill
+           highlight-indent-guides-auto-even-face-perc 3
+           highlight-indent-guides-auto-odd-face-perc 6)
      :hook
      (prog-mode . highlight-indent-guides-mode))
    #+end_src
@@ -1565,7 +1569,14 @@
 
 ** General
 
-   Highlight characters over 80
+   Show fill column indicator
+
+   #+begin_src emacs-lisp
+   (setq fill-column 80)
+   (add-hook 'prog-mode-hook 'display-fill-column-indicator-mode)
+   #+end_src
+
+   Highlight trailing whitespaces
 
    #+begin_src emacs-lisp
    (use-package whitespace
@@ -1573,7 +1584,15 @@
      :commands whitespace-mode)
 
    (setq whitespace-line-column 80
-         whitespace-style '(face lines-tail trailing))
+         whitespace-style '(face
+                            tabs
+                            spaces
+                            trailing
+                            space-before-tab
+                            indentation
+                            empty
+                            space-after-tab
+                            tab-mark))
 
    (add-hook 'prog-mode-hook 'whitespace-mode)
    (add-hook 'text-mode-hook 'whitespace-mode)
