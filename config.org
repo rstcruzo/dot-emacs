@@ -122,6 +122,12 @@
   (setq exec-path (append exec-path '("/usr/local/bin" "/Library/TeX/texbin" "/usr/local/go/bin")))
   #+end_src
 
+  Use shorter confirmations
+
+  #+begin_src emacs-lisp
+  (defalias 'yes-or-no-p 'y-or-n-p)
+  #+end_src
+
   Install undo tree
 
   #+begin_src emacs-lisp
