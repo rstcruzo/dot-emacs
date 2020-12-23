@@ -1590,15 +1590,7 @@
      :commands whitespace-mode)
 
    (setq whitespace-line-column 80
-         whitespace-style '(face
-                            tabs
-                            spaces
-                            trailing
-                            space-before-tab
-                            indentation
-                            empty
-                            space-after-tab
-                            tab-mark))
+         whitespace-style '(face trailing))
 
    (add-hook 'prog-mode-hook 'whitespace-mode)
    (add-hook 'text-mode-hook 'whitespace-mode)
