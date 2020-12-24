@@ -1206,8 +1206,8 @@
      :diminish
      :config
      (setq highlight-indent-guides-method 'fill
-           highlight-indent-guides-auto-even-face-perc 3
-           highlight-indent-guides-auto-odd-face-perc 6)
+           highlight-indent-guides-auto-even-face-perc 1
+           highlight-indent-guides-auto-odd-face-perc 2)
      :hook
      (prog-mode . highlight-indent-guides-mode))
    #+end_src
@@ -1380,6 +1380,8 @@
 
    (use-package yasnippet-snippets
      :after yasnippet)
+
+   (use-package auto-yasnippet)
    #+end_src
 
 ** Languages
@@ -1440,7 +1442,7 @@
       (lsp-headerline-breadcrumb-mode 1))
 
     (use-package lsp-mode
-      :diminish (lsp-mode . "LSP")
+      :diminish lsp-mode
       :commands (lsp lsp-deferred)
       :hook (lsp-mode . rst/lsp-mode-setup)
       :config
@@ -2022,7 +2024,7 @@
     (general-define-key
      :states '(normal insert motion visual emacs)
      :keymaps 'override
-     "M-j" 'avy-goto-char-timer)
+     "C-j" 'avy-goto-char-timer)
 
     (general-create-definer bind-leader-key
       :states '(normal insert motion visual emacs)
@@ -2417,7 +2419,10 @@
       "d" '(rst/insert-date :which-key "date")
       "u" '(helm-unicode :which-key "unicode")
       "s" '(yas-insert-snippet :which-key "snippet")
-      "k" '(helm-show-kill-ring :which-key "kill ring"))
+      "k" '(helm-show-kill-ring :which-key "kill ring")
+
+      "c" '(aya-create :which-key "auto yasnippet create")
+      "e" '(aya-expand :which-key "auto yasnippet expand"))
 
     (bind-leader-key
       :infix "P"
