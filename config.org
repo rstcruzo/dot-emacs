@@ -1209,7 +1209,8 @@
            highlight-indent-guides-auto-even-face-perc 1
            highlight-indent-guides-auto-odd-face-perc 2)
      :hook
-     (prog-mode . highlight-indent-guides-mode))
+     (prog-mode . highlight-indent-guides-mode)
+     (yaml-mode . highlight-indent-guides-mode))
    #+end_src
 
    Change cursor color depending on evil mode and doom-modeline state color
@@ -1543,6 +1544,14 @@
     (use-package php-mode)
     #+end_src
 
+*** Ruby
+
+    Enable =lsp= mode for Ruby
+
+    #+begin_src emacs-lisp
+    (add-hook 'ruby-mode-hook (lambda () (lsp)))
+    #+end_src
+
 *** Docker
 
     #+begin_src emacs-lisp
@@ -1580,7 +1589,7 @@
    Show fill column indicator
 
    #+begin_src emacs-lisp
-   (setq fill-column 80)
+   (setq-default fill-column 80)
    (add-hook 'prog-mode-hook 'display-fill-column-indicator-mode)
    #+end_src
 
