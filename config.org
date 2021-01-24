@@ -424,6 +424,7 @@
    (scroll-bar-mode -1)
    (tool-bar-mode -1)
    (tooltip-mode -1)
+   (menu-bar-mode -1)
    #+end_src
 
    Use spaces instead of tabs
@@ -697,9 +698,9 @@
    Set default font
 
    #+begin_src emacs-lisp
-   (set-face-attribute 'default nil :font "Jetbrains Mono" :height 130)
-   (set-face-attribute 'mode-line nil :font "Roboto Mono" :height 120)
-   (set-face-attribute 'mode-line-inactive nil :font "Roboto Mono" :height 120)
+   (set-face-attribute 'default nil :font "Jetbrains Mono" :height 100)
+   (set-face-attribute 'mode-line nil :font "Roboto Mono" :height 90)
+   (set-face-attribute 'mode-line-inactive nil :font "Roboto Mono" :height 90)
    #+end_src
 
    Disable python =and= and =or= ligatures
