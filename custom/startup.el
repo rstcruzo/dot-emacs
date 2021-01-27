@@ -7,7 +7,6 @@
 
 (require 'all-the-icons)
 (require 'projectile)
-(require 'counsel)
 
 ;;; Code:
 
