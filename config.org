@@ -2442,6 +2442,8 @@
   (general-define-key :keymaps 'helm-map
                       "M-j" 'helm-next-line
                       "M-k" 'helm-previous-line)
+
+  (general-define-key "C-c C-'" (general-simulate-key "C-x 8 '"))
   #+end_src
 
 * Configuration Debugging
