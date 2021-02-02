@@ -647,7 +647,7 @@
 
    (doom-modeline-def-modeline 'rst
      '(bar workspace-name window-number rst/evil-state matches
-           rst/buffer-info buffer-position remote-host word-count parrot selection-info)
+           rst/buffer-info buffer-position buffer-encoding remote-host word-count parrot selection-info)
      '(misc-info vcs persp-name battery irc mu4e gnus github debug
                  repl lsp minor-modes indent-info
                  major-mode process checker))
