@@ -1244,7 +1244,9 @@
 
    #+begin_src emacs-lisp
    (use-package hl-todo
-     :hook (prog-mode . hl-todo-mode))
+     :hook
+     (prog-mode . hl-todo-mode)
+     (text-mode . hl-todo-mode))
    #+end_src
 
 ** Version Control
