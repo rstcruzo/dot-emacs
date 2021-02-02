@@ -146,7 +146,7 @@
     :config
     (setq which-key-idle-delay 1)
     (setq which-key-allow-evil-operators t)
-    (setq which-key-add-column-padding 4))
+    (setq which-key-add-column-padding 2))
 
   (use-package helpful)
   #+end_src
@@ -287,23 +287,21 @@
     :config
     ;; Disable tab so it doesn't conflict with other expansions
     (define-key company-active-map (kbd "<tab>") nil)
-    (define-key company-active-map (kbd "C-w") nil))
+    (define-key company-active-map (kbd "C-w") nil)
+
+    (setq company-tooltip-width-grow-only t
+          company-tooltip-margin 1
+          company-tooltip-maximum-width 60
+          company-tooltip-minimum-width 60))
   #+end_src
 
   Show documentation in a popup while completing
 
   #+begin_src emacs-lisp
-  (use-package frame-local) ;; company-box dependency
-  (use-package company-box
-    :load-path "company-box"
-    :diminish
-    :hook (company-mode . company-box-mode)
+  (use-package company-quickhelp
+    :hook (company-mode . company-quickhelp-mode)
     :config
-    (setq company-box-backends-colors nil
-          company-box-max-candidates 1000
-          company-tooltip-maximum-width 80
-          company-tooltip-minimum-width 30
-          company-box-icons-alist 'company-box-icons-all-the-icons))
+    (setq company-quickhelp-delay 0.3))
   #+end_src
 
   Add =yasnippet= support for all company backends
