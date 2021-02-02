@@ -1263,9 +1263,6 @@
    (use-package magit
      :commands (magit-status magit-blame-addition))
 
-   (use-package evil-magit
-     :commands (magit-status magit-blame-addition))
-
    (use-package forge
      :commands (magit-status))
    #+end_src
