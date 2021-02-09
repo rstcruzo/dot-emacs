@@ -1328,7 +1328,7 @@
       (shell-pop-window-position "bottom")
       (shell-pop-cleanup-buffer-at-process-exit t)
       (shell-pop-autocd-to-working-dir nil)
-      (shell-pop-term-shell "/usr/local/bin/zsh")
+      (shell-pop-term-shell "/usr/bin/fish")
       (shell-pop-shell-type (quote ("vterm" "vterm-pop" (lambda nil (vterm)))))))
    #+end_src
 
