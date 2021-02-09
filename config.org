@@ -2151,6 +2151,7 @@
       :infix "x"
       "" '(:ignore t :which-key "text")
 
+      "c" '(capitalize-dwim :which-key "capitalize")
       "t" '(google-translate-smooth-translate :which-key "google translate")
       "s" '(rst/hydra-text-scale/body :which-key "scale text")
       "j" '(json-pretty-print-buffer-ordered :which-key "pretty print json"))
