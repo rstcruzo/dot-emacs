@@ -1667,19 +1667,6 @@
    (setq TeX-show-compilation t)
    #+end_src
 
-   Define variable to store main TeX files. This file is used for compilation
-
-   #+begin_src emacs-lisp
-   (defvar rst/TeX-main-filename "main.tex"
-     "TeX main file to use for compilation.")
-
-   (defun rst/TeX-main-file (&optional extension &rest r)
-     "Retrieve TeX main filename to use with AUCTeX. This ignores
-   all parameters."
-     (interactive)
-     rst/TeX-main-filename)
-   #+end_src
-
    Add =@online= entry to bibtex
 
    #+begin_src emacs-lisp
