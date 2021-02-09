@@ -1014,6 +1014,7 @@
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
   (add-to-list 'org-structure-template-alist '("py" . "src python"))
   (add-to-list 'org-structure-template-alist '("mmd" . "src mermaid"))
+  (add-to-list 'org-structure-template-alist '("sql" . "src sql"))
   #+end_src
 
   Add padding to document
