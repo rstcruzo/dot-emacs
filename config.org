@@ -1677,6 +1677,14 @@
      (setq bibtex-dialect 'biblatex))
    #+end_src
 
+   Add latex company backend
+
+   #+begin_src emacs-lisp
+   (use-package company-auctex
+     :config
+     (company-auctex-init))
+   #+end_src
+
 ** Google
 
    Search something
