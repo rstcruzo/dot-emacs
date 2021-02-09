@@ -1728,6 +1728,14 @@
      :commands mermaid-mode)
    #+end_src
 
+* Reading
+
+** Docview
+
+   #+begin_src emacs-lisp
+   (setq doc-view-continuous t)
+   #+end_src
+
 * Networking
 
   Add capabilities to add ssh-key to agent.
