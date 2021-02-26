@@ -2068,14 +2068,14 @@
     (bind-op-square-brackets
       "j" '(avy-prev :which-key "avy previous")
       "h" '(git-gutter+-previous-hunk :which-key "git previous hunk")
-      "e" '(flycheck-previous-error :which-key "flycheck previous error"))
+      "f" '(flycheck-previous-error :which-key "flycheck previous error"))
 
     (bind-cl-square-brackets
       "]" '(rst/hydra-cycle/body :which-key "cycle next")
 
       "j" '(avy-next :which-key "avy next")
       "h" '(git-gutter+-next-hunk :which-key "git next hunk")
-      "e" '(flycheck-next-error :which-key "flycheck next error"))
+      "f" '(flycheck-next-error :which-key "flycheck next error"))
 
     (bind-leader-key
       :infix "q"
