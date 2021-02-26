@@ -1370,6 +1370,12 @@
      (eshell-git-prompt-use-theme 'robbyrussell))
    #+end_src
 
+** REST APIs
+
+   #+begin_src emacs-lisp
+   (use-package restclient)
+   #+end_src
+
 ** Snippets
 
    #+begin_src emacs-lisp
