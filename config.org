@@ -1543,6 +1543,23 @@
     (setq js-indent-level 2)
     #+end_src
 
+    #+begin_src emacs-lisp
+    (use-package rjsx-mode
+      :mode "\\.js\\'")
+    #+end_src
+
+    #+begin_src emacs-lisp
+    (defun rst/setup-tide-mode ()
+      (interactive)
+      (tide-setup)
+      (flycheck-mode +1)
+      (tide-hl-identifier-mode +1))
+
+    (use-package tide
+      :after (rjsx-mode company flycheck)
+      :hook ((rjsx-mode . rst/setup-tide-mode)))
+    #+end_src
+
 *** Php
 
     #+begin_src emacs-lisp
