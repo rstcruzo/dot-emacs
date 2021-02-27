@@ -1187,6 +1187,7 @@
                          :underline t)
      ;; Configure new line behaviour
      (sp-local-pair 'go-mode "{" nil :post-handlers '(("||\n[i]" "RET")))
+     (sp-local-pair 'rjsx-mode "{" nil :post-handlers '(("||\n[i]" "RET")))
      :hook
      (text-mode . show-smartparens-mode)
      (prog-mode . show-smartparens-mode)
@@ -1549,6 +1550,8 @@
     #+end_src
 
     #+begin_src emacs-lisp
+    (setq create-lockfiles nil)  ; lockfiles break development server file watcher
+
     (defun rst/setup-tide-mode ()
       (interactive)
       (tide-setup)
@@ -1557,7 +1560,10 @@
 
     (use-package tide
       :after (rjsx-mode company flycheck)
-      :hook ((rjsx-mode . rst/setup-tide-mode)))
+      :hook ((rjsx-mode . rst/setup-tide-mode))
+      :config
+      (setq tide-server-max-response-length 2147483647))  ; To fix completion inside JSX
+
     #+end_src
 
 *** Php
