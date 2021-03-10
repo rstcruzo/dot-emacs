@@ -1550,7 +1550,7 @@
     #+end_src
 
     #+begin_src emacs-lisp
-    (setq create-lockfiles nil)  ; lockfiles break development server file watcher
+    (setq-default create-lockfiles nil)  ; lockfiles break development server file watcher
 
     (defun rst/setup-tide-mode ()
       (interactive)
