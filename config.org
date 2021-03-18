@@ -1549,7 +1549,7 @@
 
     #+begin_src emacs-lisp
     (use-package rjsx-mode
-      :mode "\\.js\\'")
+      :mode "\\.jsx\\'")
     #+end_src
 
     #+begin_src emacs-lisp
@@ -1569,7 +1569,13 @@
 
     #+end_src
 
-    Setup debugging with dap-mode
+    Setup lsp for normal javascript files
+
+    #+begin_src emacs-lisp
+    (add-hook 'js-mode-hook #'lsp-deferred)
+    #+end_src
+
+    Setup nodejs debugging with dap-mode
 
     #+begin_src emacs-lisp
     (require 'dap-node)
@@ -2481,6 +2487,16 @@
       "" '(:ignore t :which-key "popups")
       "l" '(popwin:popup-last-buffer :which-key "last popup")
       "s" '(popwin:stick-popup-window :which-key "stick popup"))
+
+    (bind-leader-key
+      :infix "d"
+      "" '(:ignore t :which-key "debug")
+      "l" '(dap-debug-last :which-key "last configuration")
+      "d" '(dap-debug :which-key "pick configuration")
+      "h" '(dap-hydra :which-key "hydra")
+      "b" '(dap-breakpoint-toggle :which-key "toggle breakpoint")
+      "D" '(dap-breakpoint-delete-all :which-key "delete all breakpoints")
+      "q" '(dap-disconnect :which-key "quit"))
     )
 
   (general-define-key "M-x" 'helm-M-x)
