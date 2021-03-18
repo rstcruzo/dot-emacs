@@ -567,12 +567,8 @@
 
    #+begin_src emacs-lisp
    (setq themes-random-list '(doom-one
-                              doom-vibrant
-                              doom-dracula
                               doom-dark+
-                              doom-gruvbox
-                              doom-moonlight
-                              spacemacs-dark))
+                              doom-gruvbox))
 
    (let ((random-index (random (length themes-random-list))))
      (load-theme (nth random-index themes-random-list) t))
@@ -695,9 +691,9 @@
    Set default font
 
    #+begin_src emacs-lisp
-   (set-face-attribute 'default nil :font "Jetbrains Mono" :height 100)
-   (set-face-attribute 'mode-line nil :font "Roboto Mono" :height 90)
-   (set-face-attribute 'mode-line-inactive nil :font "Roboto Mono" :height 90)
+   (set-face-attribute 'default nil :font "Jetbrains Mono" :height 130)
+   (set-face-attribute 'mode-line nil :font "Roboto Mono" :height 110)
+   (set-face-attribute 'mode-line-inactive nil :font "Roboto Mono" :height 110)
    #+end_src
 
    Disable python =and= and =or= ligatures
@@ -1390,6 +1386,14 @@
    (use-package auto-yasnippet)
    #+end_src
 
+** Debugging
+
+   #+begin_src emacs-lisp
+   (use-package dap-mode
+     :custom
+     (dap-auto-configure-features '(locals tooltip expressions controls)))
+   #+end_src
+
 ** Languages
 
 *** Checkers
@@ -1563,6 +1567,13 @@
       :config
       (setq tide-server-max-response-length 2147483647))  ; To fix completion inside JSX
 
+    #+end_src
+
+    Setup debugging with dap-mode
+
+    #+begin_src emacs-lisp
+    (require 'dap-node)
+    (dap-node-setup)
     #+end_src
 
 *** Php
@@ -2194,6 +2205,7 @@
       "w" '(whitespace-mode :which-key "toggle whitespace")
       "W" '(which-function-mode :which-key "toggle which func")
       "t" '(toggle-truncate-lines :which-key "toggle truncate lines")
+      "s" '(show-smartparens-mode :which-key "toggle show smartparens")
 
       "F" '(flycheck-popup-tip-mode :which-key "toggle flycheck popups")
 
