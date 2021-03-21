@@ -1370,6 +1370,8 @@
 
    #+begin_src emacs-lisp
    (use-package restclient)
+
+   (add-to-list 'auto-mode-alist '("\\.http\\'" . restclient-mode))
    #+end_src
 
 ** Snippets
@@ -1545,6 +1547,12 @@
 
     #+begin_src emacs-lisp
     (setq js-indent-level 2)
+    #+end_src
+
+    Install js-doc to insert documentation
+
+    #+begin_src emacs-lisp
+    (use-package js-doc)
     #+end_src
 
     #+begin_src emacs-lisp
@@ -1786,7 +1794,7 @@
   Add capabilities to add ssh-key to agent.
 
   #+begin_src emacs-lisp
-  (defvar rst/ssh-default-key "~/.ssh/id_rsa"
+  (defvar rst/ssh-default-key "~/.ssh/id_ed25519"
     "My default SSH key.")
 
   (defun rst/ssh-add (&optional arg)
@@ -2437,6 +2445,7 @@
       "" '(:ignore t :which-key "edit/errors")
       "e" '(evil-iedit-state/iedit-mode :which-key "iedit mode")
 
+      "l" '(flycheck-list-errors :which-key "flycheck list error")
       "n" '(flycheck-next-error :which-key "flycheck next error")
       "p" '(flycheck-previous-error :which-key "flycheck previous error"))
 
@@ -2495,6 +2504,7 @@
       "d" '(dap-debug :which-key "pick configuration")
       "h" '(dap-hydra :which-key "hydra")
       "b" '(dap-breakpoint-toggle :which-key "toggle breakpoint")
+      "c" '(dap-breakpoint-condition :which-key "add breakpoint condition")
       "D" '(dap-breakpoint-delete-all :which-key "delete all breakpoints")
       "q" '(dap-disconnect :which-key "quit"))
     )
