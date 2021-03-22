@@ -2508,6 +2508,8 @@
       "c" '(dap-breakpoint-condition :which-key "add breakpoint condition")
       "D" '(dap-breakpoint-delete-all :which-key "delete all breakpoints")
       "e" '(dap-ui-expressions-add :which-key "add expression")
+      "r" '(dap-debug-restart :which-key "restart")
+      "i" '(dap-ui-repl :which-key "interactive repl")
       "q" '(dap-disconnect :which-key "quit"))
     )
 
