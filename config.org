@@ -1395,6 +1395,15 @@
    (use-package dap-mode
      :custom
      (dap-auto-configure-features '(locals tooltip expressions controls)))
+
+   (defvar rst/dap-debug-template-filename "debug-template.el"
+     "The debug template filename of each project.")
+
+   (defun rst/open-project-debug-template ()
+     "Open project debug template file."
+     (interactive)
+     (let ((full-path (concat projectile-project-root rst/dap-debug-template-filename)))
+       (find-file full-path)))
    #+end_src
 
 ** Languages
@@ -2501,6 +2510,7 @@
     (bind-leader-key
       :infix "d"
       "" '(:ignore t :which-key "debug")
+      "f" '(rst/open-project-debug-template :which-key "open project debug template")
       "l" '(dap-debug-last :which-key "last configuration")
       "d" '(dap-debug :which-key "pick configuration")
       "h" '(dap-hydra :which-key "hydra")
