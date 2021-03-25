@@ -1402,8 +1402,10 @@
    (defun rst/open-project-debug-template ()
      "Open project debug template file."
      (interactive)
-     (let ((full-path (concat projectile-project-root rst/dap-debug-template-filename)))
-       (find-file full-path)))
+     (let* ((current-project (projectile-project-root))
+            (project-path (projectile-ensure-project current-project))
+            (full-path (concat project-path rst/dap-debug-template-filename)))
+         (find-file full-path)))
    #+end_src
 
 ** Languages
@@ -2520,6 +2522,10 @@
       "e" '(dap-ui-expressions-add :which-key "add expression")
       "r" '(dap-debug-restart :which-key "restart")
       "i" '(dap-ui-repl :which-key "interactive repl")
+
+      "i" '(dap-next :which-key "next")
+      "s" '(dap-step-in :which-key "step in")
+      "S" '(dap-step-out :which-key "step out")
       "q" '(dap-disconnect :which-key "quit"))
     )
 
