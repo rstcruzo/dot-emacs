@@ -2090,6 +2090,18 @@
        (swiper-helm thing)))
    #+end_src
 
+** Git
+
+   #+begin_src emacs-lisp
+   (defvar rst/base-branch "master"
+     "Base branch to compare feature branches with.")
+
+   (defun rst/diff-current-with-base-branch ()
+     "Show diff between current branch and base branch"
+     (interactive)
+     (magit-diff-range (concat rst/base-branch ".." (magit-get-current-branch))))
+   #+end_src
+
 * Keybindings
 
   #+begin_src emacs-lisp
@@ -2276,7 +2288,9 @@
       "p" '(git-gutter+-previous-hunk :which-key "previous hunk")
 
       "l" '(magit-log-buffer-file :which-key "buffer logs")
-      "L" '(git-link :which-key "git link"))
+      "L" '(git-link :which-key "git link")
+
+      "d" '(rst/diff-current-with-base-branch :which-key "diff branch with base"))
 
     (bind-leader-key
       :infix "s"
