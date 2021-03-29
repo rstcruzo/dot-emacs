@@ -1262,7 +1262,8 @@
      :commands (magit-status magit-blame-addition)
      :config
      (setq magit-section-initial-visibility-alist '((stashes . hide)
-                                                    (file . hide))))
+                                                    (file . hide))
+           ediff-split-window-function 'split-window-horizontally))
 
    (use-package forge
      :commands (magit-status))
