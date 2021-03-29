@@ -2099,7 +2099,11 @@
    (defun rst/diff-current-with-base-branch ()
      "Show diff between current branch and base branch"
      (interactive)
-     (magit-diff-range (concat rst/base-branch ".." (magit-get-current-branch))))
+     (magit-diff-range (concat
+                        rst/base-branch
+                        ".."
+                        (magit-get-current-branch))
+                       (magit-diff-arguments)))
    #+end_src
 
 * Keybindings
