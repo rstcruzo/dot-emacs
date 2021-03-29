@@ -1259,7 +1259,10 @@
 
    #+begin_src emacs-lisp
    (use-package magit
-     :commands (magit-status magit-blame-addition))
+     :commands (magit-status magit-blame-addition)
+     :config
+     (setq magit-section-initial-visibility-alist '((stashes . hide)
+                                                    (file . hide))))
 
    (use-package forge
      :commands (magit-status))
