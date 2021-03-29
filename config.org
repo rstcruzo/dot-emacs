@@ -1403,13 +1403,26 @@
    (defvar rst/dap-debug-template-filename "debug-template.el"
      "The debug template filename of each project.")
 
+   (defun rst/eval-debug-template-file ()
+     "Evaluate debug template file so that it is available. This function can be
+   called on .dir-locals.el ."
+     (interactive)
+     (let* ((current-project (projectile-project-root))
+            (project-path (projectile-ensure-project current-project))
+            (full-path (concat project-path rst/dap-debug-template-filename)))
+       (with-temp-buffer
+         (insert-file-contents full-path)
+         (eval-buffer))))
+
    (defun rst/open-project-debug-template ()
      "Open project debug template file."
      (interactive)
      (let* ((current-project (projectile-project-root))
             (project-path (projectile-ensure-project current-project))
             (full-path (concat project-path rst/dap-debug-template-filename)))
-         (find-file full-path)))
+       (find-file full-path)))
+
+   (add-hook 'projectile-after-switch-project-hook #'rst/eval-debug-template-file)
    #+end_src
 
 ** Languages
@@ -2535,6 +2548,7 @@
       :infix "d"
       "" '(:ignore t :which-key "debug")
       "f" '(rst/open-project-debug-template :which-key "open project debug template")
+      "F" '(rst/eval-debug-template-file :which-key "eval project debug template")
       "l" '(dap-debug-last :which-key "last configuration")
       "d" '(dap-debug :which-key "pick configuration")
       "h" '(dap-hydra :which-key "hydra")
