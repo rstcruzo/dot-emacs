@@ -118,8 +118,8 @@
   Add =/usr/local/go/bin= to emacs environment to access go executables like =go=
 
   #+begin_src emacs-lisp
-  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin:/Library/TeX/texbin:/usr/local/go/bin"))
-  (setq exec-path (append exec-path '("/usr/local/bin" "/Library/TeX/texbin" "/usr/local/go/bin")))
+  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin:/Library/TeX/texbin:/usr/local/go/bin:/opt/homebrew/bin/"))
+  (setq exec-path (append exec-path '("/usr/local/bin" "/Library/TeX/texbin" "/usr/local/go/bin" "/opt/homebrew/bin")))
   #+end_src
 
   Use shorter confirmations
