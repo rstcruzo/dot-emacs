@@ -2275,6 +2275,16 @@
 
       "P" '(parrot-mode :which-key "toggle parrot")
 
+      "D" '(dap-ui-controls-mode :which-key "toggle dap ui controls")
+
+      ;; Used for editing and navigating saved helm ag session
+      "f" '((lambda ()
+              (interactive)
+              (fundamental-mode)
+              (read-only-mode -1)) :which-key "toggle fundamental mode")
+
+      "g" '(helm-ag-mode :which-key "toggle helm ag mode")
+
       "b" '(lsp-headerline-breadcrumb-mode :which-key "toggle lsp breadcrumbs")
       "d" '(lsp-ui-doc-mode :which-key "toggle lsp doc"))
 
@@ -2564,6 +2574,10 @@
       "S" '(dap-step-out :which-key "step out")
       "q" '(dap-disconnect :which-key "quit"))
     )
+
+  (general-define-key :keymaps 'helm-ag-mode-map
+                      "<return>" 'helm-ag-mode-jump
+                      "<M-return>" 'helm-ag-mode-jump-other-window)
 
   (general-define-key "M-x" 'helm-M-x)
   (general-define-key :keymaps 'helm-map
